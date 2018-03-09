@@ -55,13 +55,12 @@ extern int yydebug;
     PARENTHESE_FERMANTE = 265,
     ACCOLADE_OUVRANTE = 266,
     ACCOLADE_FERMANTE = 267,
-    END_LINE = 268,
-    SEMICOLON = 269,
-    INT = 270,
-    CONST = 271,
-    VAR = 272,
-    EMPTY = 273,
-    ASIGN = 274
+    SEMICOLON = 268,
+    INT = 269,
+    CONST = 270,
+    VAR = 271,
+    SEPARATEUR = 272,
+    ASSIGN = 273
   };
 #endif
 /* Tokens.  */
@@ -75,13 +74,12 @@ extern int yydebug;
 #define PARENTHESE_FERMANTE 265
 #define ACCOLADE_OUVRANTE 266
 #define ACCOLADE_FERMANTE 267
-#define END_LINE 268
-#define SEMICOLON 269
-#define INT 270
-#define CONST 271
-#define VAR 272
-#define EMPTY 273
-#define ASIGN 274
+#define SEMICOLON 268
+#define INT 269
+#define CONST 270
+#define VAR 271
+#define SEPARATEUR 272
+#define ASSIGN 273
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

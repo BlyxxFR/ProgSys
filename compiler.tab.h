@@ -55,14 +55,12 @@ extern int yydebug;
     PARENTHESE_FERMANTE = 265,
     ACCOLADE_OUVRANTE = 266,
     ACCOLADE_FERMANTE = 267,
-    END_LINE = 268,
-    SEMICOLON = 269,
-    INT = 270,
-    CONST = 271,
-    VAR = 272,
-    EMPTY = 273,
-    SEPARATEUR = 274,
-    ASIGN = 275
+    SEMICOLON = 268,
+    INT = 269,
+    CONST = 270,
+    VAR = 271,
+    SEPARATEUR = 272,
+    ASSIGN = 273
   };
 #endif
 
