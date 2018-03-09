@@ -1,29 +1,40 @@
 lettre									[a-zA-Z]
 chiffre									[0-9]
+entier    								{chiffre}+
+exposant  								[eE][+-]?{entier}
+reel   									{entier}("."{entier})?{exposant}?
 
 %%
   
-"+"         					       	return ("PLUS"); 
-"-"										return ("SUB");
-"*"         					       	return ("MULT");   
-"/"										return ("DIV");
-"="         					        return ("ASGN"); 
-";"           					        return ("SEMI"); 
-"("										return ("(");
-")"										return (")");
+"+"         					       	return (PLUS); 
+"-"										return (SUB);
+"*"         					       	return (MULT);   
+"/"										return (DIV);
+"="         					        return (ASGN); 
+";"           					        return (SEMICOLON); 
+"("										return (PARENTHESE_GAUCHE);
+")"										return (PARENTHESE_DROITE);
+"^"   									return (POW);
 
-int					  					return ("int trouvé");
-"{"										return ("accolade ouvrante");
-"}"										return ("accolade fermante");
-main									return ("le main");
-const									return ("constante");
+int					  					return (INT);
+"{"										return (ACCOLADE_OUVRANTE);
+"}"										return (ACCOLADE_FERMANTE);
+main									return (MAIN);
+const									return (CONST);
 
-\n 										return (" fin de ligne ");
+\n 										return (END_LINE);
 
-[\ \t,]									return ("un séparateur");
+[\ \t,]									return (SEPARATEUR);
 
-return									return ("un return");
+printf									return (PRINTF);
 
-{chiffre}+              				return ("nombre");
-{lettre}({lettre}|{chiffre}|_)*  		return ("variable");    
+entier              					{
+										  yylval=atoi(yytext);
+										  return(NOMBRE);
+										}
+reel									{
+										  yylval=atof(yytext);
+										  return(NOMBRE);
+										}
+{lettre}({lettre}|{chiffre}|_)*  		return (VAR);    
 
