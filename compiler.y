@@ -1,17 +1,20 @@
 %token NOMBRE
 %token PLUS SUB MULT DIV POW
-%token PARENTHESE_GAUCHE PARENTHESE_DROITE
+%token PARENTHESE_OUVRANTE PARENTHESE_FERMANTE
+%token ACCOLADE_OUVRANTE ACCOLADE_FERMANTE
 %token END_LINE
 %token SEMICOLON
 %token INT
 %token CONST
 %token VAR
+%token EMPTY
 %token SEPARATEUR
 
 %left PLUS SUB
 %left MULT DIV
 
 %right POW
+%right ASIGN
 
 %start Input
 
@@ -37,7 +40,7 @@ Assignation:
 	;
 
 Fonction:
-	| VAR PARENTHESE_OUVRANTE Liste_params PARENTHESE_FERMANTE ACOLADE_OUVRANTE Line ACOLADE_FERMANTE
+	| VAR PARENTHESE_OUVRANTE Liste_params PARENTHESE_FERMANTE ACCOLADE_OUVRANTE Line ACCOLADE_FERMANTE
 	;
 
 Liste_params:
@@ -52,7 +55,7 @@ Expr:
 	| Expr MULT Expr							{ $$ = $1 * $3; }	
 	| Expr DIV Expr								{ $$ = $1 / $3; }
 	| Expr POW Expr								{ $$ = $1 ^ $3; }
-	| PARENTHESE_GAUCHE Expr PARENTHESE_DROITE	{ $$ = $2; }
+	| PARENTHESE_OUVRANTE Expr PARENTHESE_FERMANTE	{ $$ = $2; }
 	| VAR ASIGN Expr							{ $1 = $3; }
 	;
 

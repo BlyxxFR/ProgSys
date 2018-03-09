@@ -1,3 +1,7 @@
+%{
+	#include "y.tab.h"
+%}
+
 lettre									[a-zA-Z]
 chiffre									[0-9]
 entier    								{chiffre}+
@@ -10,23 +14,21 @@ reel   									{entier}("."{entier})?{exposant}?
 "-"										return (SUB);
 "*"         					       	return (MULT);   
 "/"										return (DIV);
-"="         					        return (ASGN); 
+"="         					        return (ASIGN); 
 ";"           					        return (SEMICOLON); 
-"("										return (PARENTHESE_GAUCHE);
-")"										return (PARENTHESE_DROITE);
+"("										return (PARENTHESE_OUVRANTE);
+")"										return (PARENTHESE_FERMANTE);
 "^"   									return (POW);
 
 int					  					return (INT);
 "{"										return (ACCOLADE_OUVRANTE);
 "}"										return (ACCOLADE_FERMANTE);
-main									return (MAIN);
 const									return (CONST);
 
 \n 										return (END_LINE);
 
-[\ \t,]									return (SEPARATEUR);
-
-printf									return (PRINTF);
+[\ \t]									return (EMPTY);
+","										return (SEPARATEUR);
 
 entier              					{
 										  yylval=atoi(yytext);
