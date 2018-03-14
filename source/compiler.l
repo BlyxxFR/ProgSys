@@ -16,27 +16,40 @@ reel   									{entier}("."{entier})?{exposant}?
 "-"										return (SUB);
 "*"         					       	return (MULT);   
 "/"										return (DIV);
+"=="					        		return (EQUALS); 
+"<="					        		return (LESS_EQUALS); 
+">="        					        return (GREATER_EQUALS); 
 "="         					        return (ASSIGN); 
+">"        					       		return (GREATER); 
+"<"        					        	return (LESS); 
+
 ";"           					        return (SEMICOLON); 
 "("										return (PARENTHESE_OUVRANTE);
 ")"										return (PARENTHESE_FERMANTE);
 "^"   									return (POW);
+"?"										return (QUESTION_MARK);		
+":"										return (COLON);
 
 int					  					return (INT);
 "{"										return (ACCOLADE_OUVRANTE);
 "}"										return (ACCOLADE_FERMANTE);
 const									return (CONST);
+"if"									return (IF);
+"elseif"								return (ELSEIF);
+"else"									return (ELSE);
+"while"									return (WHILE);
+"for"									return (FOR);
 
 [\ \t\n]+								{ }
 ","										return (SEPARATEUR);
 
-entier              					{
-										  yylval=atoi(yytext);
+{entier}									{
+										  yylval.intValue = atoi(yytext);
 										  return(NOMBRE);
 										}
-reel									{
-										  yylval=atof(yytext);
-										  return(NOMBRE);
+{reel}									{
+										  yylval.floatValue = atof(yytext);
+										  return(FLOTTANT);
 										}
 {lettre}({lettre}|{chiffre}|_)*  		return (VAR);    
 

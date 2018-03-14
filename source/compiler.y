@@ -2,31 +2,47 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+
 #define YYSTYPE double
+
 #define YYDEBUG 1
 extern YYSTYPE yylval;
-
 int yylex();
 void yyerror(char *s) {
   printf("%s\n",s);
 }
 %}
 
-%token NOMBRE
+%union {
+	int intValue;
+	float floatValue;
+    char *string;
+}
+
+%token <intValue> NOMBRE
+%token <floatValue> FLOTTANT
 %token PLUS SUB MULT DIV POW
 %token PARENTHESE_OUVRANTE PARENTHESE_FERMANTE
 %token ACCOLADE_OUVRANTE ACCOLADE_FERMANTE
+%token EQUALS LESS_EQUALS GREATER_EQUALS GREATER LESS
 %token SEMICOLON
 %token INT
 %token CONST
 %token VAR
 %token SEPARATEUR
 %token ASSIGN
+%token WHILE
+%token IF
+%token ELSEIF
+%token ELSE
+%token QUESTION_MARK
+%token COLON
 
 %left PLUS SUB
 %left MULT DIV
 
-%right POW
+%right POW 
+%right ASSIGN EQUALS LESS_EQUALS GREATER_EQUALS GREATER LESS
 
 %start Input
 
@@ -39,46 +55,89 @@ Input:
 
 Line:
 	  SEMICOLON
-	| Fonction SEMICOLON	
-	| Type Assignation SEMICOLON
-	| Assignation SEMICOLON
-	| error SEMICOLON					     { yyerrok; }
+	| BlocFonction 	
+	| AppelFonction
+	| Type Assignation
+	| CONST Type Assignation
+	| Assignation	
+	| BlocIf
+	| BlocWhile
 	;
 
 Type:
 	  INT
-	| CONST
 	;
 
 Assignation:
-	  VAR
+	  VAR SEMICOLON
 	| VAR SEPARATEUR Assignation
-	| VAR ASSIGN Expr 
+	| VAR ASSIGN Expr SEMICOLON
+	| VAR ASSIGN BlocIfTernaire SEMICOLON
 	;
 
-Fonction:
-	  Type VAR PARENTHESE_OUVRANTE Liste_params PARENTHESE_FERMANTE ACCOLADE_OUVRANTE Line ACCOLADE_FERMANTE
+BlocFonction:
+	  Type VAR PARENTHESE_OUVRANTE Liste_params PARENTHESE_FERMANTE ACCOLADE_OUVRANTE Input ACCOLADE_FERMANTE
+	;
+
+AppelFonction:
+	  VAR PARENTHESE_OUVRANTE Liste_params PARENTHESE_FERMANTE SEMICOLON
 	;
 
 Liste_params:
 	  /* empty */
-	| Liste_params SEPARATEUR  
+	| VAR
+	| Liste_params SEPARATEUR VAR
+	;
+
+Operation:
+	  Expr
+	| AppelFonction
+	;
+
+BlocIf:
+	  IF Expr ACCOLADE_OUVRANTE Input ACCOLADE_FERMANTE BlocElse
+	;
+
+BlocIfTernaire:
+	  Expr QUESTION_MARK Operation COLON Operation
+	;
+
+BlocElse:
+	  /* empty */
+	| ELSEIF Expr ACCOLADE_OUVRANTE Input ACCOLADE_FERMANTE BlocElse 
+	| ELSE ACCOLADE_OUVRANTE Input ACCOLADE_FERMANTE
+	;
+
+
+BlocWhile:
+	  WHILE Expr ACCOLADE_OUVRANTE Input ACCOLADE_FERMANTE
 	;
 
 Expr:
-	  NOMBRE									{ $$ = $1; }
-	| Expr PLUS Expr							{ $$ = $1 + $3; }
-	| Expr SUB Expr								{ $$ = $1 - $3; }
-	| SUB Expr									{ $$ = - $2; }
-	| Expr MULT Expr							{ $$ = $1 * $3; }	
-	| Expr DIV Expr								{ $$ = $1 / $3; }
+	  NOMBRE	
+	| FLOTTANT
+	| VAR	
+	| SUB Expr							
+	| Expr PLUS Expr				{ 			
+	| Expr SUB Expr																		
+	| Expr MULT Expr								
+	| Expr DIV Expr								
 	| Expr POW Expr								
-	| PARENTHESE_OUVRANTE Expr PARENTHESE_FERMANTE	{ $$ = $2; }							
-	;
+	| Expr GREATER_EQUALS Expr 				
+	| Expr LESS_EQUALS Expr 			
+	| Expr LESS Expr 			
+	| Expr GREATER Expr 			
+	| Expr EQUALS Expr		
+	| PARENTHESE_OUVRANTE Expr PARENTHESE_FERMANTE	
+	;	
 
 %%
 
 int main(void) {
-  yyparse();
+	#if YYDEBUG
+		yydebug = 0;
+	#endif
+	
+    yyparse();
 }
 

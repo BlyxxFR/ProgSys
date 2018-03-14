@@ -46,27 +46,51 @@ extern int yydebug;
   enum yytokentype
   {
     NOMBRE = 258,
-    PLUS = 259,
-    SUB = 260,
-    MULT = 261,
-    DIV = 262,
-    POW = 263,
-    PARENTHESE_OUVRANTE = 264,
-    PARENTHESE_FERMANTE = 265,
-    ACCOLADE_OUVRANTE = 266,
-    ACCOLADE_FERMANTE = 267,
-    SEMICOLON = 268,
-    INT = 269,
-    CONST = 270,
-    VAR = 271,
-    SEPARATEUR = 272,
-    ASSIGN = 273
+    FLOTTANT = 259,
+    PLUS = 260,
+    SUB = 261,
+    MULT = 262,
+    DIV = 263,
+    POW = 264,
+    PARENTHESE_OUVRANTE = 265,
+    PARENTHESE_FERMANTE = 266,
+    ACCOLADE_OUVRANTE = 267,
+    ACCOLADE_FERMANTE = 268,
+    EQUALS = 269,
+    LESS_EQUALS = 270,
+    GREATER_EQUALS = 271,
+    GREATER = 272,
+    LESS = 273,
+    SEMICOLON = 274,
+    INT = 275,
+    CONST = 276,
+    VAR = 277,
+    SEPARATEUR = 278,
+    ASSIGN = 279,
+    WHILE = 280,
+    IF = 281,
+    ELSEIF = 282,
+    ELSE = 283,
+    QUESTION_MARK = 284,
+    COLON = 285
   };
 #endif
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+
+union YYSTYPE
+{
+#line 16 "source/compiler.y" /* yacc.c:1909  */
+
+	int intValue;
+	float floatValue;
+    char *string;
+
+#line 91 "compiler.tab.h" /* yacc.c:1909  */
+};
+
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif

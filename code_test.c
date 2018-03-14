@@ -7,3 +7,5 @@ int main() {
 	r = (i+j)*(i+k/j);
 	printf ( r );
 }
+
+const int i = 3;
