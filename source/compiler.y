@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include "source/table_symboles.h"
 
 #define YYSTYPE double
 
@@ -11,27 +12,35 @@ int yylex();
 void yyerror(char *s) {
   printf("%s\n",s);
 }
+
+int constante; // Entier pour indiquer la variable considérée par le parseur est une constante ou non
+enum enumType decl_type; // Type de la variable considérée par le parseur
+
 %}
 
 %union {
 	int intValue;
 	float floatValue;
-    char *string;
+    char *stringValue;
 }
 
 %token <intValue> NOMBRE
 %token <floatValue> FLOTTANT
+%token <stringValue> TEXT
 %token PLUS SUB MULT DIV POW
 %token PARENTHESE_OUVRANTE PARENTHESE_FERMANTE
 %token ACCOLADE_OUVRANTE ACCOLADE_FERMANTE
 %token EQUALS LESS_EQUALS GREATER_EQUALS GREATER LESS
 %token SEMICOLON
 %token INT
+%token FLOAT
+%token STRING
 %token CONST
-%token VAR
+%token <stringValue> VAR
 %token SEPARATEUR
 %token ASSIGN
 %token WHILE
+%token FOR
 %token IF
 %token ELSEIF
 %token ELSE
@@ -42,7 +51,8 @@ void yyerror(char *s) {
 %left MULT DIV
 
 %right POW 
-%right ASSIGN EQUALS LESS_EQUALS GREATER_EQUALS GREATER LESS
+%right ASSIGN
+%right EQUALS LESS_EQUALS GREATER_EQUALS GREATER LESS
 
 %start Input
 
@@ -58,25 +68,29 @@ Line:
 	| BlocFonction 	
 	| AppelFonction
 	| Type Assignation
-	| CONST Type Assignation
+	| CONST Type { constante = 1; } Assignation { constante = 0; }
 	| Assignation	
 	| BlocIf
 	| BlocWhile
 	;
 
 Type:
-	  INT
+	  INT																											{ decl_type = INT_TYPE; }
+	| FLOAT 																										{ decl_type = FLOAT_TYPE; }
+	| STRING																										{ decl_type = STRING_TYPE; }
 	;
 
 Assignation:
-	  VAR SEMICOLON
-	| VAR SEPARATEUR Assignation
-	| VAR ASSIGN Expr SEMICOLON
-	| VAR ASSIGN BlocIfTernaire SEMICOLON
+	  VAR SEMICOLON																									{ tab_symboles_add($1, decl_type, 0, constante); }
+	| VAR ASSIGN Expr SEMICOLON																						{ tab_symboles_add($1, decl_type, 1, constante); }
+	| VAR ASSIGN BlocIfTernaire SEMICOLON																			{ tab_symboles_add($1, decl_type, 1, constante); }
+	| VAR SEPARATEUR Assignation																					{ tab_symboles_add($1, decl_type, 0, constante); }
+	| VAR ASSIGN Expr SEPARATEUR Assignation																		{ tab_symboles_add($1, decl_type, 1, constante); }			
+	| VAR ASSIGN BlocIfTernaire SEPARATEUR Assignation																{ tab_symboles_add($1, decl_type, 1, constante); }	
 	;
 
 BlocFonction:
-	  Type VAR PARENTHESE_OUVRANTE Liste_params PARENTHESE_FERMANTE ACCOLADE_OUVRANTE Input ACCOLADE_FERMANTE
+	  Type VAR PARENTHESE_OUVRANTE Liste_params PARENTHESE_FERMANTE ACCOLADE_OUVRANTE { tab_symboles_increase_depth(); } Input ACCOLADE_FERMANTE { tab_symboles_decrease_depth(); } 
 	;
 
 AppelFonction:
@@ -95,7 +109,7 @@ Operation:
 	;
 
 BlocIf:
-	  IF Expr ACCOLADE_OUVRANTE Input ACCOLADE_FERMANTE BlocElse
+	  IF Expr ACCOLADE_OUVRANTE { tab_symboles_increase_depth(); } Input ACCOLADE_FERMANTE { tab_symboles_decrease_depth(); } BlocElse													
 	;
 
 BlocIfTernaire:
@@ -104,21 +118,22 @@ BlocIfTernaire:
 
 BlocElse:
 	  /* empty */
-	| ELSEIF Expr ACCOLADE_OUVRANTE Input ACCOLADE_FERMANTE BlocElse 
-	| ELSE ACCOLADE_OUVRANTE Input ACCOLADE_FERMANTE
+	| ELSEIF Expr ACCOLADE_OUVRANTE { tab_symboles_increase_depth(); } Input ACCOLADE_FERMANTE { tab_symboles_decrease_depth(); } BlocElse 
+	| ELSE ACCOLADE_OUVRANTE { tab_symboles_increase_depth(); } Input ACCOLADE_FERMANTE { tab_symboles_decrease_depth(); }
 	;
 
 
 BlocWhile:
-	  WHILE Expr ACCOLADE_OUVRANTE Input ACCOLADE_FERMANTE
+	  WHILE Expr ACCOLADE_OUVRANTE { tab_symboles_increase_depth(); } Input ACCOLADE_FERMANTE { tab_symboles_decrease_depth(); }
 	;
 
 Expr:
 	  NOMBRE	
 	| FLOTTANT
+	| TEXT
 	| VAR	
 	| SUB Expr							
-	| Expr PLUS Expr				{ 			
+	| Expr PLUS Expr							
 	| Expr SUB Expr																		
 	| Expr MULT Expr								
 	| Expr DIV Expr								
@@ -138,6 +153,7 @@ int main(void) {
 		yydebug = 0;
 	#endif
 	
+	tab_symboles_init();
     yyparse();
 }
 

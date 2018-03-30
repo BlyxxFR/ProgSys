@@ -47,32 +47,36 @@ extern int yydebug;
   {
     NOMBRE = 258,
     FLOTTANT = 259,
-    PLUS = 260,
-    SUB = 261,
-    MULT = 262,
-    DIV = 263,
-    POW = 264,
-    PARENTHESE_OUVRANTE = 265,
-    PARENTHESE_FERMANTE = 266,
-    ACCOLADE_OUVRANTE = 267,
-    ACCOLADE_FERMANTE = 268,
-    EQUALS = 269,
-    LESS_EQUALS = 270,
-    GREATER_EQUALS = 271,
-    GREATER = 272,
-    LESS = 273,
-    SEMICOLON = 274,
-    INT = 275,
-    CONST = 276,
-    VAR = 277,
-    SEPARATEUR = 278,
-    ASSIGN = 279,
-    WHILE = 280,
-    IF = 281,
-    ELSEIF = 282,
-    ELSE = 283,
-    QUESTION_MARK = 284,
-    COLON = 285
+    TEXT = 260,
+    PLUS = 261,
+    SUB = 262,
+    MULT = 263,
+    DIV = 264,
+    POW = 265,
+    PARENTHESE_OUVRANTE = 266,
+    PARENTHESE_FERMANTE = 267,
+    ACCOLADE_OUVRANTE = 268,
+    ACCOLADE_FERMANTE = 269,
+    EQUALS = 270,
+    LESS_EQUALS = 271,
+    GREATER_EQUALS = 272,
+    GREATER = 273,
+    LESS = 274,
+    SEMICOLON = 275,
+    INT = 276,
+    FLOAT = 277,
+    STRING = 278,
+    CONST = 279,
+    VAR = 280,
+    SEPARATEUR = 281,
+    ASSIGN = 282,
+    WHILE = 283,
+    FOR = 284,
+    IF = 285,
+    ELSEIF = 286,
+    ELSE = 287,
+    QUESTION_MARK = 288,
+    COLON = 289
   };
 #endif
 
@@ -81,13 +85,13 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 16 "source/compiler.y" /* yacc.c:1909  */
+#line 21 "source/compiler.y" /* yacc.c:1909  */
 
 	int intValue;
 	float floatValue;
-    char *string;
+    char stringValue[255];
 
-#line 91 "compiler.tab.h" /* yacc.c:1909  */
+#line 95 "compiler.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
