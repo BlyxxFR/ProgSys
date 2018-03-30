@@ -69,10 +69,7 @@
 #include <math.h>
 #include "source/table_symboles.h"
 
-#define YYSTYPE double
-
 #define YYDEBUG 1
-extern YYSTYPE yylval;
 int yylex();
 void yyerror(char *s) {
   printf("%s\n",s);
@@ -82,7 +79,7 @@ int constante; // Entier pour indiquer la variable considérée par le parseur e
 enum enumType decl_type; // Type de la variable considérée par le parseur
 
 
-#line 86 "compiler.tab.c" /* yacc.c:339  */
+#line 83 "compiler.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -157,13 +154,13 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 21 "source/compiler.y" /* yacc.c:355  */
+#line 18 "source/compiler.y" /* yacc.c:355  */
 
 	int intValue;
 	float floatValue;
-    char stringValue[255];
+    char *stringValue;
 
-#line 167 "compiler.tab.c" /* yacc.c:355  */
+#line 164 "compiler.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -180,7 +177,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 184 "compiler.tab.c" /* yacc.c:358  */
+#line 181 "compiler.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -480,12 +477,12 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    61,    61,    63,    67,    68,    69,    70,    71,    71,
-      72,    73,    74,    78,    79,    80,    84,    85,    86,    87,
-      88,    89,    93,    93,    97,   100,   102,   103,   107,   108,
-     112,   112,   112,   116,   119,   121,   121,   121,   122,   122,
-     127,   127,   131,   132,   133,   134,   135,   136,   137,   138,
-     139,   140,   141,   142,   143,   144,   145,   146
+       0,    58,    58,    60,    64,    65,    66,    67,    68,    68,
+      69,    70,    71,    75,    76,    77,    81,    82,    83,    84,
+      85,    86,    90,    90,    94,    97,    99,   100,   104,   105,
+     109,   109,   109,   113,   116,   118,   118,   118,   119,   119,
+     124,   124,   128,   129,   130,   131,   132,   133,   134,   135,
+     136,   137,   138,   139,   140,   141,   142,   143
 };
 #endif
 
@@ -1361,133 +1358,133 @@ yyreduce:
   switch (yyn)
     {
         case 8:
-#line 71 "source/compiler.y" /* yacc.c:1646  */
+#line 68 "source/compiler.y" /* yacc.c:1646  */
     { constante = 1; }
-#line 1367 "compiler.tab.c" /* yacc.c:1646  */
+#line 1364 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 71 "source/compiler.y" /* yacc.c:1646  */
+#line 68 "source/compiler.y" /* yacc.c:1646  */
     { constante = 0; }
-#line 1373 "compiler.tab.c" /* yacc.c:1646  */
+#line 1370 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 78 "source/compiler.y" /* yacc.c:1646  */
+#line 75 "source/compiler.y" /* yacc.c:1646  */
     { decl_type = INT_TYPE; }
-#line 1379 "compiler.tab.c" /* yacc.c:1646  */
+#line 1376 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 79 "source/compiler.y" /* yacc.c:1646  */
+#line 76 "source/compiler.y" /* yacc.c:1646  */
     { decl_type = FLOAT_TYPE; }
-#line 1385 "compiler.tab.c" /* yacc.c:1646  */
+#line 1382 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 80 "source/compiler.y" /* yacc.c:1646  */
+#line 77 "source/compiler.y" /* yacc.c:1646  */
     { decl_type = STRING_TYPE; }
-#line 1391 "compiler.tab.c" /* yacc.c:1646  */
+#line 1388 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 84 "source/compiler.y" /* yacc.c:1646  */
+#line 81 "source/compiler.y" /* yacc.c:1646  */
     { tab_symboles_add((yyvsp[-1].stringValue), decl_type, 0, constante); }
-#line 1397 "compiler.tab.c" /* yacc.c:1646  */
+#line 1394 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 85 "source/compiler.y" /* yacc.c:1646  */
+#line 82 "source/compiler.y" /* yacc.c:1646  */
     { tab_symboles_add((yyvsp[-3].stringValue), decl_type, 1, constante); }
-#line 1403 "compiler.tab.c" /* yacc.c:1646  */
+#line 1400 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 86 "source/compiler.y" /* yacc.c:1646  */
+#line 83 "source/compiler.y" /* yacc.c:1646  */
     { tab_symboles_add((yyvsp[-3].stringValue), decl_type, 1, constante); }
-#line 1409 "compiler.tab.c" /* yacc.c:1646  */
+#line 1406 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 87 "source/compiler.y" /* yacc.c:1646  */
+#line 84 "source/compiler.y" /* yacc.c:1646  */
     { tab_symboles_add((yyvsp[-2].stringValue), decl_type, 0, constante); }
-#line 1415 "compiler.tab.c" /* yacc.c:1646  */
+#line 1412 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 88 "source/compiler.y" /* yacc.c:1646  */
+#line 85 "source/compiler.y" /* yacc.c:1646  */
     { tab_symboles_add((yyvsp[-4].stringValue), decl_type, 1, constante); }
-#line 1421 "compiler.tab.c" /* yacc.c:1646  */
+#line 1418 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 89 "source/compiler.y" /* yacc.c:1646  */
+#line 86 "source/compiler.y" /* yacc.c:1646  */
     { tab_symboles_add((yyvsp[-4].stringValue), decl_type, 1, constante); }
-#line 1427 "compiler.tab.c" /* yacc.c:1646  */
+#line 1424 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 93 "source/compiler.y" /* yacc.c:1646  */
+#line 90 "source/compiler.y" /* yacc.c:1646  */
     { tab_symboles_increase_depth(); }
-#line 1433 "compiler.tab.c" /* yacc.c:1646  */
+#line 1430 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 93 "source/compiler.y" /* yacc.c:1646  */
+#line 90 "source/compiler.y" /* yacc.c:1646  */
     { tab_symboles_decrease_depth(); }
-#line 1439 "compiler.tab.c" /* yacc.c:1646  */
+#line 1436 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 112 "source/compiler.y" /* yacc.c:1646  */
+#line 109 "source/compiler.y" /* yacc.c:1646  */
     { tab_symboles_increase_depth(); }
-#line 1445 "compiler.tab.c" /* yacc.c:1646  */
+#line 1442 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 112 "source/compiler.y" /* yacc.c:1646  */
+#line 109 "source/compiler.y" /* yacc.c:1646  */
     { tab_symboles_decrease_depth(); }
-#line 1451 "compiler.tab.c" /* yacc.c:1646  */
+#line 1448 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 121 "source/compiler.y" /* yacc.c:1646  */
+#line 118 "source/compiler.y" /* yacc.c:1646  */
     { tab_symboles_increase_depth(); }
-#line 1457 "compiler.tab.c" /* yacc.c:1646  */
+#line 1454 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 121 "source/compiler.y" /* yacc.c:1646  */
+#line 118 "source/compiler.y" /* yacc.c:1646  */
     { tab_symboles_decrease_depth(); }
-#line 1463 "compiler.tab.c" /* yacc.c:1646  */
+#line 1460 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 122 "source/compiler.y" /* yacc.c:1646  */
+#line 119 "source/compiler.y" /* yacc.c:1646  */
     { tab_symboles_increase_depth(); }
-#line 1469 "compiler.tab.c" /* yacc.c:1646  */
+#line 1466 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 122 "source/compiler.y" /* yacc.c:1646  */
+#line 119 "source/compiler.y" /* yacc.c:1646  */
     { tab_symboles_decrease_depth(); }
-#line 1475 "compiler.tab.c" /* yacc.c:1646  */
+#line 1472 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 127 "source/compiler.y" /* yacc.c:1646  */
+#line 124 "source/compiler.y" /* yacc.c:1646  */
     { tab_symboles_increase_depth(); }
-#line 1481 "compiler.tab.c" /* yacc.c:1646  */
+#line 1478 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 127 "source/compiler.y" /* yacc.c:1646  */
+#line 124 "source/compiler.y" /* yacc.c:1646  */
     { tab_symboles_decrease_depth(); }
-#line 1487 "compiler.tab.c" /* yacc.c:1646  */
+#line 1484 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1491 "compiler.tab.c" /* yacc.c:1646  */
+#line 1488 "compiler.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1715,7 +1712,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 149 "source/compiler.y" /* yacc.c:1906  */
+#line 146 "source/compiler.y" /* yacc.c:1906  */
 
 
 int main(void) {

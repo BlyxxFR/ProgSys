@@ -85,11 +85,11 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 21 "source/compiler.y" /* yacc.c:1909  */
+#line 18 "source/compiler.y" /* yacc.c:1909  */
 
 	int intValue;
 	float floatValue;
-    char stringValue[255];
+    char *stringValue;
 
 #line 95 "compiler.tab.h" /* yacc.c:1909  */
 };

@@ -116,7 +116,7 @@ void tab_symboles_print() {
 	}
 }
 
-
+/*
 int main() {
 	tab_symboles_init();
 	tab_symboles_add(strdup("i"), INT_TYPE, 0, 0);
@@ -131,4 +131,4 @@ int main() {
 	tab_symboles_decrease_depth();
 	tab_symboles_print();
 }
-
+*/

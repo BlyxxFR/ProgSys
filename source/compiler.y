@@ -4,10 +4,7 @@
 #include <math.h>
 #include "source/table_symboles.h"
 
-#define YYSTYPE double
-
 #define YYDEBUG 1
-extern YYSTYPE yylval;
 int yylex();
 void yyerror(char *s) {
   printf("%s\n",s);
