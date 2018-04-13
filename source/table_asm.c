@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "table_asm.h"
 #define TAILLE 1024
@@ -20,12 +21,20 @@ void table_asm_add(char * id, int r0, int r1, int r2) {
 }
 
 void table_asm_write_file() {
-	// Export dans un fichier à faire
+	FILE *f = fopen("output/asm.s", "w+");
+	if (f == NULL)
+	{
+		printf("Error opening file!\n");
+		exit(1);
+	}
+	
+	printf("Ecriture de l'assembleur dans un fichier (output/asm.s)\n");
 	for(int i = 0; i < index_tab_asm; i++) {
 		if(tab_asm[i].registers[2] == -1) {
-			printf("%s %d %d\n", tab_asm[i].id, tab_asm[i].registers[0], tab_asm[i].registers[1]);
+			fprintf(f, "%s %d %d\n", tab_asm[i].id, tab_asm[i].registers[0], tab_asm[i].registers[1]);
 		} else {
-			printf("%s %d %d %d\n", tab_asm[i].id, tab_asm[i].registers[0], tab_asm[i].registers[1], tab_asm[i].registers[2]);
+			fprintf(f, "%s %d %d %d\n", tab_asm[i].id, tab_asm[i].registers[0], tab_asm[i].registers[1], tab_asm[i].registers[2]);
 		}
 	}
+	printf("Fin de l'écriture\n");
 }
