@@ -43,7 +43,7 @@ const									return (CONST);
 "while"									return (WHILE);
 "for"									return (FOR);
 
-[\ \t\n]+								{ }
+[\ \t\n]+ 
 ","										return (SEPARATEUR);
 
 {entier}								{
@@ -62,3 +62,5 @@ const									return (CONST);
 											yylval.stringValue = strdup(yytext);
 											return(TEXT);											
 										}
+\/\/.*
+"/*"([^*]|\*+[^*/])*\*+"/"

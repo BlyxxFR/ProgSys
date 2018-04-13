@@ -27,6 +27,7 @@ void tab_symboles_increase_depth();
 int tab_symboles_get_index(char * name);
 int tab_symboles_get_address(char * name);
 int tab_symboles_get_last_index();
+int tab_symboles_get_last_address();
 
 int tab_symboles_is_initialized(char * name);
 int tab_symboles_is_constant(char * name);
@@ -40,3 +41,8 @@ symbole tab_symboles_unstack();
 void tab_symboles_affectation(char * name);
 void tab_symboles_decrease_depth();
 
+/*
+ * TEST
+ */
+
+void tab_symboles_print();

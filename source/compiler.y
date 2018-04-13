@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include "source/table_symboles.h"
+#include "source/table_asm.h"
 
 #define YYDEBUG 1
 int yylex();
@@ -10,7 +11,8 @@ void yyerror(char *s) {
   printf("%s\n",s);
 }
 
-int constante; // Entier pour indiquer la variable considérée par le parseur est une constante ou non
+int initialisee = 0; // Entier pour indiquer la variable considérée par le parseur est inistialisée ou non
+int constante = 0; // Entier pour indiquer la variable considérée par le parseur est une constante ou non
 enum enumType decl_type; // Type de la variable considérée par le parseur
 
 %}
@@ -64,9 +66,9 @@ Line:
 	  SEMICOLON
 	| BlocFonction 	
 	| AppelFonction
-	| Type Assignation
-	| CONST Type { constante = 1; } Assignation { constante = 0; }
-	| Assignation	
+	| Declaration
+	| CONST { constante = 1; } Declaration { constante = 0; }
+	| Affectation
 	| BlocIf
 	| BlocWhile
 	;
@@ -77,13 +79,45 @@ Type:
 	| STRING																										{ decl_type = STRING_TYPE; }
 	;
 
+Declaration:
+	Type Declaration_liste_vars SEMICOLON
+	;
+
+Declaration_liste_vars:
+	  VAR Assignation SEPARATEUR Declaration_liste_vars
+		{ 		
+			if(initialisee) {
+				symbole tmp = tab_symboles_unstack();
+				tab_symboles_add($1, decl_type, initialisee, constante); tab_symboles_print(); 
+			} else {
+				tab_symboles_add($1, decl_type, initialisee, constante); tab_symboles_print(); 
+			}
+		}
+	| VAR Assignation
+		{ 		
+			if(initialisee) {
+				symbole tmp = tab_symboles_unstack();
+				tab_symboles_add($1, decl_type, initialisee, constante); tab_symboles_print(); 
+			} else {
+				tab_symboles_add($1, decl_type, initialisee, constante); tab_symboles_print(); 
+			}
+		}
+	;
+
+Affectation:
+	  VAR Assignation SEMICOLON
+		{
+			printf("Var modifiée : %s\n", $1);
+			table_asm_add("LOAD", 0, tab_symboles_get_last_address(), -1);
+			symbole tmp = tab_symboles_unstack();
+			table_asm_add("STORE", tab_symboles_get_address($1), 0, -1);
+		}
+	;
+
 Assignation:
-	  VAR SEMICOLON																									{ tab_symboles_add($1, decl_type, 0, constante); }
-	| VAR ASSIGN Expr SEMICOLON																						{ tab_symboles_add($1, decl_type, 1, constante); }
-	| VAR ASSIGN BlocIfTernaire SEMICOLON																			{ tab_symboles_add($1, decl_type, 1, constante); }
-	| VAR SEPARATEUR Assignation																					{ tab_symboles_add($1, decl_type, 0, constante); }
-	| VAR ASSIGN Expr SEPARATEUR Assignation																		{ tab_symboles_add($1, decl_type, 1, constante); }			
-	| VAR ASSIGN BlocIfTernaire SEPARATEUR Assignation																{ tab_symboles_add($1, decl_type, 1, constante); }	
+	  /* empty */ 																								    { initialisee = 0; }
+	| ASSIGN Expr																									{ initialisee = 1; }			
+	| ASSIGN BlocIfTernaire																							{ initialisee = 1; }
 	;
 
 BlocFonction:
@@ -125,15 +159,62 @@ BlocWhile:
 	;
 
 Expr:
-	  NOMBRE	
+	  NOMBRE
+		{
+			tab_symboles_add(strdup("###"),	INT_TYPE, 1, 1);
+			table_asm_add("AFC", 0, $1, -1);
+			table_asm_add("STORE", tab_symboles_get_last_address(), 0, -1);
+		}	
 	| FLOTTANT
+		{
+			tab_symboles_add(strdup("###"), FLOAT_TYPE, 1, 1);
+			table_asm_add("AFC", 0, $1, -1);
+			table_asm_add("STORE", tab_symboles_get_last_address(), 0, -1);
+		}
 	| TEXT
 	| VAR	
-	| SUB Expr							
-	| Expr PLUS Expr							
-	| Expr SUB Expr																		
-	| Expr MULT Expr								
-	| Expr DIV Expr								
+		{
+			tab_symboles_add(strdup("###"), INT_TYPE, 1, 1);
+			table_asm_add("LOAD", 0, tab_symboles_get_address($1), -1);
+			table_asm_add("STORE", tab_symboles_get_last_address(), 0, -1);
+		}	
+	| SUB Expr %prec MULT							
+	| Expr PLUS Expr	
+		{
+			symbole tmp = tab_symboles_unstack();
+			table_asm_add("LOAD", 0, tmp.address, -1);
+			tmp = tab_symboles_unstack();
+			table_asm_add("LOAD", 1, tmp.address, -1);
+			table_asm_add("ADD", 0, 1, -1);
+			table_asm_add("STORE", tab_symboles_get_last_address(), 0, -1);
+		}						
+	| Expr SUB Expr	
+		{
+			symbole tmp = tab_symboles_unstack();
+			table_asm_add("LOAD", 0, tmp.address, -1);
+			tmp = tab_symboles_unstack();
+			table_asm_add("LOAD", 1, tmp.address, -1);
+			table_asm_add("SUB", 0, 1, -1);
+			table_asm_add("STORE", tab_symboles_get_last_address(), 0, -1);
+		}																		
+	| Expr MULT Expr	
+		{
+			symbole tmp = tab_symboles_unstack();
+			table_asm_add("LOAD", 0, tmp.address, -1);
+			tmp = tab_symboles_unstack();
+			table_asm_add("LOAD", 1, tmp.address, -1);
+			table_asm_add("MUL", 0, 1, -1);
+			table_asm_add("STORE", tab_symboles_get_last_address(), 0, -1);
+		}								
+	| Expr DIV Expr		
+		{
+			symbole tmp = tab_symboles_unstack();
+			table_asm_add("LOAD", 0, tmp.address, -1);
+			tmp = tab_symboles_unstack();
+			table_asm_add("LOAD", 1, tmp.address, -1);
+			table_asm_add("DIV", 0, 1, -1);
+			table_asm_add("STORE", tab_symboles_get_last_address(), 0, -1);
+		}							
 	| Expr POW Expr								
 	| Expr GREATER_EQUALS Expr 				
 	| Expr LESS_EQUALS Expr 			
@@ -151,6 +232,8 @@ int main(void) {
 	#endif
 	
 	tab_symboles_init();
+	table_asm_init();
     yyparse();
+	table_asm_write_file();
 }
 
