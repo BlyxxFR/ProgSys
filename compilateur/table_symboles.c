@@ -147,7 +147,7 @@ void tab_symboles_decrease_depth() {
 void tab_symboles_print() {
 	int i;
 	for(i = 0; i < index_tab_symboles; i++) {
-		printf("Symbole rencontré %s de type %u à l'addresse %d (profondeur %d)\n", tab_symboles[i].name, tab_symboles[i].type, tab_symboles[i].address, tab_symboles[i].depth);
+		log_info("Symbole rencontré %s de type %u à l'addresse %d (profondeur %d)\n", tab_symboles[i].name, tab_symboles[i].type, tab_symboles[i].address, tab_symboles[i].depth);
 	}
 }
 
