@@ -128,7 +128,7 @@ Affectation:
 			log_error_with_line_number(yylineno, "La variable %s est une constante et ne peut être modifiée", $1);
 		} else if(is_constant != -1) {
 			tab_asm_add("LOAD", 0, tab_symboles_get_last_address(), -1);
-				tab_asm_add("STORE", tab_symboles_get_address($1), 0, -1);
+			tab_asm_add("STORE", tab_symboles_get_address($1), 0, -1);
 		}
 	}
 	;
