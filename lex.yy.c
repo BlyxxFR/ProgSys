@@ -205,7 +205,7 @@ struct yy_buffer_state
 	 */
 	int yy_is_our_buffer;
 
-	/* Whether this is an "interactive" input source; if so, and
+	/* Whether this is an "interactive" input compilateur; if so, and
 	 * if we're using stdio for input, then we want to use getc()
 	 * instead of fread(), to make sure we stop fetching input after
 	 * each newline.
@@ -232,7 +232,7 @@ struct yy_buffer_state
 #define YY_BUFFER_NORMAL 1
 	/* When an EOF's been seen but there's still some text to process
 	 * then we mark the buffer as YY_EOF_PENDING, to indicate that we
-	 * shouldn't try reading from the input source any more.  We might
+	 * shouldn't try reading from the input compilateur any more.  We might
 	 * still have a bunch of tokens to match, though, because of
 	 * possible backing-up.
 	 *
@@ -491,8 +491,8 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "source/compiler.l"
-#line 2 "source/compiler.l"
+#line 1 "compilateur/compiler.l"
+#line 2 "compilateur/compiler.l"
 	#include "compiler.tab.h"
 	#include <stdio.h>
 	#include <stdlib.h>
@@ -714,9 +714,9 @@ YY_DECL
 		}
 
 	{
-#line 14 "source/compiler.l"
+#line 14 "compilateur/compiler.l"
 
-#line 16 "source/compiler.l"
+#line 16 "compilateur/compiler.l"
   
 #line 721 "lex.yy.c"
 
@@ -777,153 +777,153 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 17 "source/compiler.l"
+#line 17 "compilateur/compiler.l"
 return (PLUS); 
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 18 "source/compiler.l"
+#line 18 "compilateur/compiler.l"
 return (SUB);
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 19 "source/compiler.l"
+#line 19 "compilateur/compiler.l"
 return (MULT);   
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 20 "source/compiler.l"
+#line 20 "compilateur/compiler.l"
 return (DIV);
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 21 "source/compiler.l"
+#line 21 "compilateur/compiler.l"
 return (EQUALS); 
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 22 "source/compiler.l"
+#line 22 "compilateur/compiler.l"
 return (LESS_EQUALS); 
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 23 "source/compiler.l"
+#line 23 "compilateur/compiler.l"
 return (GREATER_EQUALS); 
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 24 "source/compiler.l"
+#line 24 "compilateur/compiler.l"
 return (ASSIGN); 
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 25 "source/compiler.l"
+#line 25 "compilateur/compiler.l"
 return (GREATER); 
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 26 "source/compiler.l"
+#line 26 "compilateur/compiler.l"
 return (LESS); 
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 28 "source/compiler.l"
+#line 28 "compilateur/compiler.l"
 return (SEMICOLON); 
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 29 "source/compiler.l"
+#line 29 "compilateur/compiler.l"
 return (PARENTHESE_OUVRANTE);
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 30 "source/compiler.l"
+#line 30 "compilateur/compiler.l"
 return (PARENTHESE_FERMANTE);
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 31 "source/compiler.l"
+#line 31 "compilateur/compiler.l"
 return (POW);
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 32 "source/compiler.l"
+#line 32 "compilateur/compiler.l"
 return (QUESTION_MARK);		
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 33 "source/compiler.l"
+#line 33 "compilateur/compiler.l"
 return (COLON);
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 35 "source/compiler.l"
+#line 35 "compilateur/compiler.l"
 return (INT);
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 36 "source/compiler.l"
+#line 36 "compilateur/compiler.l"
 return (FLOAT);
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 37 "source/compiler.l"
+#line 37 "compilateur/compiler.l"
 return (STRING);
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 38 "source/compiler.l"
+#line 38 "compilateur/compiler.l"
 return (ACCOLADE_OUVRANTE);
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 39 "source/compiler.l"
+#line 39 "compilateur/compiler.l"
 return (ACCOLADE_FERMANTE);
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 40 "source/compiler.l"
+#line 40 "compilateur/compiler.l"
 return (CONST);
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 41 "source/compiler.l"
+#line 41 "compilateur/compiler.l"
 return (IF);
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 42 "source/compiler.l"
+#line 42 "compilateur/compiler.l"
 return (ELSEIF);
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 43 "source/compiler.l"
+#line 43 "compilateur/compiler.l"
 return (ELSE);
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 44 "source/compiler.l"
+#line 44 "compilateur/compiler.l"
 return (WHILE);
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 45 "source/compiler.l"
+#line 45 "compilateur/compiler.l"
 return (FOR);
 	YY_BREAK
 case 28:
 /* rule 28 can match eol */
 YY_RULE_SETUP
-#line 47 "source/compiler.l"
+#line 47 "compilateur/compiler.l"
 
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 48 "source/compiler.l"
+#line 48 "compilateur/compiler.l"
 return (SEPARATEUR);
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 50 "source/compiler.l"
+#line 50 "compilateur/compiler.l"
 {
 											yylval.intValue = atoi(yytext);
 											return(NOMBRE);
@@ -931,7 +931,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 54 "source/compiler.l"
+#line 54 "compilateur/compiler.l"
 {
 										  	yylval.floatValue = atof(yytext);
 										  	return(FLOTTANT);
@@ -939,7 +939,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 58 "source/compiler.l"
+#line 58 "compilateur/compiler.l"
 {
 											yylval.stringValue = strdup(yytext);			
 											return (VAR);    
@@ -947,7 +947,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 62 "source/compiler.l"
+#line 62 "compilateur/compiler.l"
 {
 											yylval.stringValue = strdup(yytext);
 											return(TEXT);											
@@ -955,18 +955,18 @@ YY_RULE_SETUP
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 66 "source/compiler.l"
+#line 66 "compilateur/compiler.l"
 
 	YY_BREAK
 case 35:
 /* rule 35 can match eol */
 YY_RULE_SETUP
-#line 67 "source/compiler.l"
+#line 67 "compilateur/compiler.l"
 
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 68 "source/compiler.l"
+#line 68 "compilateur/compiler.l"
 ECHO;
 	YY_BREAK
 #line 972 "lex.yy.c"
@@ -984,14 +984,14 @@ case YY_STATE_EOF(INITIAL):
 
 		if ( YY_CURRENT_BUFFER_LVALUE->yy_buffer_status == YY_BUFFER_NEW )
 			{
-			/* We're scanning a new file or input source.  It's
+			/* We're scanning a new file or input compilateur.  It's
 			 * possible that this happened because the user
-			 * just pointed yyin at a new source and called
+			 * just pointed yyin at a new compilateur and called
 			 * yylex().  If so, then we have to assure
 			 * consistency between YY_CURRENT_BUFFER and our
 			 * globals.  Here is the right place to do so, because
 			 * this is the first action (other than possibly a
-			 * back-up) that will match for the new input source.
+			 * back-up) that will match for the new input compilateur.
 			 */
 			(yy_n_chars) = YY_CURRENT_BUFFER_LVALUE->yy_n_chars;
 			YY_CURRENT_BUFFER_LVALUE->yy_input_file = yyin;
@@ -1974,4 +1974,4 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 68 "source/compiler.l"
+#line 68 "compilateur/compiler.l"

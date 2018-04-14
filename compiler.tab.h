@@ -85,7 +85,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 20 "source/compiler.y" /* yacc.c:1909  */
+#line 23 "compilateur/compiler.y" /* yacc.c:1909  */
 
 	int intValue;
 	float floatValue;

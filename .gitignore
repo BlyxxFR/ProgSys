@@ -1,1 +1,7 @@
-/bison
+bison/
+.idea/
+compiler.output
+compiler
+compiler.tab.c
+compiler.tab.h
+lex.yy.c
