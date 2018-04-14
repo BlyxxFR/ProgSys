@@ -13,6 +13,7 @@ int yylex();
 void yyerror(char *s) {
   printf("%s\n",s);
 }
+extern int yylineno;
 
 int initialisee = 0; // Entier pour indiquer la variable considérée par le parseur est inistialisée ou non
 int constante = 0; // Entier pour indiquer la variable considérée par le parseur est une constante ou non
@@ -97,7 +98,8 @@ Declaration:
 
 Declaration_liste_vars:
 	  VAR Assignation SEPARATEUR Declaration_liste_vars
-		{ 		
+		{
+		    log_info("Déclaration d'une variable nommée %s (initialisé : %d, constante : %d)", $1, initialisee, constante);
 			if(initialisee) {
     			symbole tmp = tab_symboles_unstack();
 				tab_symboles_add($1, decl_type, initialisee, constante);
@@ -106,7 +108,8 @@ Declaration_liste_vars:
 			}
 		}
 	| VAR Assignation
-		{ 		
+		{
+		    log_info("Déclaration d'une variable nommée %s (initialisé : %d, constante : %d)", $1, initialisee, constante);
 			if(initialisee) {
 			    symbole tmp = tab_symboles_unstack();
 				tab_symboles_add($1, decl_type, initialisee, constante);
@@ -119,8 +122,14 @@ Declaration_liste_vars:
 Affectation:
 	  VAR Assignation SEMICOLON
 		{
-			tab_asm_add("LOAD", 0, tab_symboles_get_last_address(), -1);
-			tab_asm_add("STORE", tab_symboles_get_address($1), 0, -1);
+		    log_info("Variable modifiée : %s", $1);
+		    int is_constant = tab_symboles_is_constant($1);
+		    if(is_constant == 1) {
+		        log_error_with_line_number(yylineno, "La variable %s est une constante et ne peut être modifiée", $1);
+		    } else if(is_constant != -1) {
+		        tab_asm_add("LOAD", 0, tab_symboles_get_last_address(), -1);
+                tab_asm_add("STORE", tab_symboles_get_address($1), 0, -1);
+		    }
 		}
 	;
 

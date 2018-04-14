@@ -78,13 +78,14 @@ int yylex();
 void yyerror(char *s) {
   printf("%s\n",s);
 }
+extern int yylineno;
 
 int initialisee = 0; // Entier pour indiquer la variable considérée par le parseur est inistialisée ou non
 int constante = 0; // Entier pour indiquer la variable considérée par le parseur est une constante ou non
 enum enumType decl_type; // Type de la variable considérée par le parseur
 
 
-#line 88 "compiler.tab.c" /* yacc.c:339  */
+#line 89 "compiler.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -159,13 +160,13 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 23 "compilateur/compiler.y" /* yacc.c:355  */
+#line 24 "compilateur/compiler.y" /* yacc.c:355  */
 
 	int intValue;
 	float floatValue;
     char *stringValue;
 
-#line 169 "compiler.tab.c" /* yacc.c:355  */
+#line 170 "compiler.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -182,7 +183,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 186 "compiler.tab.c" /* yacc.c:358  */
+#line 187 "compiler.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -482,12 +483,12 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    63,    63,    65,    69,    70,    71,    72,    73,    73,
-      74,    75,    76,    80,    84,    88,    95,    99,   108,   120,
-     129,   132,   136,   143,   143,   147,   150,   152,   153,   157,
-     158,   162,   162,   162,   166,   169,   171,   171,   171,   172,
-     172,   177,   177,   181,   187,   193,   194,   200,   201,   210,
-     219,   228,   237,   238,   239,   240,   241,   242,   243
+       0,    64,    64,    66,    70,    71,    72,    73,    74,    74,
+      75,    76,    77,    81,    85,    89,    96,   100,   110,   123,
+     138,   141,   145,   152,   152,   156,   159,   161,   162,   166,
+     167,   171,   171,   171,   175,   178,   180,   180,   180,   181,
+     181,   186,   186,   190,   196,   202,   203,   209,   210,   219,
+     228,   237,   246,   247,   248,   249,   250,   251,   252
 };
 #endif
 
@@ -1355,44 +1356,45 @@ yyreduce:
   switch (yyn)
     {
         case 8:
-#line 73 "compilateur/compiler.y" /* yacc.c:1646  */
+#line 74 "compilateur/compiler.y" /* yacc.c:1646  */
     { constante = 1; }
-#line 1361 "compiler.tab.c" /* yacc.c:1646  */
+#line 1362 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 73 "compilateur/compiler.y" /* yacc.c:1646  */
+#line 74 "compilateur/compiler.y" /* yacc.c:1646  */
     { constante = 0; }
-#line 1367 "compiler.tab.c" /* yacc.c:1646  */
+#line 1368 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 81 "compilateur/compiler.y" /* yacc.c:1646  */
+#line 82 "compilateur/compiler.y" /* yacc.c:1646  */
     {
 	        decl_type = INT_TYPE;
 	    }
-#line 1375 "compiler.tab.c" /* yacc.c:1646  */
+#line 1376 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 85 "compilateur/compiler.y" /* yacc.c:1646  */
+#line 86 "compilateur/compiler.y" /* yacc.c:1646  */
     {
 	        decl_type = FLOAT_TYPE;
 	    }
-#line 1383 "compiler.tab.c" /* yacc.c:1646  */
+#line 1384 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 89 "compilateur/compiler.y" /* yacc.c:1646  */
+#line 90 "compilateur/compiler.y" /* yacc.c:1646  */
     {
 	        decl_type = STRING_TYPE;
 	    }
-#line 1391 "compiler.tab.c" /* yacc.c:1646  */
+#line 1392 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 100 "compilateur/compiler.y" /* yacc.c:1646  */
-    { 		
+#line 101 "compilateur/compiler.y" /* yacc.c:1646  */
+    {
+		    log_info("Déclaration d'une variable nommée %s (initialisé : %d, constante : %d)", (yyvsp[-3].stringValue), initialisee, constante);
 			if(initialisee) {
     			symbole tmp = tab_symboles_unstack();
 				tab_symboles_add((yyvsp[-3].stringValue), decl_type, initialisee, constante);
@@ -1400,12 +1402,13 @@ yyreduce:
 				tab_symboles_add((yyvsp[-3].stringValue), decl_type, initialisee, constante);
 			}
 		}
-#line 1404 "compiler.tab.c" /* yacc.c:1646  */
+#line 1406 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 109 "compilateur/compiler.y" /* yacc.c:1646  */
-    { 		
+#line 111 "compilateur/compiler.y" /* yacc.c:1646  */
+    {
+		    log_info("Déclaration d'une variable nommée %s (initialisé : %d, constante : %d)", (yyvsp[-1].stringValue), initialisee, constante);
 			if(initialisee) {
 			    symbole tmp = tab_symboles_unstack();
 				tab_symboles_add((yyvsp[-1].stringValue), decl_type, initialisee, constante);
@@ -1413,134 +1416,140 @@ yyreduce:
 				tab_symboles_add((yyvsp[-1].stringValue), decl_type, initialisee, constante);
 			}
 		}
-#line 1417 "compiler.tab.c" /* yacc.c:1646  */
+#line 1420 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 121 "compilateur/compiler.y" /* yacc.c:1646  */
+#line 124 "compilateur/compiler.y" /* yacc.c:1646  */
     {
-			tab_asm_add("LOAD", 0, tab_symboles_get_last_address(), -1);
-			tab_asm_add("STORE", tab_symboles_get_address((yyvsp[-2].stringValue)), 0, -1);
+		    log_info("Variable modifiée : %s", (yyvsp[-2].stringValue));
+		    int is_constant = tab_symboles_is_constant((yyvsp[-2].stringValue));
+		    if(is_constant == 1) {
+		        log_error_with_line_number(yylineno, "La variable %s est une constante et ne peut être modifiée", (yyvsp[-2].stringValue));
+		    } else if(is_constant != -1) {
+		        tab_asm_add("LOAD", 0, tab_symboles_get_last_address(), -1);
+                tab_asm_add("STORE", tab_symboles_get_address((yyvsp[-2].stringValue)), 0, -1);
+		    }
 		}
-#line 1426 "compiler.tab.c" /* yacc.c:1646  */
+#line 1435 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 129 "compilateur/compiler.y" /* yacc.c:1646  */
+#line 138 "compilateur/compiler.y" /* yacc.c:1646  */
     {
 	        initialisee = 0;
 	    }
-#line 1434 "compiler.tab.c" /* yacc.c:1646  */
+#line 1443 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 133 "compilateur/compiler.y" /* yacc.c:1646  */
+#line 142 "compilateur/compiler.y" /* yacc.c:1646  */
     {
 	        initialisee = 1;
 	    }
-#line 1442 "compiler.tab.c" /* yacc.c:1646  */
+#line 1451 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 137 "compilateur/compiler.y" /* yacc.c:1646  */
+#line 146 "compilateur/compiler.y" /* yacc.c:1646  */
     {
 	        initialisee = 1;
 	    }
-#line 1450 "compiler.tab.c" /* yacc.c:1646  */
+#line 1459 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 143 "compilateur/compiler.y" /* yacc.c:1646  */
+#line 152 "compilateur/compiler.y" /* yacc.c:1646  */
     { tab_symboles_increase_depth(); }
-#line 1456 "compiler.tab.c" /* yacc.c:1646  */
+#line 1465 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 143 "compilateur/compiler.y" /* yacc.c:1646  */
+#line 152 "compilateur/compiler.y" /* yacc.c:1646  */
     { tab_symboles_decrease_depth(); }
-#line 1462 "compiler.tab.c" /* yacc.c:1646  */
+#line 1471 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 162 "compilateur/compiler.y" /* yacc.c:1646  */
+#line 171 "compilateur/compiler.y" /* yacc.c:1646  */
     { tab_symboles_increase_depth(); }
-#line 1468 "compiler.tab.c" /* yacc.c:1646  */
+#line 1477 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 162 "compilateur/compiler.y" /* yacc.c:1646  */
+#line 171 "compilateur/compiler.y" /* yacc.c:1646  */
     { tab_symboles_decrease_depth(); }
-#line 1474 "compiler.tab.c" /* yacc.c:1646  */
+#line 1483 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 171 "compilateur/compiler.y" /* yacc.c:1646  */
+#line 180 "compilateur/compiler.y" /* yacc.c:1646  */
     { tab_symboles_increase_depth(); }
-#line 1480 "compiler.tab.c" /* yacc.c:1646  */
+#line 1489 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 171 "compilateur/compiler.y" /* yacc.c:1646  */
+#line 180 "compilateur/compiler.y" /* yacc.c:1646  */
     { tab_symboles_decrease_depth(); }
-#line 1486 "compiler.tab.c" /* yacc.c:1646  */
+#line 1495 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 172 "compilateur/compiler.y" /* yacc.c:1646  */
+#line 181 "compilateur/compiler.y" /* yacc.c:1646  */
     { tab_symboles_increase_depth(); }
-#line 1492 "compiler.tab.c" /* yacc.c:1646  */
+#line 1501 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 172 "compilateur/compiler.y" /* yacc.c:1646  */
+#line 181 "compilateur/compiler.y" /* yacc.c:1646  */
     { tab_symboles_decrease_depth(); }
-#line 1498 "compiler.tab.c" /* yacc.c:1646  */
+#line 1507 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 177 "compilateur/compiler.y" /* yacc.c:1646  */
+#line 186 "compilateur/compiler.y" /* yacc.c:1646  */
     { tab_symboles_increase_depth(); }
-#line 1504 "compiler.tab.c" /* yacc.c:1646  */
+#line 1513 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 177 "compilateur/compiler.y" /* yacc.c:1646  */
+#line 186 "compilateur/compiler.y" /* yacc.c:1646  */
     { tab_symboles_decrease_depth(); }
-#line 1510 "compiler.tab.c" /* yacc.c:1646  */
+#line 1519 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 43:
-#line 182 "compilateur/compiler.y" /* yacc.c:1646  */
+#line 191 "compilateur/compiler.y" /* yacc.c:1646  */
     {
 			tab_symboles_add(strdup("###"),	INT_TYPE, 1, 1);
 			tab_asm_add("AFC", 0, (yyvsp[0].intValue), -1);
 			tab_asm_add("STORE", tab_symboles_get_last_address(), 0, -1);
 		}
-#line 1520 "compiler.tab.c" /* yacc.c:1646  */
+#line 1529 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 44:
-#line 188 "compilateur/compiler.y" /* yacc.c:1646  */
+#line 197 "compilateur/compiler.y" /* yacc.c:1646  */
     {
 			tab_symboles_add(strdup("###"), FLOAT_TYPE, 1, 1);
 			tab_asm_add("AFC", 0, (yyvsp[0].floatValue), -1);
 			tab_asm_add("STORE", tab_symboles_get_last_address(), 0, -1);
 		}
-#line 1530 "compiler.tab.c" /* yacc.c:1646  */
+#line 1539 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 46:
-#line 195 "compilateur/compiler.y" /* yacc.c:1646  */
+#line 204 "compilateur/compiler.y" /* yacc.c:1646  */
     {
 			tab_symboles_add(strdup("###"), INT_TYPE, 1, 1);
 			tab_asm_add("LOAD", 0, tab_symboles_get_address((yyvsp[0].stringValue)), -1);
 			tab_asm_add("STORE", tab_symboles_get_last_address(), 0, -1);
 		}
-#line 1540 "compiler.tab.c" /* yacc.c:1646  */
+#line 1549 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 48:
-#line 202 "compilateur/compiler.y" /* yacc.c:1646  */
+#line 211 "compilateur/compiler.y" /* yacc.c:1646  */
     {
 			symbole tmp = tab_symboles_unstack();
 			tab_asm_add("LOAD", 0, tmp.address, -1);
@@ -1549,11 +1558,11 @@ yyreduce:
 			tab_asm_add("ADD", 0, 1, -1);
 			tab_asm_add("STORE", tab_symboles_get_last_address(), 0, -1);
 		}
-#line 1553 "compiler.tab.c" /* yacc.c:1646  */
+#line 1562 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 49:
-#line 211 "compilateur/compiler.y" /* yacc.c:1646  */
+#line 220 "compilateur/compiler.y" /* yacc.c:1646  */
     {
 			symbole tmp = tab_symboles_unstack();
 			tab_asm_add("LOAD", 0, tmp.address, -1);
@@ -1562,11 +1571,11 @@ yyreduce:
 			tab_asm_add("SUB", 0, 1, -1);
 			tab_asm_add("STORE", tab_symboles_get_last_address(), 0, -1);
 		}
-#line 1566 "compiler.tab.c" /* yacc.c:1646  */
+#line 1575 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 50:
-#line 220 "compilateur/compiler.y" /* yacc.c:1646  */
+#line 229 "compilateur/compiler.y" /* yacc.c:1646  */
     {
 			symbole tmp = tab_symboles_unstack();
 			tab_asm_add("LOAD", 0, tmp.address, -1);
@@ -1575,11 +1584,11 @@ yyreduce:
 			tab_asm_add("MUL", 0, 1, -1);
 			tab_asm_add("STORE", tab_symboles_get_last_address(), 0, -1);
 		}
-#line 1579 "compiler.tab.c" /* yacc.c:1646  */
+#line 1588 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
   case 51:
-#line 229 "compilateur/compiler.y" /* yacc.c:1646  */
+#line 238 "compilateur/compiler.y" /* yacc.c:1646  */
     {
 			symbole tmp = tab_symboles_unstack();
 			tab_asm_add("LOAD", 0, tmp.address, -1);
@@ -1588,11 +1597,11 @@ yyreduce:
 			tab_asm_add("DIV", 0, 1, -1);
 			tab_asm_add("STORE", tab_symboles_get_last_address(), 0, -1);
 		}
-#line 1592 "compiler.tab.c" /* yacc.c:1646  */
+#line 1601 "compiler.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1596 "compiler.tab.c" /* yacc.c:1646  */
+#line 1605 "compiler.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1820,7 +1829,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 246 "compilateur/compiler.y" /* yacc.c:1906  */
+#line 255 "compilateur/compiler.y" /* yacc.c:1906  */
 
 
 int main(void) {

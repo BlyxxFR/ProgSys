@@ -11,6 +11,7 @@ int index_tab_symboles;
 int index_mem_symboles;
 int current_depth;
 symbole tab_symboles[TAILLE];
+extern int yylineno;
 
 
 // Initialisation du tableau des symboles et des indexes à 0
@@ -55,7 +56,7 @@ int tab_symboles_get_index(char * name) {
 	}
 
 	if(index == -1) {
-		log_error("Aucun symbole ne porte ce nom dans la table des symboles");
+		log_error("Aucun symbole ne porte le nom %s dans la table des symboles", name);
 	}
 
 	return index; 
@@ -129,6 +130,7 @@ void tab_symboles_affectation(char * name) {
 void tab_symboles_decrease_depth() {
 	int i = index_tab_symboles - 1;
 	while(tab_symboles[i].depth == current_depth) {
+		log_info("Suppresion de la variable %s en raison d'un changement de profondeur", tab_symboles[i].name);
 		free(tab_symboles[i].name);
 		i--;
 	}

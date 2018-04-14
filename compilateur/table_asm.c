@@ -14,11 +14,15 @@ void tab_asm_init() {
 }
 
 void tab_asm_add(char *id, int r0, int r1, int r2) {
-	tab_asm[index_tab_asm].id = strdup(id);
-	tab_asm[index_tab_asm].registers[0] = r0;
-	tab_asm[index_tab_asm].registers[1] = r1;
-	tab_asm[index_tab_asm].registers[2] = r2;
-	index_tab_asm++;
+	if(index_tab_asm < TAILLE) {
+		tab_asm[index_tab_asm].id = strdup(id);
+		tab_asm[index_tab_asm].registers[0] = r0;
+		tab_asm[index_tab_asm].registers[1] = r1;
+		tab_asm[index_tab_asm].registers[2] = r2;
+		index_tab_asm++;
+	} else {
+		log_error("La table des instructions assembleur est pleine");
+	}
 }
 
 void tab_asm_write_file() {
