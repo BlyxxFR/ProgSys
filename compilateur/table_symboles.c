@@ -116,6 +116,10 @@ int tab_symboles_get_last_address() {
 	return index_mem_symboles - 1;
 }
 
+int tab_sumboles_is_last_temp() {
+	return strcmp(tab_symboles[index_tab_symboles-1].name, "###") == 0;
+}
+
 /* 
  * SETTERS
  */
@@ -147,7 +151,7 @@ void tab_symboles_decrease_depth() {
 void tab_symboles_print() {
 	int i;
 	for(i = 0; i < index_tab_symboles; i++) {
-		log_info("Symbole rencontré %s de type %u à l'addresse %d (profondeur %d)\n", tab_symboles[i].name, tab_symboles[i].type, tab_symboles[i].address, tab_symboles[i].depth);
+		log_info("Symbole rencontré %s de type %u à l'addresse %d (profondeur %d)", tab_symboles[i].name, tab_symboles[i].type, tab_symboles[i].address, tab_symboles[i].depth);
 	}
 }
 

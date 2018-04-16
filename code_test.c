@@ -4,8 +4,7 @@ int main() {
 	j = 4;
 	k = 8;
 	printf (i);
-	r = (i+j)*(i+k/j);
+	r = (k+i)*(i+j);
+	//r = (i+j)*(i+k/j);
 	printf ( r );
 }
-
-const int i = 3;

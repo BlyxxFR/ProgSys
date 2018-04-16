@@ -100,22 +100,12 @@ Declaration_liste_vars:
 	  VAR Assignation SEPARATEUR Declaration_liste_vars
 	{
 		log_info("Déclaration d'une variable nommée %s (initialisé : %d, constante : %d)", $1, initialisee, constante);
-		if(initialisee) {
-			symbole tmp = tab_symboles_unstack();
 		tab_symboles_add($1, decl_type, initialisee, constante);
-		} else {
-		tab_symboles_add($1, decl_type, initialisee, constante);
-		}
 	}
 	| VAR Assignation
 	{
 		log_info("Déclaration d'une variable nommée %s (initialisé : %d, constante : %d)", $1, initialisee, constante);
-		if(initialisee) {
-			symbole tmp = tab_symboles_unstack();
 		tab_symboles_add($1, decl_type, initialisee, constante);
-		} else {
-		tab_symboles_add($1, decl_type, initialisee, constante);
-		}
 	}
 	;
 
@@ -124,11 +114,13 @@ Affectation:
 	{
 		log_info("Variable modifiée : %s", $1);
 		int is_constant = tab_symboles_is_constant($1);
+
 		if(is_constant == 1) {
 			log_error_with_line_number(yylineno, "La variable %s est une constante et ne peut être modifiée", $1);
-		} else if(is_constant != -1) {
-			tab_asm_add("LOAD", 0, tab_symboles_get_last_address(), -1);
-			tab_asm_add("STORE", tab_symboles_get_address($1), 0, -1);
+		} else if(is_constant != -1 && initialisee) {
+			symbole tmp = tab_symboles_unstack();
+			tab_asm_add("LOAD", 0, tmp.address);
+			tab_asm_add("STORE", tab_symboles_get_address($1), 0);
 		}
 	}
 	;
@@ -190,58 +182,58 @@ Expr:
 	  NOMBRE
 	{
 		tab_symboles_add(strdup("###"),	INT_TYPE, 1, 1);
-		tab_asm_add("AFC", 0, $1, -1);
-		tab_asm_add("STORE", tab_symboles_get_last_address(), 0, -1);
+		tab_asm_add("AFC", 0, $1);
+		tab_asm_add("STORE", tab_symboles_get_last_address(), 0);
 	}	
 	| FLOTTANT
 	{
 		tab_symboles_add(strdup("###"), FLOAT_TYPE, 1, 1);
-		tab_asm_add("AFC", 0, $1, -1);
-		tab_asm_add("STORE", tab_symboles_get_last_address(), 0, -1);
+		tab_asm_add("AFC", 0, $1);
+		tab_asm_add("STORE", tab_symboles_get_last_address(), 0);
 	}
 	| TEXT
 	| VAR	
 	{
 		tab_symboles_add(strdup("###"), INT_TYPE, 1, 1);
-		tab_asm_add("LOAD", 0, tab_symboles_get_address($1), -1);
-		tab_asm_add("STORE", tab_symboles_get_last_address(), 0, -1);
+		tab_asm_add("LOAD", 0, tab_symboles_get_address($1));
+		tab_asm_add("STORE", tab_symboles_get_last_address(), 0);
 	}	
-	| SUB Expr %prec MULT				
+	| SUB Expr %prec MULT
 	| Expr PLUS Expr	
 	{
 		symbole tmp = tab_symboles_unstack();
-		tab_asm_add("LOAD", 0, tmp.address, -1);
+		tab_asm_add("LOAD", 1, tmp.address);
 		tmp = tab_symboles_unstack();
-		tab_asm_add("LOAD", 1, tmp.address, -1);
-		tab_asm_add("ADD", 0, 1, -1);
-		tab_asm_add("STORE", tab_symboles_get_last_address(), 0, -1);
+		tab_asm_add("LOAD", 0, tmp.address);
+		tab_asm_add("ADD", 0, 1);
+		tab_asm_add("STORE", tab_symboles_get_last_address(), 0);
 	}			
 	| Expr SUB Expr	
 	{
 		symbole tmp = tab_symboles_unstack();
-		tab_asm_add("LOAD", 0, tmp.address, -1);
+		tab_asm_add("LOAD", 1, tmp.address);
 		tmp = tab_symboles_unstack();
-		tab_asm_add("LOAD", 1, tmp.address, -1);
-		tab_asm_add("SUB", 0, 1, -1);
-		tab_asm_add("STORE", tab_symboles_get_last_address(), 0, -1);
+		tab_asm_add("LOAD", 0, tmp.address);
+		tab_asm_add("SUB", 0, 1);
+		tab_asm_add("STORE", tab_symboles_get_last_address(), 0);
 	}									
 	| Expr MULT Expr	
 	{
 		symbole tmp = tab_symboles_unstack();
-		tab_asm_add("LOAD", 0, tmp.address, -1);
+		tab_asm_add("LOAD", 1, tmp.address);
 		tmp = tab_symboles_unstack();
-		tab_asm_add("LOAD", 1, tmp.address, -1);
-		tab_asm_add("MUL", 0, 1, -1);
-		tab_asm_add("STORE", tab_symboles_get_last_address(), 0, -1);
+		tab_asm_add("LOAD", 0, tmp.address);
+		tab_asm_add("MUL", 0, 1);
+		tab_asm_add("STORE", tab_symboles_get_last_address(), 0);
 	}				
 	| Expr DIV Expr	
 	{
 		symbole tmp = tab_symboles_unstack();
-		tab_asm_add("LOAD", 0, tmp.address, -1);
+		tab_asm_add("LOAD", 1, tmp.address);
 		tmp = tab_symboles_unstack();
-		tab_asm_add("LOAD", 1, tmp.address, -1);
-		tab_asm_add("DIV", 0, 1, -1);
-		tab_asm_add("STORE", tab_symboles_get_last_address(), 0, -1);
+		tab_asm_add("LOAD", 0, tmp.address);
+		tab_asm_add("DIV", 0, 1);
+		tab_asm_add("STORE", tab_symboles_get_last_address(), 0);
 	}				
 	| Expr POW Expr				
 	| Expr GREATER_EQUALS Expr 		

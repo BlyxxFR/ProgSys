@@ -32,7 +32,9 @@ string 									\".*\"
 ":"										return (COLON);
 
 int					  					return (INT);
-float									return (FLOAT);
+%{
+//float									return (FLOAT);
+%}
 string									return (STRING);
 "{"										return (ACCOLADE_OUVRANTE);
 "}"										return (ACCOLADE_FERMANTE);
@@ -51,11 +53,11 @@ const									return (CONST);
 											return(NOMBRE);
 										}
 {reel}									{
-										  	yylval.floatValue = atof(yytext);
-										  	return(FLOTTANT);
+										  	//yylval.floatValue = atof(yytext);
+										  	//return(FLOTTANT);
 										}
 {lettre}({lettre}|{chiffre}|_)*  		{
-											yylval.stringValue = strdup(yytext);			
+											yylval.stringValue = strdup(yytext);
 											return (VAR);    
 										}
 {string}								{

@@ -4,4 +4,8 @@ compiler.output
 compiler
 compiler.tab.c
 compiler.tab.h
+interpreteur.output
+interpreteur
+interpreteur.tab.c
+interpreteur.tab.h
 lex.yy.c
