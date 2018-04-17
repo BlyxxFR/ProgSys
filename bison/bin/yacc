@@ -1,0 +1,2 @@
+#! /bin/sh
+exec '/home/barrech/Documents/Projet Système/ProgSys/bison/bin/bison' -y "$@"

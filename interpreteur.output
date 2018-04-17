@@ -1,0 +1,309 @@
+Grammaire
+
+    0 $accept: Input $end
+
+    1 Input: %empty
+    2      | Input Line
+
+    3 Line: Addition
+    4     | Soustraction
+    5     | Multiplication
+    6     | Division
+    7     | Affectation
+    8     | Chargement
+    9     | Memorisation
+
+   10 Addition: ADD NOMBRE NOMBRE
+
+   11 Soustraction: SUB NOMBRE NOMBRE
+
+   12 Multiplication: MUL NOMBRE NOMBRE
+
+   13 Division: DIV NOMBRE NOMBRE
+
+   14 Affectation: AFC NOMBRE NOMBRE
+
+   15 Chargement: LOAD NOMBRE NOMBRE
+
+   16 Memorisation: STORE NOMBRE NOMBRE
+
+
+Terminaux, suivis des règles où ils apparaissent
+
+$end (0) 0
+error (256)
+NOMBRE (258) 10 11 12 13 14 15 16
+LOAD (259) 15
+STORE (260) 16
+ADD (261) 10
+SUB (262) 11
+MUL (263) 12
+DIV (264) 13
+AFC (265) 14
+
+
+Non-terminaux, suivis des règles où ils apparaissent
+
+$accept (11)
+    à gauche: 0
+Input (12)
+    à gauche: 1 2, à droite: 0 2
+Line (13)
+    à gauche: 3 4 5 6 7 8 9, à droite: 2
+Addition (14)
+    à gauche: 10, à droite: 3
+Soustraction (15)
+    à gauche: 11, à droite: 4
+Multiplication (16)
+    à gauche: 12, à droite: 5
+Division (17)
+    à gauche: 13, à droite: 6
+Affectation (18)
+    à gauche: 14, à droite: 7
+Chargement (19)
+    à gauche: 15, à droite: 8
+Memorisation (20)
+    à gauche: 16, à droite: 9
+
+
+État 0
+
+    0 $accept: . Input $end
+
+    $défaut  réduction par utilisation de la règle 1 (Input)
+
+    Input  aller à l'état 1
+
+
+État 1
+
+    0 $accept: Input . $end
+    2 Input: Input . Line
+
+    $end   décalage et aller à l'état 2
+    LOAD   décalage et aller à l'état 3
+    STORE  décalage et aller à l'état 4
+    ADD    décalage et aller à l'état 5
+    SUB    décalage et aller à l'état 6
+    MUL    décalage et aller à l'état 7
+    DIV    décalage et aller à l'état 8
+    AFC    décalage et aller à l'état 9
+
+    Line            aller à l'état 10
+    Addition        aller à l'état 11
+    Soustraction    aller à l'état 12
+    Multiplication  aller à l'état 13
+    Division        aller à l'état 14
+    Affectation     aller à l'état 15
+    Chargement      aller à l'état 16
+    Memorisation    aller à l'état 17
+
+
+État 2
+
+    0 $accept: Input $end .
+
+    $défaut  accepter
+
+
+État 3
+
+   15 Chargement: LOAD . NOMBRE NOMBRE
+
+    NOMBRE  décalage et aller à l'état 18
+
+
+État 4
+
+   16 Memorisation: STORE . NOMBRE NOMBRE
+
+    NOMBRE  décalage et aller à l'état 19
+
+
+État 5
+
+   10 Addition: ADD . NOMBRE NOMBRE
+
+    NOMBRE  décalage et aller à l'état 20
+
+
+État 6
+
+   11 Soustraction: SUB . NOMBRE NOMBRE
+
+    NOMBRE  décalage et aller à l'état 21
+
+
+État 7
+
+   12 Multiplication: MUL . NOMBRE NOMBRE
+
+    NOMBRE  décalage et aller à l'état 22
+
+
+État 8
+
+   13 Division: DIV . NOMBRE NOMBRE
+
+    NOMBRE  décalage et aller à l'état 23
+
+
+État 9
+
+   14 Affectation: AFC . NOMBRE NOMBRE
+
+    NOMBRE  décalage et aller à l'état 24
+
+
+État 10
+
+    2 Input: Input Line .
+
+    $défaut  réduction par utilisation de la règle 2 (Input)
+
+
+État 11
+
+    3 Line: Addition .
+
+    $défaut  réduction par utilisation de la règle 3 (Line)
+
+
+État 12
+
+    4 Line: Soustraction .
+
+    $défaut  réduction par utilisation de la règle 4 (Line)
+
+
+État 13
+
+    5 Line: Multiplication .
+
+    $défaut  réduction par utilisation de la règle 5 (Line)
+
+
+État 14
+
+    6 Line: Division .
+
+    $défaut  réduction par utilisation de la règle 6 (Line)
+
+
+État 15
+
+    7 Line: Affectation .
+
+    $défaut  réduction par utilisation de la règle 7 (Line)
+
+
+État 16
+
+    8 Line: Chargement .
+
+    $défaut  réduction par utilisation de la règle 8 (Line)
+
+
+État 17
+
+    9 Line: Memorisation .
+
+    $défaut  réduction par utilisation de la règle 9 (Line)
+
+
+État 18
+
+   15 Chargement: LOAD NOMBRE . NOMBRE
+
+    NOMBRE  décalage et aller à l'état 25
+
+
+État 19
+
+   16 Memorisation: STORE NOMBRE . NOMBRE
+
+    NOMBRE  décalage et aller à l'état 26
+
+
+État 20
+
+   10 Addition: ADD NOMBRE . NOMBRE
+
+    NOMBRE  décalage et aller à l'état 27
+
+
+État 21
+
+   11 Soustraction: SUB NOMBRE . NOMBRE
+
+    NOMBRE  décalage et aller à l'état 28
+
+
+État 22
+
+   12 Multiplication: MUL NOMBRE . NOMBRE
+
+    NOMBRE  décalage et aller à l'état 29
+
+
+État 23
+
+   13 Division: DIV NOMBRE . NOMBRE
+
+    NOMBRE  décalage et aller à l'état 30
+
+
+État 24
+
+   14 Affectation: AFC NOMBRE . NOMBRE
+
+    NOMBRE  décalage et aller à l'état 31
+
+
+État 25
+
+   15 Chargement: LOAD NOMBRE NOMBRE .
+
+    $défaut  réduction par utilisation de la règle 15 (Chargement)
+
+
+État 26
+
+   16 Memorisation: STORE NOMBRE NOMBRE .
+
+    $défaut  réduction par utilisation de la règle 16 (Memorisation)
+
+
+État 27
+
+   10 Addition: ADD NOMBRE NOMBRE .
+
+    $défaut  réduction par utilisation de la règle 10 (Addition)
+
+
+État 28
+
+   11 Soustraction: SUB NOMBRE NOMBRE .
+
+    $défaut  réduction par utilisation de la règle 11 (Soustraction)
+
+
+État 29
+
+   12 Multiplication: MUL NOMBRE NOMBRE .
+
+    $défaut  réduction par utilisation de la règle 12 (Multiplication)
+
+
+État 30
+
+   13 Division: DIV NOMBRE NOMBRE .
+
+    $défaut  réduction par utilisation de la règle 13 (Division)
+
+
+État 31
+
+   14 Affectation: AFC NOMBRE NOMBRE .
+
+    $défaut  réduction par utilisation de la règle 14 (Affectation)
