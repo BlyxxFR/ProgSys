@@ -1,9 +1,9 @@
-Terminaux inutilisés dans la grammaire
+Terminals unused in grammar
 
    FOR
 
 
-Grammaire
+Grammar
 
     0 $accept: Input $end
 
@@ -44,1541 +44,1523 @@ Grammaire
    24 AppelFonction: VAR PARENTHESE_OUVRANTE Liste_params PARENTHESE_FERMANTE SEMICOLON
 
    25 Liste_params: %empty
-   26             | VAR
-   27             | Liste_params SEPARATEUR VAR
+   26             | Params
+   27             | Liste_params SEPARATEUR Params
 
-   28 Operation: Expr
-   29          | AppelFonction
+   28 Params: VAR
+   29       | TEXT
+   30       | NOMBRE
 
-   30 $@3: %empty
+   31 Operation: Expr
+   32          | AppelFonction
 
-   31 $@4: %empty
+   33 $@3: %empty
 
-   32 BlocIf: IF Expr ACCOLADE_OUVRANTE $@3 Input ACCOLADE_FERMANTE $@4 BlocElse
-
-   33 BlocIfTernaire: Expr QUESTION_MARK Operation COLON Operation
-
-   34 BlocElse: %empty
+   34 $@4: %empty
 
    35 $@5: %empty
 
-   36 $@6: %empty
+   36 BlocIf: IF PARENTHESE_OUVRANTE Expr $@3 PARENTHESE_FERMANTE ACCOLADE_OUVRANTE $@4 Input ACCOLADE_FERMANTE $@5 BlocElse
 
-   37 BlocElse: ELSEIF Expr ACCOLADE_OUVRANTE $@5 Input ACCOLADE_FERMANTE $@6 BlocElse
+   37 BlocIfTernaire: Expr QUESTION_MARK Operation COLON Operation
 
-   38 $@7: %empty
+   38 BlocElse: %empty
 
-   39 BlocElse: ELSE ACCOLADE_OUVRANTE $@7 Input ACCOLADE_FERMANTE
+   39 $@6: %empty
 
-   40 $@8: %empty
+   40 BlocElse: ELSE ACCOLADE_OUVRANTE $@6 Input ACCOLADE_FERMANTE
 
-   41 BlocWhile: WHILE Expr ACCOLADE_OUVRANTE $@8 Input ACCOLADE_FERMANTE
+   41 $@7: %empty
 
-   42 Expr: NOMBRE
-   43     | FLOTTANT
-   44     | TEXT
-   45     | VAR
-   46     | SUB Expr
-   47     | Expr PLUS Expr
-   48     | Expr SUB Expr
-   49     | Expr MULT Expr
-   50     | Expr DIV Expr
-   51     | Expr POW Expr
-   52     | Expr GREATER_EQUALS Expr
-   53     | Expr LESS_EQUALS Expr
-   54     | Expr LESS Expr
-   55     | Expr GREATER Expr
-   56     | Expr EQUALS Expr
-   57     | PARENTHESE_OUVRANTE Expr PARENTHESE_FERMANTE
+   42 $@8: %empty
+
+   43 $@9: %empty
+
+   44 BlocWhile: WHILE PARENTHESE_OUVRANTE $@7 Expr $@8 PARENTHESE_FERMANTE ACCOLADE_OUVRANTE $@9 Input ACCOLADE_FERMANTE
+
+   45 Expr: NOMBRE
+   46     | FLOTTANT
+   47     | TEXT
+   48     | VAR
+   49     | SUB Expr
+   50     | Expr PLUS Expr
+   51     | Expr SUB Expr
+   52     | Expr MULT Expr
+   53     | Expr DIV Expr
+   54     | Expr POW Expr
+   55     | Expr GREATER_EQUALS Expr
+   56     | Expr LESS_EQUALS Expr
+   57     | Expr LESS Expr
+   58     | Expr GREATER Expr
+   59     | Expr EQUALS Expr
+   60     | PARENTHESE_OUVRANTE Expr PARENTHESE_FERMANTE
 
 
-Terminaux, suivis des règles où ils apparaissent
+Terminals, with rules where they appear
 
 $end (0) 0
 error (256)
-NOMBRE (258) 42
-FLOTTANT (259) 43
-TEXT (260) 44
-PLUS (261) 47
-SUB (262) 46 48
-MULT (263) 49
-DIV (264) 50
-POW (265) 51
-PARENTHESE_OUVRANTE (266) 23 24 57
-PARENTHESE_FERMANTE (267) 23 24 57
-ACCOLADE_OUVRANTE (268) 23 32 37 39 41
-ACCOLADE_FERMANTE (269) 23 32 37 39 41
-EQUALS (270) 56
-LESS_EQUALS (271) 53
-GREATER_EQUALS (272) 52
-GREATER (273) 55
-LESS (274) 54
+NOMBRE (258) 30 45
+FLOTTANT (259) 46
+TEXT (260) 29 47
+PLUS (261) 50
+SUB (262) 49 51
+MULT (263) 52
+DIV (264) 53
+POW (265) 54
+PARENTHESE_OUVRANTE (266) 23 24 36 44 60
+PARENTHESE_FERMANTE (267) 23 24 36 44 60
+ACCOLADE_OUVRANTE (268) 23 36 40 44
+ACCOLADE_FERMANTE (269) 23 36 40 44
+EQUALS (270) 59
+LESS_EQUALS (271) 56
+GREATER_EQUALS (272) 55
+GREATER (273) 58
+LESS (274) 57
 SEMICOLON (275) 3 15 18 24
 INT (276) 12
 FLOAT (277) 13
 STRING (278) 14
 CONST (279) 8
-VAR (280) 16 17 18 23 24 26 27 45
+VAR (280) 16 17 18 23 24 28 48
 SEPARATEUR (281) 16 27
 ASSIGN (282) 20 21
-WHILE (283) 41
+WHILE (283) 44
 FOR (284)
-IF (285) 32
-ELSEIF (286) 37
-ELSE (287) 39
-QUESTION_MARK (288) 33
-COLON (289) 33
+IF (285) 36
+ELSE (286) 40
+QUESTION_MARK (287) 37
+COLON (288) 37
 
 
-Non-terminaux, suivis des règles où ils apparaissent
+Nonterminals, with rules where they appear
 
-$accept (35)
-    à gauche: 0
-Input (36)
-    à gauche: 1 2, à droite: 0 2 23 32 37 39 41
-Line (37)
-    à gauche: 3 4 5 6 8 9 10 11, à droite: 2
-$@1 (38)
-    à gauche: 7, à droite: 8
-Type (39)
-    à gauche: 12 13 14, à droite: 15 23
-Declaration (40)
-    à gauche: 15, à droite: 6 8
-Declaration_liste_vars (41)
-    à gauche: 16 17, à droite: 15 16
-Affectation (42)
-    à gauche: 18, à droite: 9
-Assignation (43)
-    à gauche: 19 20 21, à droite: 16 17 18
-BlocFonction (44)
-    à gauche: 23, à droite: 4
-$@2 (45)
-    à gauche: 22, à droite: 23
-AppelFonction (46)
-    à gauche: 24, à droite: 5 29
-Liste_params (47)
-    à gauche: 25 26 27, à droite: 23 24 27
+$accept (34)
+    on left: 0
+Input (35)
+    on left: 1 2, on right: 0 2 23 36 40 44
+Line (36)
+    on left: 3 4 5 6 8 9 10 11, on right: 2
+$@1 (37)
+    on left: 7, on right: 8
+Type (38)
+    on left: 12 13 14, on right: 15 23
+Declaration (39)
+    on left: 15, on right: 6 8
+Declaration_liste_vars (40)
+    on left: 16 17, on right: 15 16
+Affectation (41)
+    on left: 18, on right: 9
+Assignation (42)
+    on left: 19 20 21, on right: 16 17 18
+BlocFonction (43)
+    on left: 23, on right: 4
+$@2 (44)
+    on left: 22, on right: 23
+AppelFonction (45)
+    on left: 24, on right: 5 32
+Liste_params (46)
+    on left: 25 26 27, on right: 23 24 27
+Params (47)
+    on left: 28 29 30, on right: 26 27
 Operation (48)
-    à gauche: 28 29, à droite: 33
+    on left: 31 32, on right: 37
 BlocIf (49)
-    à gauche: 32, à droite: 10
+    on left: 36, on right: 10
 $@3 (50)
-    à gauche: 30, à droite: 32
+    on left: 33, on right: 36
 $@4 (51)
-    à gauche: 31, à droite: 32
-BlocIfTernaire (52)
-    à gauche: 33, à droite: 21
-BlocElse (53)
-    à gauche: 34 37 39, à droite: 32 37
-$@5 (54)
-    à gauche: 35, à droite: 37
+    on left: 34, on right: 36
+$@5 (52)
+    on left: 35, on right: 36
+BlocIfTernaire (53)
+    on left: 37, on right: 21
+BlocElse (54)
+    on left: 38 40, on right: 36
 $@6 (55)
-    à gauche: 36, à droite: 37
-$@7 (56)
-    à gauche: 38, à droite: 39
-BlocWhile (57)
-    à gauche: 41, à droite: 11
+    on left: 39, on right: 40
+BlocWhile (56)
+    on left: 44, on right: 11
+$@7 (57)
+    on left: 41, on right: 44
 $@8 (58)
-    à gauche: 40, à droite: 41
-Expr (59)
-    à gauche: 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57, à droite:
-    20 28 32 33 37 41 46 47 48 49 50 51 52 53 54 55 56 57
+    on left: 42, on right: 44
+$@9 (59)
+    on left: 43, on right: 44
+Expr (60)
+    on left: 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60, on right:
+    20 31 36 37 44 49 50 51 52 53 54 55 56 57 58 59 60
 
 
-État 0
+State 0
 
     0 $accept: . Input $end
 
-    $défaut  réduction par utilisation de la règle 1 (Input)
+    $default  reduce using rule 1 (Input)
 
-    Input  aller à l'état 1
+    Input  go to state 1
 
 
-État 1
+State 1
 
     0 $accept: Input . $end
     2 Input: Input . Line
 
-    $end       décalage et aller à l'état 2
-    SEMICOLON  décalage et aller à l'état 3
-    INT        décalage et aller à l'état 4
-    FLOAT      décalage et aller à l'état 5
-    STRING     décalage et aller à l'état 6
-    CONST      décalage et aller à l'état 7
-    VAR        décalage et aller à l'état 8
-    WHILE      décalage et aller à l'état 9
-    IF         décalage et aller à l'état 10
+    $end       shift, and go to state 2
+    SEMICOLON  shift, and go to state 3
+    INT        shift, and go to state 4
+    FLOAT      shift, and go to state 5
+    STRING     shift, and go to state 6
+    CONST      shift, and go to state 7
+    VAR        shift, and go to state 8
+    WHILE      shift, and go to state 9
+    IF         shift, and go to state 10
 
-    Line           aller à l'état 11
-    Type           aller à l'état 12
-    Declaration    aller à l'état 13
-    Affectation    aller à l'état 14
-    BlocFonction   aller à l'état 15
-    AppelFonction  aller à l'état 16
-    BlocIf         aller à l'état 17
-    BlocWhile      aller à l'état 18
+    Line           go to state 11
+    Type           go to state 12
+    Declaration    go to state 13
+    Affectation    go to state 14
+    BlocFonction   go to state 15
+    AppelFonction  go to state 16
+    BlocIf         go to state 17
+    BlocWhile      go to state 18
 
 
-État 2
+State 2
 
     0 $accept: Input $end .
 
-    $défaut  accepter
+    $default  accept
 
 
-État 3
+State 3
 
     3 Line: SEMICOLON .
 
-    $défaut  réduction par utilisation de la règle 3 (Line)
+    $default  reduce using rule 3 (Line)
 
 
-État 4
+State 4
 
    12 Type: INT .
 
-    $défaut  réduction par utilisation de la règle 12 (Type)
+    $default  reduce using rule 12 (Type)
 
 
-État 5
+State 5
 
    13 Type: FLOAT .
 
-    $défaut  réduction par utilisation de la règle 13 (Type)
+    $default  reduce using rule 13 (Type)
 
 
-État 6
+State 6
 
    14 Type: STRING .
 
-    $défaut  réduction par utilisation de la règle 14 (Type)
+    $default  reduce using rule 14 (Type)
 
 
-État 7
+State 7
 
     8 Line: CONST . $@1 Declaration
 
-    $défaut  réduction par utilisation de la règle 7 ($@1)
+    $default  reduce using rule 7 ($@1)
 
-    $@1  aller à l'état 19
+    $@1  go to state 19
 
 
-État 8
+State 8
 
    18 Affectation: VAR . Assignation SEMICOLON
    24 AppelFonction: VAR . PARENTHESE_OUVRANTE Liste_params PARENTHESE_FERMANTE SEMICOLON
 
-    PARENTHESE_OUVRANTE  décalage et aller à l'état 20
-    ASSIGN               décalage et aller à l'état 21
+    PARENTHESE_OUVRANTE  shift, and go to state 20
+    ASSIGN               shift, and go to state 21
 
-    $défaut  réduction par utilisation de la règle 19 (Assignation)
+    $default  reduce using rule 19 (Assignation)
 
-    Assignation  aller à l'état 22
-
-
-État 9
-
-   41 BlocWhile: WHILE . Expr ACCOLADE_OUVRANTE $@8 Input ACCOLADE_FERMANTE
-
-    NOMBRE               décalage et aller à l'état 23
-    FLOTTANT             décalage et aller à l'état 24
-    TEXT                 décalage et aller à l'état 25
-    SUB                  décalage et aller à l'état 26
-    PARENTHESE_OUVRANTE  décalage et aller à l'état 27
-    VAR                  décalage et aller à l'état 28
-
-    Expr  aller à l'état 29
+    Assignation  go to state 22
 
 
-État 10
+State 9
 
-   32 BlocIf: IF . Expr ACCOLADE_OUVRANTE $@3 Input ACCOLADE_FERMANTE $@4 BlocElse
+   44 BlocWhile: WHILE . PARENTHESE_OUVRANTE $@7 Expr $@8 PARENTHESE_FERMANTE ACCOLADE_OUVRANTE $@9 Input ACCOLADE_FERMANTE
 
-    NOMBRE               décalage et aller à l'état 23
-    FLOTTANT             décalage et aller à l'état 24
-    TEXT                 décalage et aller à l'état 25
-    SUB                  décalage et aller à l'état 26
-    PARENTHESE_OUVRANTE  décalage et aller à l'état 27
-    VAR                  décalage et aller à l'état 28
-
-    Expr  aller à l'état 30
+    PARENTHESE_OUVRANTE  shift, and go to state 23
 
 
-État 11
+State 10
+
+   36 BlocIf: IF . PARENTHESE_OUVRANTE Expr $@3 PARENTHESE_FERMANTE ACCOLADE_OUVRANTE $@4 Input ACCOLADE_FERMANTE $@5 BlocElse
+
+    PARENTHESE_OUVRANTE  shift, and go to state 24
+
+
+State 11
 
     2 Input: Input Line .
 
-    $défaut  réduction par utilisation de la règle 2 (Input)
+    $default  reduce using rule 2 (Input)
 
 
-État 12
+State 12
 
    15 Declaration: Type . Declaration_liste_vars SEMICOLON
    23 BlocFonction: Type . VAR PARENTHESE_OUVRANTE Liste_params PARENTHESE_FERMANTE ACCOLADE_OUVRANTE $@2 Input ACCOLADE_FERMANTE
 
-    VAR  décalage et aller à l'état 31
+    VAR  shift, and go to state 25
 
-    Declaration_liste_vars  aller à l'état 32
+    Declaration_liste_vars  go to state 26
 
 
-État 13
+State 13
 
     6 Line: Declaration .
 
-    $défaut  réduction par utilisation de la règle 6 (Line)
+    $default  reduce using rule 6 (Line)
 
 
-État 14
+State 14
 
     9 Line: Affectation .
 
-    $défaut  réduction par utilisation de la règle 9 (Line)
+    $default  reduce using rule 9 (Line)
 
 
-État 15
+State 15
 
     4 Line: BlocFonction .
 
-    $défaut  réduction par utilisation de la règle 4 (Line)
+    $default  reduce using rule 4 (Line)
 
 
-État 16
+State 16
 
     5 Line: AppelFonction .
 
-    $défaut  réduction par utilisation de la règle 5 (Line)
+    $default  reduce using rule 5 (Line)
 
 
-État 17
+State 17
 
    10 Line: BlocIf .
 
-    $défaut  réduction par utilisation de la règle 10 (Line)
+    $default  reduce using rule 10 (Line)
 
 
-État 18
+State 18
 
    11 Line: BlocWhile .
 
-    $défaut  réduction par utilisation de la règle 11 (Line)
+    $default  reduce using rule 11 (Line)
 
 
-État 19
+State 19
 
     8 Line: CONST $@1 . Declaration
 
-    INT     décalage et aller à l'état 4
-    FLOAT   décalage et aller à l'état 5
-    STRING  décalage et aller à l'état 6
+    INT     shift, and go to state 4
+    FLOAT   shift, and go to state 5
+    STRING  shift, and go to state 6
 
-    Type         aller à l'état 33
-    Declaration  aller à l'état 34
+    Type         go to state 27
+    Declaration  go to state 28
 
 
-État 20
+State 20
 
    24 AppelFonction: VAR PARENTHESE_OUVRANTE . Liste_params PARENTHESE_FERMANTE SEMICOLON
 
-    VAR  décalage et aller à l'état 35
+    NOMBRE  shift, and go to state 29
+    TEXT    shift, and go to state 30
+    VAR     shift, and go to state 31
 
-    $défaut  réduction par utilisation de la règle 25 (Liste_params)
+    $default  reduce using rule 25 (Liste_params)
 
-    Liste_params  aller à l'état 36
+    Liste_params  go to state 32
+    Params        go to state 33
 
 
-État 21
+State 21
 
    20 Assignation: ASSIGN . Expr
    21            | ASSIGN . BlocIfTernaire
 
-    NOMBRE               décalage et aller à l'état 23
-    FLOTTANT             décalage et aller à l'état 24
-    TEXT                 décalage et aller à l'état 25
-    SUB                  décalage et aller à l'état 26
-    PARENTHESE_OUVRANTE  décalage et aller à l'état 27
-    VAR                  décalage et aller à l'état 28
+    NOMBRE               shift, and go to state 34
+    FLOTTANT             shift, and go to state 35
+    TEXT                 shift, and go to state 36
+    SUB                  shift, and go to state 37
+    PARENTHESE_OUVRANTE  shift, and go to state 38
+    VAR                  shift, and go to state 39
 
-    BlocIfTernaire  aller à l'état 37
-    Expr            aller à l'état 38
+    BlocIfTernaire  go to state 40
+    Expr            go to state 41
 
 
-État 22
+State 22
 
    18 Affectation: VAR Assignation . SEMICOLON
 
-    SEMICOLON  décalage et aller à l'état 39
+    SEMICOLON  shift, and go to state 42
 
 
-État 23
+State 23
 
-   42 Expr: NOMBRE .
+   44 BlocWhile: WHILE PARENTHESE_OUVRANTE . $@7 Expr $@8 PARENTHESE_FERMANTE ACCOLADE_OUVRANTE $@9 Input ACCOLADE_FERMANTE
 
-    $défaut  réduction par utilisation de la règle 42 (Expr)
+    $default  reduce using rule 41 ($@7)
 
-
-État 24
-
-   43 Expr: FLOTTANT .
-
-    $défaut  réduction par utilisation de la règle 43 (Expr)
+    $@7  go to state 43
 
 
-État 25
+State 24
 
-   44 Expr: TEXT .
+   36 BlocIf: IF PARENTHESE_OUVRANTE . Expr $@3 PARENTHESE_FERMANTE ACCOLADE_OUVRANTE $@4 Input ACCOLADE_FERMANTE $@5 BlocElse
 
-    $défaut  réduction par utilisation de la règle 44 (Expr)
+    NOMBRE               shift, and go to state 34
+    FLOTTANT             shift, and go to state 35
+    TEXT                 shift, and go to state 36
+    SUB                  shift, and go to state 37
+    PARENTHESE_OUVRANTE  shift, and go to state 38
+    VAR                  shift, and go to state 39
 
-
-État 26
-
-   46 Expr: SUB . Expr
-
-    NOMBRE               décalage et aller à l'état 23
-    FLOTTANT             décalage et aller à l'état 24
-    TEXT                 décalage et aller à l'état 25
-    SUB                  décalage et aller à l'état 26
-    PARENTHESE_OUVRANTE  décalage et aller à l'état 27
-    VAR                  décalage et aller à l'état 28
-
-    Expr  aller à l'état 40
+    Expr  go to state 44
 
 
-État 27
-
-   57 Expr: PARENTHESE_OUVRANTE . Expr PARENTHESE_FERMANTE
-
-    NOMBRE               décalage et aller à l'état 23
-    FLOTTANT             décalage et aller à l'état 24
-    TEXT                 décalage et aller à l'état 25
-    SUB                  décalage et aller à l'état 26
-    PARENTHESE_OUVRANTE  décalage et aller à l'état 27
-    VAR                  décalage et aller à l'état 28
-
-    Expr  aller à l'état 41
-
-
-État 28
-
-   45 Expr: VAR .
-
-    $défaut  réduction par utilisation de la règle 45 (Expr)
-
-
-État 29
-
-   41 BlocWhile: WHILE Expr . ACCOLADE_OUVRANTE $@8 Input ACCOLADE_FERMANTE
-   47 Expr: Expr . PLUS Expr
-   48     | Expr . SUB Expr
-   49     | Expr . MULT Expr
-   50     | Expr . DIV Expr
-   51     | Expr . POW Expr
-   52     | Expr . GREATER_EQUALS Expr
-   53     | Expr . LESS_EQUALS Expr
-   54     | Expr . LESS Expr
-   55     | Expr . GREATER Expr
-   56     | Expr . EQUALS Expr
-
-    PLUS               décalage et aller à l'état 42
-    SUB                décalage et aller à l'état 43
-    MULT               décalage et aller à l'état 44
-    DIV                décalage et aller à l'état 45
-    POW                décalage et aller à l'état 46
-    ACCOLADE_OUVRANTE  décalage et aller à l'état 47
-    EQUALS             décalage et aller à l'état 48
-    LESS_EQUALS        décalage et aller à l'état 49
-    GREATER_EQUALS     décalage et aller à l'état 50
-    GREATER            décalage et aller à l'état 51
-    LESS               décalage et aller à l'état 52
-
-
-État 30
-
-   32 BlocIf: IF Expr . ACCOLADE_OUVRANTE $@3 Input ACCOLADE_FERMANTE $@4 BlocElse
-   47 Expr: Expr . PLUS Expr
-   48     | Expr . SUB Expr
-   49     | Expr . MULT Expr
-   50     | Expr . DIV Expr
-   51     | Expr . POW Expr
-   52     | Expr . GREATER_EQUALS Expr
-   53     | Expr . LESS_EQUALS Expr
-   54     | Expr . LESS Expr
-   55     | Expr . GREATER Expr
-   56     | Expr . EQUALS Expr
-
-    PLUS               décalage et aller à l'état 42
-    SUB                décalage et aller à l'état 43
-    MULT               décalage et aller à l'état 44
-    DIV                décalage et aller à l'état 45
-    POW                décalage et aller à l'état 46
-    ACCOLADE_OUVRANTE  décalage et aller à l'état 53
-    EQUALS             décalage et aller à l'état 48
-    LESS_EQUALS        décalage et aller à l'état 49
-    GREATER_EQUALS     décalage et aller à l'état 50
-    GREATER            décalage et aller à l'état 51
-    LESS               décalage et aller à l'état 52
-
-
-État 31
+State 25
 
    16 Declaration_liste_vars: VAR . Assignation SEPARATEUR Declaration_liste_vars
    17                       | VAR . Assignation
    23 BlocFonction: Type VAR . PARENTHESE_OUVRANTE Liste_params PARENTHESE_FERMANTE ACCOLADE_OUVRANTE $@2 Input ACCOLADE_FERMANTE
 
-    PARENTHESE_OUVRANTE  décalage et aller à l'état 54
-    ASSIGN               décalage et aller à l'état 21
+    PARENTHESE_OUVRANTE  shift, and go to state 45
+    ASSIGN               shift, and go to state 21
 
-    $défaut  réduction par utilisation de la règle 19 (Assignation)
+    $default  reduce using rule 19 (Assignation)
 
-    Assignation  aller à l'état 55
+    Assignation  go to state 46
 
 
-État 32
+State 26
 
    15 Declaration: Type Declaration_liste_vars . SEMICOLON
 
-    SEMICOLON  décalage et aller à l'état 56
+    SEMICOLON  shift, and go to state 47
 
 
-État 33
+State 27
 
    15 Declaration: Type . Declaration_liste_vars SEMICOLON
 
-    VAR  décalage et aller à l'état 57
+    VAR  shift, and go to state 48
 
-    Declaration_liste_vars  aller à l'état 32
+    Declaration_liste_vars  go to state 26
 
 
-État 34
+State 28
 
     8 Line: CONST $@1 Declaration .
 
-    $défaut  réduction par utilisation de la règle 8 (Line)
+    $default  reduce using rule 8 (Line)
 
 
-État 35
+State 29
 
-   26 Liste_params: VAR .
+   30 Params: NOMBRE .
 
-    $défaut  réduction par utilisation de la règle 26 (Liste_params)
+    $default  reduce using rule 30 (Params)
 
 
-État 36
+State 30
+
+   29 Params: TEXT .
+
+    $default  reduce using rule 29 (Params)
+
+
+State 31
+
+   28 Params: VAR .
+
+    $default  reduce using rule 28 (Params)
+
+
+State 32
 
    24 AppelFonction: VAR PARENTHESE_OUVRANTE Liste_params . PARENTHESE_FERMANTE SEMICOLON
-   27 Liste_params: Liste_params . SEPARATEUR VAR
+   27 Liste_params: Liste_params . SEPARATEUR Params
 
-    PARENTHESE_FERMANTE  décalage et aller à l'état 58
-    SEPARATEUR           décalage et aller à l'état 59
+    PARENTHESE_FERMANTE  shift, and go to state 49
+    SEPARATEUR           shift, and go to state 50
 
 
-État 37
+State 33
+
+   26 Liste_params: Params .
+
+    $default  reduce using rule 26 (Liste_params)
+
+
+State 34
+
+   45 Expr: NOMBRE .
+
+    $default  reduce using rule 45 (Expr)
+
+
+State 35
+
+   46 Expr: FLOTTANT .
+
+    $default  reduce using rule 46 (Expr)
+
+
+State 36
+
+   47 Expr: TEXT .
+
+    $default  reduce using rule 47 (Expr)
+
+
+State 37
+
+   49 Expr: SUB . Expr
+
+    NOMBRE               shift, and go to state 34
+    FLOTTANT             shift, and go to state 35
+    TEXT                 shift, and go to state 36
+    SUB                  shift, and go to state 37
+    PARENTHESE_OUVRANTE  shift, and go to state 38
+    VAR                  shift, and go to state 39
+
+    Expr  go to state 51
+
+
+State 38
+
+   60 Expr: PARENTHESE_OUVRANTE . Expr PARENTHESE_FERMANTE
+
+    NOMBRE               shift, and go to state 34
+    FLOTTANT             shift, and go to state 35
+    TEXT                 shift, and go to state 36
+    SUB                  shift, and go to state 37
+    PARENTHESE_OUVRANTE  shift, and go to state 38
+    VAR                  shift, and go to state 39
+
+    Expr  go to state 52
+
+
+State 39
+
+   48 Expr: VAR .
+
+    $default  reduce using rule 48 (Expr)
+
+
+State 40
 
    21 Assignation: ASSIGN BlocIfTernaire .
 
-    $défaut  réduction par utilisation de la règle 21 (Assignation)
+    $default  reduce using rule 21 (Assignation)
 
 
-État 38
+State 41
 
    20 Assignation: ASSIGN Expr .
-   33 BlocIfTernaire: Expr . QUESTION_MARK Operation COLON Operation
-   47 Expr: Expr . PLUS Expr
-   48     | Expr . SUB Expr
-   49     | Expr . MULT Expr
-   50     | Expr . DIV Expr
-   51     | Expr . POW Expr
-   52     | Expr . GREATER_EQUALS Expr
-   53     | Expr . LESS_EQUALS Expr
-   54     | Expr . LESS Expr
-   55     | Expr . GREATER Expr
-   56     | Expr . EQUALS Expr
+   37 BlocIfTernaire: Expr . QUESTION_MARK Operation COLON Operation
+   50 Expr: Expr . PLUS Expr
+   51     | Expr . SUB Expr
+   52     | Expr . MULT Expr
+   53     | Expr . DIV Expr
+   54     | Expr . POW Expr
+   55     | Expr . GREATER_EQUALS Expr
+   56     | Expr . LESS_EQUALS Expr
+   57     | Expr . LESS Expr
+   58     | Expr . GREATER Expr
+   59     | Expr . EQUALS Expr
 
-    PLUS            décalage et aller à l'état 42
-    SUB             décalage et aller à l'état 43
-    MULT            décalage et aller à l'état 44
-    DIV             décalage et aller à l'état 45
-    POW             décalage et aller à l'état 46
-    EQUALS          décalage et aller à l'état 48
-    LESS_EQUALS     décalage et aller à l'état 49
-    GREATER_EQUALS  décalage et aller à l'état 50
-    GREATER         décalage et aller à l'état 51
-    LESS            décalage et aller à l'état 52
-    QUESTION_MARK   décalage et aller à l'état 60
+    PLUS            shift, and go to state 53
+    SUB             shift, and go to state 54
+    MULT            shift, and go to state 55
+    DIV             shift, and go to state 56
+    POW             shift, and go to state 57
+    EQUALS          shift, and go to state 58
+    LESS_EQUALS     shift, and go to state 59
+    GREATER_EQUALS  shift, and go to state 60
+    GREATER         shift, and go to state 61
+    LESS            shift, and go to state 62
+    QUESTION_MARK   shift, and go to state 63
 
-    $défaut  réduction par utilisation de la règle 20 (Assignation)
+    $default  reduce using rule 20 (Assignation)
 
 
-État 39
+State 42
 
    18 Affectation: VAR Assignation SEMICOLON .
 
-    $défaut  réduction par utilisation de la règle 18 (Affectation)
+    $default  reduce using rule 18 (Affectation)
 
 
-État 40
+State 43
 
-   46 Expr: SUB Expr .
-   47     | Expr . PLUS Expr
-   48     | Expr . SUB Expr
-   49     | Expr . MULT Expr
-   50     | Expr . DIV Expr
-   51     | Expr . POW Expr
-   52     | Expr . GREATER_EQUALS Expr
-   53     | Expr . LESS_EQUALS Expr
-   54     | Expr . LESS Expr
-   55     | Expr . GREATER Expr
-   56     | Expr . EQUALS Expr
+   44 BlocWhile: WHILE PARENTHESE_OUVRANTE $@7 . Expr $@8 PARENTHESE_FERMANTE ACCOLADE_OUVRANTE $@9 Input ACCOLADE_FERMANTE
 
-    POW             décalage et aller à l'état 46
-    EQUALS          décalage et aller à l'état 48
-    LESS_EQUALS     décalage et aller à l'état 49
-    GREATER_EQUALS  décalage et aller à l'état 50
-    GREATER         décalage et aller à l'état 51
-    LESS            décalage et aller à l'état 52
+    NOMBRE               shift, and go to state 34
+    FLOTTANT             shift, and go to state 35
+    TEXT                 shift, and go to state 36
+    SUB                  shift, and go to state 37
+    PARENTHESE_OUVRANTE  shift, and go to state 38
+    VAR                  shift, and go to state 39
 
-    $défaut  réduction par utilisation de la règle 46 (Expr)
+    Expr  go to state 64
 
 
-État 41
+State 44
 
-   47 Expr: Expr . PLUS Expr
-   48     | Expr . SUB Expr
-   49     | Expr . MULT Expr
-   50     | Expr . DIV Expr
-   51     | Expr . POW Expr
-   52     | Expr . GREATER_EQUALS Expr
-   53     | Expr . LESS_EQUALS Expr
-   54     | Expr . LESS Expr
-   55     | Expr . GREATER Expr
-   56     | Expr . EQUALS Expr
-   57     | PARENTHESE_OUVRANTE Expr . PARENTHESE_FERMANTE
+   36 BlocIf: IF PARENTHESE_OUVRANTE Expr . $@3 PARENTHESE_FERMANTE ACCOLADE_OUVRANTE $@4 Input ACCOLADE_FERMANTE $@5 BlocElse
+   50 Expr: Expr . PLUS Expr
+   51     | Expr . SUB Expr
+   52     | Expr . MULT Expr
+   53     | Expr . DIV Expr
+   54     | Expr . POW Expr
+   55     | Expr . GREATER_EQUALS Expr
+   56     | Expr . LESS_EQUALS Expr
+   57     | Expr . LESS Expr
+   58     | Expr . GREATER Expr
+   59     | Expr . EQUALS Expr
 
-    PLUS                 décalage et aller à l'état 42
-    SUB                  décalage et aller à l'état 43
-    MULT                 décalage et aller à l'état 44
-    DIV                  décalage et aller à l'état 45
-    POW                  décalage et aller à l'état 46
-    PARENTHESE_FERMANTE  décalage et aller à l'état 61
-    EQUALS               décalage et aller à l'état 48
-    LESS_EQUALS          décalage et aller à l'état 49
-    GREATER_EQUALS       décalage et aller à l'état 50
-    GREATER              décalage et aller à l'état 51
-    LESS                 décalage et aller à l'état 52
+    PLUS            shift, and go to state 53
+    SUB             shift, and go to state 54
+    MULT            shift, and go to state 55
+    DIV             shift, and go to state 56
+    POW             shift, and go to state 57
+    EQUALS          shift, and go to state 58
+    LESS_EQUALS     shift, and go to state 59
+    GREATER_EQUALS  shift, and go to state 60
+    GREATER         shift, and go to state 61
+    LESS            shift, and go to state 62
 
+    $default  reduce using rule 33 ($@3)
 
-État 42
+    $@3  go to state 65
 
-   47 Expr: Expr PLUS . Expr
 
-    NOMBRE               décalage et aller à l'état 23
-    FLOTTANT             décalage et aller à l'état 24
-    TEXT                 décalage et aller à l'état 25
-    SUB                  décalage et aller à l'état 26
-    PARENTHESE_OUVRANTE  décalage et aller à l'état 27
-    VAR                  décalage et aller à l'état 28
-
-    Expr  aller à l'état 62
-
-
-État 43
-
-   48 Expr: Expr SUB . Expr
-
-    NOMBRE               décalage et aller à l'état 23
-    FLOTTANT             décalage et aller à l'état 24
-    TEXT                 décalage et aller à l'état 25
-    SUB                  décalage et aller à l'état 26
-    PARENTHESE_OUVRANTE  décalage et aller à l'état 27
-    VAR                  décalage et aller à l'état 28
-
-    Expr  aller à l'état 63
-
-
-État 44
-
-   49 Expr: Expr MULT . Expr
-
-    NOMBRE               décalage et aller à l'état 23
-    FLOTTANT             décalage et aller à l'état 24
-    TEXT                 décalage et aller à l'état 25
-    SUB                  décalage et aller à l'état 26
-    PARENTHESE_OUVRANTE  décalage et aller à l'état 27
-    VAR                  décalage et aller à l'état 28
-
-    Expr  aller à l'état 64
-
-
-État 45
-
-   50 Expr: Expr DIV . Expr
-
-    NOMBRE               décalage et aller à l'état 23
-    FLOTTANT             décalage et aller à l'état 24
-    TEXT                 décalage et aller à l'état 25
-    SUB                  décalage et aller à l'état 26
-    PARENTHESE_OUVRANTE  décalage et aller à l'état 27
-    VAR                  décalage et aller à l'état 28
-
-    Expr  aller à l'état 65
-
-
-État 46
-
-   51 Expr: Expr POW . Expr
-
-    NOMBRE               décalage et aller à l'état 23
-    FLOTTANT             décalage et aller à l'état 24
-    TEXT                 décalage et aller à l'état 25
-    SUB                  décalage et aller à l'état 26
-    PARENTHESE_OUVRANTE  décalage et aller à l'état 27
-    VAR                  décalage et aller à l'état 28
-
-    Expr  aller à l'état 66
-
-
-État 47
-
-   41 BlocWhile: WHILE Expr ACCOLADE_OUVRANTE . $@8 Input ACCOLADE_FERMANTE
-
-    $défaut  réduction par utilisation de la règle 40 ($@8)
-
-    $@8  aller à l'état 67
-
-
-État 48
-
-   56 Expr: Expr EQUALS . Expr
-
-    NOMBRE               décalage et aller à l'état 23
-    FLOTTANT             décalage et aller à l'état 24
-    TEXT                 décalage et aller à l'état 25
-    SUB                  décalage et aller à l'état 26
-    PARENTHESE_OUVRANTE  décalage et aller à l'état 27
-    VAR                  décalage et aller à l'état 28
-
-    Expr  aller à l'état 68
-
-
-État 49
-
-   53 Expr: Expr LESS_EQUALS . Expr
-
-    NOMBRE               décalage et aller à l'état 23
-    FLOTTANT             décalage et aller à l'état 24
-    TEXT                 décalage et aller à l'état 25
-    SUB                  décalage et aller à l'état 26
-    PARENTHESE_OUVRANTE  décalage et aller à l'état 27
-    VAR                  décalage et aller à l'état 28
-
-    Expr  aller à l'état 69
-
-
-État 50
-
-   52 Expr: Expr GREATER_EQUALS . Expr
-
-    NOMBRE               décalage et aller à l'état 23
-    FLOTTANT             décalage et aller à l'état 24
-    TEXT                 décalage et aller à l'état 25
-    SUB                  décalage et aller à l'état 26
-    PARENTHESE_OUVRANTE  décalage et aller à l'état 27
-    VAR                  décalage et aller à l'état 28
-
-    Expr  aller à l'état 70
-
-
-État 51
-
-   55 Expr: Expr GREATER . Expr
-
-    NOMBRE               décalage et aller à l'état 23
-    FLOTTANT             décalage et aller à l'état 24
-    TEXT                 décalage et aller à l'état 25
-    SUB                  décalage et aller à l'état 26
-    PARENTHESE_OUVRANTE  décalage et aller à l'état 27
-    VAR                  décalage et aller à l'état 28
-
-    Expr  aller à l'état 71
-
-
-État 52
-
-   54 Expr: Expr LESS . Expr
-
-    NOMBRE               décalage et aller à l'état 23
-    FLOTTANT             décalage et aller à l'état 24
-    TEXT                 décalage et aller à l'état 25
-    SUB                  décalage et aller à l'état 26
-    PARENTHESE_OUVRANTE  décalage et aller à l'état 27
-    VAR                  décalage et aller à l'état 28
-
-    Expr  aller à l'état 72
-
-
-État 53
-
-   32 BlocIf: IF Expr ACCOLADE_OUVRANTE . $@3 Input ACCOLADE_FERMANTE $@4 BlocElse
-
-    $défaut  réduction par utilisation de la règle 30 ($@3)
-
-    $@3  aller à l'état 73
-
-
-État 54
+State 45
 
    23 BlocFonction: Type VAR PARENTHESE_OUVRANTE . Liste_params PARENTHESE_FERMANTE ACCOLADE_OUVRANTE $@2 Input ACCOLADE_FERMANTE
 
-    VAR  décalage et aller à l'état 35
+    NOMBRE  shift, and go to state 29
+    TEXT    shift, and go to state 30
+    VAR     shift, and go to state 31
 
-    $défaut  réduction par utilisation de la règle 25 (Liste_params)
+    $default  reduce using rule 25 (Liste_params)
 
-    Liste_params  aller à l'état 74
+    Liste_params  go to state 66
+    Params        go to state 33
 
 
-État 55
+State 46
 
    16 Declaration_liste_vars: VAR Assignation . SEPARATEUR Declaration_liste_vars
    17                       | VAR Assignation .
 
-    SEPARATEUR  décalage et aller à l'état 75
+    SEPARATEUR  shift, and go to state 67
 
-    $défaut  réduction par utilisation de la règle 17 (Declaration_liste_vars)
+    $default  reduce using rule 17 (Declaration_liste_vars)
 
 
-État 56
+State 47
 
    15 Declaration: Type Declaration_liste_vars SEMICOLON .
 
-    $défaut  réduction par utilisation de la règle 15 (Declaration)
+    $default  reduce using rule 15 (Declaration)
 
 
-État 57
+State 48
 
    16 Declaration_liste_vars: VAR . Assignation SEPARATEUR Declaration_liste_vars
    17                       | VAR . Assignation
 
-    ASSIGN  décalage et aller à l'état 21
+    ASSIGN  shift, and go to state 21
 
-    $défaut  réduction par utilisation de la règle 19 (Assignation)
+    $default  reduce using rule 19 (Assignation)
 
-    Assignation  aller à l'état 55
+    Assignation  go to state 46
 
 
-État 58
+State 49
 
    24 AppelFonction: VAR PARENTHESE_OUVRANTE Liste_params PARENTHESE_FERMANTE . SEMICOLON
 
-    SEMICOLON  décalage et aller à l'état 76
+    SEMICOLON  shift, and go to state 68
 
 
-État 59
+State 50
 
-   27 Liste_params: Liste_params SEPARATEUR . VAR
+   27 Liste_params: Liste_params SEPARATEUR . Params
 
-    VAR  décalage et aller à l'état 77
+    NOMBRE  shift, and go to state 29
+    TEXT    shift, and go to state 30
+    VAR     shift, and go to state 31
 
+    Params  go to state 69
 
-État 60
 
-   33 BlocIfTernaire: Expr QUESTION_MARK . Operation COLON Operation
+State 51
 
-    NOMBRE               décalage et aller à l'état 23
-    FLOTTANT             décalage et aller à l'état 24
-    TEXT                 décalage et aller à l'état 25
-    SUB                  décalage et aller à l'état 26
-    PARENTHESE_OUVRANTE  décalage et aller à l'état 27
-    VAR                  décalage et aller à l'état 78
+   49 Expr: SUB Expr .
+   50     | Expr . PLUS Expr
+   51     | Expr . SUB Expr
+   52     | Expr . MULT Expr
+   53     | Expr . DIV Expr
+   54     | Expr . POW Expr
+   55     | Expr . GREATER_EQUALS Expr
+   56     | Expr . LESS_EQUALS Expr
+   57     | Expr . LESS Expr
+   58     | Expr . GREATER Expr
+   59     | Expr . EQUALS Expr
 
-    AppelFonction  aller à l'état 79
-    Operation      aller à l'état 80
-    Expr           aller à l'état 81
+    POW             shift, and go to state 57
+    EQUALS          shift, and go to state 58
+    LESS_EQUALS     shift, and go to state 59
+    GREATER_EQUALS  shift, and go to state 60
+    GREATER         shift, and go to state 61
+    LESS            shift, and go to state 62
 
+    $default  reduce using rule 49 (Expr)
 
-État 61
 
-   57 Expr: PARENTHESE_OUVRANTE Expr PARENTHESE_FERMANTE .
-
-    $défaut  réduction par utilisation de la règle 57 (Expr)
+State 52
 
+   50 Expr: Expr . PLUS Expr
+   51     | Expr . SUB Expr
+   52     | Expr . MULT Expr
+   53     | Expr . DIV Expr
+   54     | Expr . POW Expr
+   55     | Expr . GREATER_EQUALS Expr
+   56     | Expr . LESS_EQUALS Expr
+   57     | Expr . LESS Expr
+   58     | Expr . GREATER Expr
+   59     | Expr . EQUALS Expr
+   60     | PARENTHESE_OUVRANTE Expr . PARENTHESE_FERMANTE
 
-État 62
+    PLUS                 shift, and go to state 53
+    SUB                  shift, and go to state 54
+    MULT                 shift, and go to state 55
+    DIV                  shift, and go to state 56
+    POW                  shift, and go to state 57
+    PARENTHESE_FERMANTE  shift, and go to state 70
+    EQUALS               shift, and go to state 58
+    LESS_EQUALS          shift, and go to state 59
+    GREATER_EQUALS       shift, and go to state 60
+    GREATER              shift, and go to state 61
+    LESS                 shift, and go to state 62
 
-   47 Expr: Expr . PLUS Expr
-   47     | Expr PLUS Expr .
-   48     | Expr . SUB Expr
-   49     | Expr . MULT Expr
-   50     | Expr . DIV Expr
-   51     | Expr . POW Expr
-   52     | Expr . GREATER_EQUALS Expr
-   53     | Expr . LESS_EQUALS Expr
-   54     | Expr . LESS Expr
-   55     | Expr . GREATER Expr
-   56     | Expr . EQUALS Expr
-
-    MULT            décalage et aller à l'état 44
-    DIV             décalage et aller à l'état 45
-    POW             décalage et aller à l'état 46
-    EQUALS          décalage et aller à l'état 48
-    LESS_EQUALS     décalage et aller à l'état 49
-    GREATER_EQUALS  décalage et aller à l'état 50
-    GREATER         décalage et aller à l'état 51
-    LESS            décalage et aller à l'état 52
-
-    $défaut  réduction par utilisation de la règle 47 (Expr)
 
+State 53
 
-État 63
+   50 Expr: Expr PLUS . Expr
 
-   47 Expr: Expr . PLUS Expr
-   48     | Expr . SUB Expr
-   48     | Expr SUB Expr .
-   49     | Expr . MULT Expr
-   50     | Expr . DIV Expr
-   51     | Expr . POW Expr
-   52     | Expr . GREATER_EQUALS Expr
-   53     | Expr . LESS_EQUALS Expr
-   54     | Expr . LESS Expr
-   55     | Expr . GREATER Expr
-   56     | Expr . EQUALS Expr
+    NOMBRE               shift, and go to state 34
+    FLOTTANT             shift, and go to state 35
+    TEXT                 shift, and go to state 36
+    SUB                  shift, and go to state 37
+    PARENTHESE_OUVRANTE  shift, and go to state 38
+    VAR                  shift, and go to state 39
 
-    MULT            décalage et aller à l'état 44
-    DIV             décalage et aller à l'état 45
-    POW             décalage et aller à l'état 46
-    EQUALS          décalage et aller à l'état 48
-    LESS_EQUALS     décalage et aller à l'état 49
-    GREATER_EQUALS  décalage et aller à l'état 50
-    GREATER         décalage et aller à l'état 51
-    LESS            décalage et aller à l'état 52
+    Expr  go to state 71
 
-    $défaut  réduction par utilisation de la règle 48 (Expr)
 
+State 54
 
-État 64
+   51 Expr: Expr SUB . Expr
 
-   47 Expr: Expr . PLUS Expr
-   48     | Expr . SUB Expr
-   49     | Expr . MULT Expr
-   49     | Expr MULT Expr .
-   50     | Expr . DIV Expr
-   51     | Expr . POW Expr
-   52     | Expr . GREATER_EQUALS Expr
-   53     | Expr . LESS_EQUALS Expr
-   54     | Expr . LESS Expr
-   55     | Expr . GREATER Expr
-   56     | Expr . EQUALS Expr
+    NOMBRE               shift, and go to state 34
+    FLOTTANT             shift, and go to state 35
+    TEXT                 shift, and go to state 36
+    SUB                  shift, and go to state 37
+    PARENTHESE_OUVRANTE  shift, and go to state 38
+    VAR                  shift, and go to state 39
 
-    POW             décalage et aller à l'état 46
-    EQUALS          décalage et aller à l'état 48
-    LESS_EQUALS     décalage et aller à l'état 49
-    GREATER_EQUALS  décalage et aller à l'état 50
-    GREATER         décalage et aller à l'état 51
-    LESS            décalage et aller à l'état 52
-
-    $défaut  réduction par utilisation de la règle 49 (Expr)
-
-
-État 65
-
-   47 Expr: Expr . PLUS Expr
-   48     | Expr . SUB Expr
-   49     | Expr . MULT Expr
-   50     | Expr . DIV Expr
-   50     | Expr DIV Expr .
-   51     | Expr . POW Expr
-   52     | Expr . GREATER_EQUALS Expr
-   53     | Expr . LESS_EQUALS Expr
-   54     | Expr . LESS Expr
-   55     | Expr . GREATER Expr
-   56     | Expr . EQUALS Expr
-
-    POW             décalage et aller à l'état 46
-    EQUALS          décalage et aller à l'état 48
-    LESS_EQUALS     décalage et aller à l'état 49
-    GREATER_EQUALS  décalage et aller à l'état 50
-    GREATER         décalage et aller à l'état 51
-    LESS            décalage et aller à l'état 52
-
-    $défaut  réduction par utilisation de la règle 50 (Expr)
-
-
-État 66
-
-   47 Expr: Expr . PLUS Expr
-   48     | Expr . SUB Expr
-   49     | Expr . MULT Expr
-   50     | Expr . DIV Expr
-   51     | Expr . POW Expr
-   51     | Expr POW Expr .
-   52     | Expr . GREATER_EQUALS Expr
-   53     | Expr . LESS_EQUALS Expr
-   54     | Expr . LESS Expr
-   55     | Expr . GREATER Expr
-   56     | Expr . EQUALS Expr
-
-    POW             décalage et aller à l'état 46
-    EQUALS          décalage et aller à l'état 48
-    LESS_EQUALS     décalage et aller à l'état 49
-    GREATER_EQUALS  décalage et aller à l'état 50
-    GREATER         décalage et aller à l'état 51
-    LESS            décalage et aller à l'état 52
-
-    $défaut  réduction par utilisation de la règle 51 (Expr)
-
-
-État 67
-
-   41 BlocWhile: WHILE Expr ACCOLADE_OUVRANTE $@8 . Input ACCOLADE_FERMANTE
-
-    $défaut  réduction par utilisation de la règle 1 (Input)
-
-    Input  aller à l'état 82
-
-
-État 68
-
-   47 Expr: Expr . PLUS Expr
-   48     | Expr . SUB Expr
-   49     | Expr . MULT Expr
-   50     | Expr . DIV Expr
-   51     | Expr . POW Expr
-   52     | Expr . GREATER_EQUALS Expr
-   53     | Expr . LESS_EQUALS Expr
-   54     | Expr . LESS Expr
-   55     | Expr . GREATER Expr
-   56     | Expr . EQUALS Expr
-   56     | Expr EQUALS Expr .
-
-    EQUALS          décalage et aller à l'état 48
-    LESS_EQUALS     décalage et aller à l'état 49
-    GREATER_EQUALS  décalage et aller à l'état 50
-    GREATER         décalage et aller à l'état 51
-    LESS            décalage et aller à l'état 52
-
-    $défaut  réduction par utilisation de la règle 56 (Expr)
-
-
-État 69
+    Expr  go to state 72
 
-   47 Expr: Expr . PLUS Expr
-   48     | Expr . SUB Expr
-   49     | Expr . MULT Expr
-   50     | Expr . DIV Expr
-   51     | Expr . POW Expr
-   52     | Expr . GREATER_EQUALS Expr
-   53     | Expr . LESS_EQUALS Expr
-   53     | Expr LESS_EQUALS Expr .
-   54     | Expr . LESS Expr
-   55     | Expr . GREATER Expr
-   56     | Expr . EQUALS Expr
 
-    EQUALS          décalage et aller à l'état 48
-    LESS_EQUALS     décalage et aller à l'état 49
-    GREATER_EQUALS  décalage et aller à l'état 50
-    GREATER         décalage et aller à l'état 51
-    LESS            décalage et aller à l'état 52
+State 55
 
-    $défaut  réduction par utilisation de la règle 53 (Expr)
+   52 Expr: Expr MULT . Expr
 
+    NOMBRE               shift, and go to state 34
+    FLOTTANT             shift, and go to state 35
+    TEXT                 shift, and go to state 36
+    SUB                  shift, and go to state 37
+    PARENTHESE_OUVRANTE  shift, and go to state 38
+    VAR                  shift, and go to state 39
 
-État 70
+    Expr  go to state 73
 
-   47 Expr: Expr . PLUS Expr
-   48     | Expr . SUB Expr
-   49     | Expr . MULT Expr
-   50     | Expr . DIV Expr
-   51     | Expr . POW Expr
-   52     | Expr . GREATER_EQUALS Expr
-   52     | Expr GREATER_EQUALS Expr .
-   53     | Expr . LESS_EQUALS Expr
-   54     | Expr . LESS Expr
-   55     | Expr . GREATER Expr
-   56     | Expr . EQUALS Expr
 
-    EQUALS          décalage et aller à l'état 48
-    LESS_EQUALS     décalage et aller à l'état 49
-    GREATER_EQUALS  décalage et aller à l'état 50
-    GREATER         décalage et aller à l'état 51
-    LESS            décalage et aller à l'état 52
+State 56
 
-    $défaut  réduction par utilisation de la règle 52 (Expr)
+   53 Expr: Expr DIV . Expr
 
+    NOMBRE               shift, and go to state 34
+    FLOTTANT             shift, and go to state 35
+    TEXT                 shift, and go to state 36
+    SUB                  shift, and go to state 37
+    PARENTHESE_OUVRANTE  shift, and go to state 38
+    VAR                  shift, and go to state 39
 
-État 71
+    Expr  go to state 74
 
-   47 Expr: Expr . PLUS Expr
-   48     | Expr . SUB Expr
-   49     | Expr . MULT Expr
-   50     | Expr . DIV Expr
-   51     | Expr . POW Expr
-   52     | Expr . GREATER_EQUALS Expr
-   53     | Expr . LESS_EQUALS Expr
-   54     | Expr . LESS Expr
-   55     | Expr . GREATER Expr
-   55     | Expr GREATER Expr .
-   56     | Expr . EQUALS Expr
 
-    EQUALS          décalage et aller à l'état 48
-    LESS_EQUALS     décalage et aller à l'état 49
-    GREATER_EQUALS  décalage et aller à l'état 50
-    GREATER         décalage et aller à l'état 51
-    LESS            décalage et aller à l'état 52
+State 57
 
-    $défaut  réduction par utilisation de la règle 55 (Expr)
+   54 Expr: Expr POW . Expr
 
+    NOMBRE               shift, and go to state 34
+    FLOTTANT             shift, and go to state 35
+    TEXT                 shift, and go to state 36
+    SUB                  shift, and go to state 37
+    PARENTHESE_OUVRANTE  shift, and go to state 38
+    VAR                  shift, and go to state 39
 
-État 72
+    Expr  go to state 75
 
-   47 Expr: Expr . PLUS Expr
-   48     | Expr . SUB Expr
-   49     | Expr . MULT Expr
-   50     | Expr . DIV Expr
-   51     | Expr . POW Expr
-   52     | Expr . GREATER_EQUALS Expr
-   53     | Expr . LESS_EQUALS Expr
-   54     | Expr . LESS Expr
-   54     | Expr LESS Expr .
-   55     | Expr . GREATER Expr
-   56     | Expr . EQUALS Expr
 
-    EQUALS          décalage et aller à l'état 48
-    LESS_EQUALS     décalage et aller à l'état 49
-    GREATER_EQUALS  décalage et aller à l'état 50
-    GREATER         décalage et aller à l'état 51
-    LESS            décalage et aller à l'état 52
+State 58
 
-    $défaut  réduction par utilisation de la règle 54 (Expr)
+   59 Expr: Expr EQUALS . Expr
 
+    NOMBRE               shift, and go to state 34
+    FLOTTANT             shift, and go to state 35
+    TEXT                 shift, and go to state 36
+    SUB                  shift, and go to state 37
+    PARENTHESE_OUVRANTE  shift, and go to state 38
+    VAR                  shift, and go to state 39
 
-État 73
+    Expr  go to state 76
 
-   32 BlocIf: IF Expr ACCOLADE_OUVRANTE $@3 . Input ACCOLADE_FERMANTE $@4 BlocElse
 
-    $défaut  réduction par utilisation de la règle 1 (Input)
+State 59
 
-    Input  aller à l'état 83
+   56 Expr: Expr LESS_EQUALS . Expr
 
+    NOMBRE               shift, and go to state 34
+    FLOTTANT             shift, and go to state 35
+    TEXT                 shift, and go to state 36
+    SUB                  shift, and go to state 37
+    PARENTHESE_OUVRANTE  shift, and go to state 38
+    VAR                  shift, and go to state 39
 
-État 74
+    Expr  go to state 77
+
+
+State 60
+
+   55 Expr: Expr GREATER_EQUALS . Expr
+
+    NOMBRE               shift, and go to state 34
+    FLOTTANT             shift, and go to state 35
+    TEXT                 shift, and go to state 36
+    SUB                  shift, and go to state 37
+    PARENTHESE_OUVRANTE  shift, and go to state 38
+    VAR                  shift, and go to state 39
+
+    Expr  go to state 78
+
+
+State 61
+
+   58 Expr: Expr GREATER . Expr
+
+    NOMBRE               shift, and go to state 34
+    FLOTTANT             shift, and go to state 35
+    TEXT                 shift, and go to state 36
+    SUB                  shift, and go to state 37
+    PARENTHESE_OUVRANTE  shift, and go to state 38
+    VAR                  shift, and go to state 39
+
+    Expr  go to state 79
+
+
+State 62
+
+   57 Expr: Expr LESS . Expr
+
+    NOMBRE               shift, and go to state 34
+    FLOTTANT             shift, and go to state 35
+    TEXT                 shift, and go to state 36
+    SUB                  shift, and go to state 37
+    PARENTHESE_OUVRANTE  shift, and go to state 38
+    VAR                  shift, and go to state 39
+
+    Expr  go to state 80
+
+
+State 63
+
+   37 BlocIfTernaire: Expr QUESTION_MARK . Operation COLON Operation
+
+    NOMBRE               shift, and go to state 34
+    FLOTTANT             shift, and go to state 35
+    TEXT                 shift, and go to state 36
+    SUB                  shift, and go to state 37
+    PARENTHESE_OUVRANTE  shift, and go to state 38
+    VAR                  shift, and go to state 81
+
+    AppelFonction  go to state 82
+    Operation      go to state 83
+    Expr           go to state 84
+
+
+State 64
+
+   44 BlocWhile: WHILE PARENTHESE_OUVRANTE $@7 Expr . $@8 PARENTHESE_FERMANTE ACCOLADE_OUVRANTE $@9 Input ACCOLADE_FERMANTE
+   50 Expr: Expr . PLUS Expr
+   51     | Expr . SUB Expr
+   52     | Expr . MULT Expr
+   53     | Expr . DIV Expr
+   54     | Expr . POW Expr
+   55     | Expr . GREATER_EQUALS Expr
+   56     | Expr . LESS_EQUALS Expr
+   57     | Expr . LESS Expr
+   58     | Expr . GREATER Expr
+   59     | Expr . EQUALS Expr
+
+    PLUS            shift, and go to state 53
+    SUB             shift, and go to state 54
+    MULT            shift, and go to state 55
+    DIV             shift, and go to state 56
+    POW             shift, and go to state 57
+    EQUALS          shift, and go to state 58
+    LESS_EQUALS     shift, and go to state 59
+    GREATER_EQUALS  shift, and go to state 60
+    GREATER         shift, and go to state 61
+    LESS            shift, and go to state 62
+
+    $default  reduce using rule 42 ($@8)
+
+    $@8  go to state 85
+
+
+State 65
+
+   36 BlocIf: IF PARENTHESE_OUVRANTE Expr $@3 . PARENTHESE_FERMANTE ACCOLADE_OUVRANTE $@4 Input ACCOLADE_FERMANTE $@5 BlocElse
+
+    PARENTHESE_FERMANTE  shift, and go to state 86
+
+
+State 66
 
    23 BlocFonction: Type VAR PARENTHESE_OUVRANTE Liste_params . PARENTHESE_FERMANTE ACCOLADE_OUVRANTE $@2 Input ACCOLADE_FERMANTE
-   27 Liste_params: Liste_params . SEPARATEUR VAR
+   27 Liste_params: Liste_params . SEPARATEUR Params
 
-    PARENTHESE_FERMANTE  décalage et aller à l'état 84
-    SEPARATEUR           décalage et aller à l'état 59
+    PARENTHESE_FERMANTE  shift, and go to state 87
+    SEPARATEUR           shift, and go to state 50
 
 
-État 75
+State 67
 
    16 Declaration_liste_vars: VAR Assignation SEPARATEUR . Declaration_liste_vars
 
-    VAR  décalage et aller à l'état 57
+    VAR  shift, and go to state 48
 
-    Declaration_liste_vars  aller à l'état 85
+    Declaration_liste_vars  go to state 88
 
 
-État 76
+State 68
 
    24 AppelFonction: VAR PARENTHESE_OUVRANTE Liste_params PARENTHESE_FERMANTE SEMICOLON .
 
-    $défaut  réduction par utilisation de la règle 24 (AppelFonction)
+    $default  reduce using rule 24 (AppelFonction)
 
 
-État 77
+State 69
 
-   27 Liste_params: Liste_params SEPARATEUR VAR .
+   27 Liste_params: Liste_params SEPARATEUR Params .
 
-    $défaut  réduction par utilisation de la règle 27 (Liste_params)
+    $default  reduce using rule 27 (Liste_params)
 
 
-État 78
+State 70
+
+   60 Expr: PARENTHESE_OUVRANTE Expr PARENTHESE_FERMANTE .
+
+    $default  reduce using rule 60 (Expr)
+
+
+State 71
+
+   50 Expr: Expr . PLUS Expr
+   50     | Expr PLUS Expr .
+   51     | Expr . SUB Expr
+   52     | Expr . MULT Expr
+   53     | Expr . DIV Expr
+   54     | Expr . POW Expr
+   55     | Expr . GREATER_EQUALS Expr
+   56     | Expr . LESS_EQUALS Expr
+   57     | Expr . LESS Expr
+   58     | Expr . GREATER Expr
+   59     | Expr . EQUALS Expr
+
+    MULT            shift, and go to state 55
+    DIV             shift, and go to state 56
+    POW             shift, and go to state 57
+    EQUALS          shift, and go to state 58
+    LESS_EQUALS     shift, and go to state 59
+    GREATER_EQUALS  shift, and go to state 60
+    GREATER         shift, and go to state 61
+    LESS            shift, and go to state 62
+
+    $default  reduce using rule 50 (Expr)
+
+
+State 72
+
+   50 Expr: Expr . PLUS Expr
+   51     | Expr . SUB Expr
+   51     | Expr SUB Expr .
+   52     | Expr . MULT Expr
+   53     | Expr . DIV Expr
+   54     | Expr . POW Expr
+   55     | Expr . GREATER_EQUALS Expr
+   56     | Expr . LESS_EQUALS Expr
+   57     | Expr . LESS Expr
+   58     | Expr . GREATER Expr
+   59     | Expr . EQUALS Expr
+
+    MULT            shift, and go to state 55
+    DIV             shift, and go to state 56
+    POW             shift, and go to state 57
+    EQUALS          shift, and go to state 58
+    LESS_EQUALS     shift, and go to state 59
+    GREATER_EQUALS  shift, and go to state 60
+    GREATER         shift, and go to state 61
+    LESS            shift, and go to state 62
+
+    $default  reduce using rule 51 (Expr)
+
+
+State 73
+
+   50 Expr: Expr . PLUS Expr
+   51     | Expr . SUB Expr
+   52     | Expr . MULT Expr
+   52     | Expr MULT Expr .
+   53     | Expr . DIV Expr
+   54     | Expr . POW Expr
+   55     | Expr . GREATER_EQUALS Expr
+   56     | Expr . LESS_EQUALS Expr
+   57     | Expr . LESS Expr
+   58     | Expr . GREATER Expr
+   59     | Expr . EQUALS Expr
+
+    POW             shift, and go to state 57
+    EQUALS          shift, and go to state 58
+    LESS_EQUALS     shift, and go to state 59
+    GREATER_EQUALS  shift, and go to state 60
+    GREATER         shift, and go to state 61
+    LESS            shift, and go to state 62
+
+    $default  reduce using rule 52 (Expr)
+
+
+State 74
+
+   50 Expr: Expr . PLUS Expr
+   51     | Expr . SUB Expr
+   52     | Expr . MULT Expr
+   53     | Expr . DIV Expr
+   53     | Expr DIV Expr .
+   54     | Expr . POW Expr
+   55     | Expr . GREATER_EQUALS Expr
+   56     | Expr . LESS_EQUALS Expr
+   57     | Expr . LESS Expr
+   58     | Expr . GREATER Expr
+   59     | Expr . EQUALS Expr
+
+    POW             shift, and go to state 57
+    EQUALS          shift, and go to state 58
+    LESS_EQUALS     shift, and go to state 59
+    GREATER_EQUALS  shift, and go to state 60
+    GREATER         shift, and go to state 61
+    LESS            shift, and go to state 62
+
+    $default  reduce using rule 53 (Expr)
+
+
+State 75
+
+   50 Expr: Expr . PLUS Expr
+   51     | Expr . SUB Expr
+   52     | Expr . MULT Expr
+   53     | Expr . DIV Expr
+   54     | Expr . POW Expr
+   54     | Expr POW Expr .
+   55     | Expr . GREATER_EQUALS Expr
+   56     | Expr . LESS_EQUALS Expr
+   57     | Expr . LESS Expr
+   58     | Expr . GREATER Expr
+   59     | Expr . EQUALS Expr
+
+    POW             shift, and go to state 57
+    EQUALS          shift, and go to state 58
+    LESS_EQUALS     shift, and go to state 59
+    GREATER_EQUALS  shift, and go to state 60
+    GREATER         shift, and go to state 61
+    LESS            shift, and go to state 62
+
+    $default  reduce using rule 54 (Expr)
+
+
+State 76
+
+   50 Expr: Expr . PLUS Expr
+   51     | Expr . SUB Expr
+   52     | Expr . MULT Expr
+   53     | Expr . DIV Expr
+   54     | Expr . POW Expr
+   55     | Expr . GREATER_EQUALS Expr
+   56     | Expr . LESS_EQUALS Expr
+   57     | Expr . LESS Expr
+   58     | Expr . GREATER Expr
+   59     | Expr . EQUALS Expr
+   59     | Expr EQUALS Expr .
+
+    EQUALS          shift, and go to state 58
+    LESS_EQUALS     shift, and go to state 59
+    GREATER_EQUALS  shift, and go to state 60
+    GREATER         shift, and go to state 61
+    LESS            shift, and go to state 62
+
+    $default  reduce using rule 59 (Expr)
+
+
+State 77
+
+   50 Expr: Expr . PLUS Expr
+   51     | Expr . SUB Expr
+   52     | Expr . MULT Expr
+   53     | Expr . DIV Expr
+   54     | Expr . POW Expr
+   55     | Expr . GREATER_EQUALS Expr
+   56     | Expr . LESS_EQUALS Expr
+   56     | Expr LESS_EQUALS Expr .
+   57     | Expr . LESS Expr
+   58     | Expr . GREATER Expr
+   59     | Expr . EQUALS Expr
+
+    EQUALS          shift, and go to state 58
+    LESS_EQUALS     shift, and go to state 59
+    GREATER_EQUALS  shift, and go to state 60
+    GREATER         shift, and go to state 61
+    LESS            shift, and go to state 62
+
+    $default  reduce using rule 56 (Expr)
+
+
+State 78
+
+   50 Expr: Expr . PLUS Expr
+   51     | Expr . SUB Expr
+   52     | Expr . MULT Expr
+   53     | Expr . DIV Expr
+   54     | Expr . POW Expr
+   55     | Expr . GREATER_EQUALS Expr
+   55     | Expr GREATER_EQUALS Expr .
+   56     | Expr . LESS_EQUALS Expr
+   57     | Expr . LESS Expr
+   58     | Expr . GREATER Expr
+   59     | Expr . EQUALS Expr
+
+    EQUALS          shift, and go to state 58
+    LESS_EQUALS     shift, and go to state 59
+    GREATER_EQUALS  shift, and go to state 60
+    GREATER         shift, and go to state 61
+    LESS            shift, and go to state 62
+
+    $default  reduce using rule 55 (Expr)
+
+
+State 79
+
+   50 Expr: Expr . PLUS Expr
+   51     | Expr . SUB Expr
+   52     | Expr . MULT Expr
+   53     | Expr . DIV Expr
+   54     | Expr . POW Expr
+   55     | Expr . GREATER_EQUALS Expr
+   56     | Expr . LESS_EQUALS Expr
+   57     | Expr . LESS Expr
+   58     | Expr . GREATER Expr
+   58     | Expr GREATER Expr .
+   59     | Expr . EQUALS Expr
+
+    EQUALS          shift, and go to state 58
+    LESS_EQUALS     shift, and go to state 59
+    GREATER_EQUALS  shift, and go to state 60
+    GREATER         shift, and go to state 61
+    LESS            shift, and go to state 62
+
+    $default  reduce using rule 58 (Expr)
+
+
+State 80
+
+   50 Expr: Expr . PLUS Expr
+   51     | Expr . SUB Expr
+   52     | Expr . MULT Expr
+   53     | Expr . DIV Expr
+   54     | Expr . POW Expr
+   55     | Expr . GREATER_EQUALS Expr
+   56     | Expr . LESS_EQUALS Expr
+   57     | Expr . LESS Expr
+   57     | Expr LESS Expr .
+   58     | Expr . GREATER Expr
+   59     | Expr . EQUALS Expr
+
+    EQUALS          shift, and go to state 58
+    LESS_EQUALS     shift, and go to state 59
+    GREATER_EQUALS  shift, and go to state 60
+    GREATER         shift, and go to state 61
+    LESS            shift, and go to state 62
+
+    $default  reduce using rule 57 (Expr)
+
+
+State 81
 
    24 AppelFonction: VAR . PARENTHESE_OUVRANTE Liste_params PARENTHESE_FERMANTE SEMICOLON
-   45 Expr: VAR .
+   48 Expr: VAR .
 
-    PARENTHESE_OUVRANTE  décalage et aller à l'état 20
+    PARENTHESE_OUVRANTE  shift, and go to state 20
 
-    $défaut  réduction par utilisation de la règle 45 (Expr)
-
-
-État 79
-
-   29 Operation: AppelFonction .
-
-    $défaut  réduction par utilisation de la règle 29 (Operation)
+    $default  reduce using rule 48 (Expr)
 
 
-État 80
+State 82
 
-   33 BlocIfTernaire: Expr QUESTION_MARK Operation . COLON Operation
+   32 Operation: AppelFonction .
 
-    COLON  décalage et aller à l'état 86
-
-
-État 81
-
-   28 Operation: Expr .
-   47 Expr: Expr . PLUS Expr
-   48     | Expr . SUB Expr
-   49     | Expr . MULT Expr
-   50     | Expr . DIV Expr
-   51     | Expr . POW Expr
-   52     | Expr . GREATER_EQUALS Expr
-   53     | Expr . LESS_EQUALS Expr
-   54     | Expr . LESS Expr
-   55     | Expr . GREATER Expr
-   56     | Expr . EQUALS Expr
-
-    PLUS            décalage et aller à l'état 42
-    SUB             décalage et aller à l'état 43
-    MULT            décalage et aller à l'état 44
-    DIV             décalage et aller à l'état 45
-    POW             décalage et aller à l'état 46
-    EQUALS          décalage et aller à l'état 48
-    LESS_EQUALS     décalage et aller à l'état 49
-    GREATER_EQUALS  décalage et aller à l'état 50
-    GREATER         décalage et aller à l'état 51
-    LESS            décalage et aller à l'état 52
-
-    $défaut  réduction par utilisation de la règle 28 (Operation)
+    $default  reduce using rule 32 (Operation)
 
 
-État 82
+State 83
 
-    2 Input: Input . Line
-   41 BlocWhile: WHILE Expr ACCOLADE_OUVRANTE $@8 Input . ACCOLADE_FERMANTE
+   37 BlocIfTernaire: Expr QUESTION_MARK Operation . COLON Operation
 
-    ACCOLADE_FERMANTE  décalage et aller à l'état 87
-    SEMICOLON          décalage et aller à l'état 3
-    INT                décalage et aller à l'état 4
-    FLOAT              décalage et aller à l'état 5
-    STRING             décalage et aller à l'état 6
-    CONST              décalage et aller à l'état 7
-    VAR                décalage et aller à l'état 8
-    WHILE              décalage et aller à l'état 9
-    IF                 décalage et aller à l'état 10
-
-    Line           aller à l'état 11
-    Type           aller à l'état 12
-    Declaration    aller à l'état 13
-    Affectation    aller à l'état 14
-    BlocFonction   aller à l'état 15
-    AppelFonction  aller à l'état 16
-    BlocIf         aller à l'état 17
-    BlocWhile      aller à l'état 18
+    COLON  shift, and go to state 89
 
 
-État 83
+State 84
 
-    2 Input: Input . Line
-   32 BlocIf: IF Expr ACCOLADE_OUVRANTE $@3 Input . ACCOLADE_FERMANTE $@4 BlocElse
+   31 Operation: Expr .
+   50 Expr: Expr . PLUS Expr
+   51     | Expr . SUB Expr
+   52     | Expr . MULT Expr
+   53     | Expr . DIV Expr
+   54     | Expr . POW Expr
+   55     | Expr . GREATER_EQUALS Expr
+   56     | Expr . LESS_EQUALS Expr
+   57     | Expr . LESS Expr
+   58     | Expr . GREATER Expr
+   59     | Expr . EQUALS Expr
 
-    ACCOLADE_FERMANTE  décalage et aller à l'état 88
-    SEMICOLON          décalage et aller à l'état 3
-    INT                décalage et aller à l'état 4
-    FLOAT              décalage et aller à l'état 5
-    STRING             décalage et aller à l'état 6
-    CONST              décalage et aller à l'état 7
-    VAR                décalage et aller à l'état 8
-    WHILE              décalage et aller à l'état 9
-    IF                 décalage et aller à l'état 10
+    PLUS            shift, and go to state 53
+    SUB             shift, and go to state 54
+    MULT            shift, and go to state 55
+    DIV             shift, and go to state 56
+    POW             shift, and go to state 57
+    EQUALS          shift, and go to state 58
+    LESS_EQUALS     shift, and go to state 59
+    GREATER_EQUALS  shift, and go to state 60
+    GREATER         shift, and go to state 61
+    LESS            shift, and go to state 62
 
-    Line           aller à l'état 11
-    Type           aller à l'état 12
-    Declaration    aller à l'état 13
-    Affectation    aller à l'état 14
-    BlocFonction   aller à l'état 15
-    AppelFonction  aller à l'état 16
-    BlocIf         aller à l'état 17
-    BlocWhile      aller à l'état 18
+    $default  reduce using rule 31 (Operation)
 
 
-État 84
+State 85
+
+   44 BlocWhile: WHILE PARENTHESE_OUVRANTE $@7 Expr $@8 . PARENTHESE_FERMANTE ACCOLADE_OUVRANTE $@9 Input ACCOLADE_FERMANTE
+
+    PARENTHESE_FERMANTE  shift, and go to state 90
+
+
+State 86
+
+   36 BlocIf: IF PARENTHESE_OUVRANTE Expr $@3 PARENTHESE_FERMANTE . ACCOLADE_OUVRANTE $@4 Input ACCOLADE_FERMANTE $@5 BlocElse
+
+    ACCOLADE_OUVRANTE  shift, and go to state 91
+
+
+State 87
 
    23 BlocFonction: Type VAR PARENTHESE_OUVRANTE Liste_params PARENTHESE_FERMANTE . ACCOLADE_OUVRANTE $@2 Input ACCOLADE_FERMANTE
 
-    ACCOLADE_OUVRANTE  décalage et aller à l'état 89
+    ACCOLADE_OUVRANTE  shift, and go to state 92
 
 
-État 85
+State 88
 
    16 Declaration_liste_vars: VAR Assignation SEPARATEUR Declaration_liste_vars .
 
-    $défaut  réduction par utilisation de la règle 16 (Declaration_liste_vars)
+    $default  reduce using rule 16 (Declaration_liste_vars)
 
 
-État 86
+State 89
 
-   33 BlocIfTernaire: Expr QUESTION_MARK Operation COLON . Operation
+   37 BlocIfTernaire: Expr QUESTION_MARK Operation COLON . Operation
 
-    NOMBRE               décalage et aller à l'état 23
-    FLOTTANT             décalage et aller à l'état 24
-    TEXT                 décalage et aller à l'état 25
-    SUB                  décalage et aller à l'état 26
-    PARENTHESE_OUVRANTE  décalage et aller à l'état 27
-    VAR                  décalage et aller à l'état 78
+    NOMBRE               shift, and go to state 34
+    FLOTTANT             shift, and go to state 35
+    TEXT                 shift, and go to state 36
+    SUB                  shift, and go to state 37
+    PARENTHESE_OUVRANTE  shift, and go to state 38
+    VAR                  shift, and go to state 81
 
-    AppelFonction  aller à l'état 79
-    Operation      aller à l'état 90
-    Expr           aller à l'état 81
-
-
-État 87
-
-   41 BlocWhile: WHILE Expr ACCOLADE_OUVRANTE $@8 Input ACCOLADE_FERMANTE .
-
-    $défaut  réduction par utilisation de la règle 41 (BlocWhile)
+    AppelFonction  go to state 82
+    Operation      go to state 93
+    Expr           go to state 84
 
 
-État 88
+State 90
 
-   32 BlocIf: IF Expr ACCOLADE_OUVRANTE $@3 Input ACCOLADE_FERMANTE . $@4 BlocElse
+   44 BlocWhile: WHILE PARENTHESE_OUVRANTE $@7 Expr $@8 PARENTHESE_FERMANTE . ACCOLADE_OUVRANTE $@9 Input ACCOLADE_FERMANTE
 
-    $défaut  réduction par utilisation de la règle 31 ($@4)
-
-    $@4  aller à l'état 91
+    ACCOLADE_OUVRANTE  shift, and go to state 94
 
 
-État 89
+State 91
+
+   36 BlocIf: IF PARENTHESE_OUVRANTE Expr $@3 PARENTHESE_FERMANTE ACCOLADE_OUVRANTE . $@4 Input ACCOLADE_FERMANTE $@5 BlocElse
+
+    $default  reduce using rule 34 ($@4)
+
+    $@4  go to state 95
+
+
+State 92
 
    23 BlocFonction: Type VAR PARENTHESE_OUVRANTE Liste_params PARENTHESE_FERMANTE ACCOLADE_OUVRANTE . $@2 Input ACCOLADE_FERMANTE
 
-    $défaut  réduction par utilisation de la règle 22 ($@2)
+    $default  reduce using rule 22 ($@2)
 
-    $@2  aller à l'état 92
-
-
-État 90
-
-   33 BlocIfTernaire: Expr QUESTION_MARK Operation COLON Operation .
-
-    $défaut  réduction par utilisation de la règle 33 (BlocIfTernaire)
+    $@2  go to state 96
 
 
-État 91
+State 93
 
-   32 BlocIf: IF Expr ACCOLADE_OUVRANTE $@3 Input ACCOLADE_FERMANTE $@4 . BlocElse
+   37 BlocIfTernaire: Expr QUESTION_MARK Operation COLON Operation .
 
-    ELSEIF  décalage et aller à l'état 93
-    ELSE    décalage et aller à l'état 94
-
-    $défaut  réduction par utilisation de la règle 34 (BlocElse)
-
-    BlocElse  aller à l'état 95
+    $default  reduce using rule 37 (BlocIfTernaire)
 
 
-État 92
+State 94
+
+   44 BlocWhile: WHILE PARENTHESE_OUVRANTE $@7 Expr $@8 PARENTHESE_FERMANTE ACCOLADE_OUVRANTE . $@9 Input ACCOLADE_FERMANTE
+
+    $default  reduce using rule 43 ($@9)
+
+    $@9  go to state 97
+
+
+State 95
+
+   36 BlocIf: IF PARENTHESE_OUVRANTE Expr $@3 PARENTHESE_FERMANTE ACCOLADE_OUVRANTE $@4 . Input ACCOLADE_FERMANTE $@5 BlocElse
+
+    $default  reduce using rule 1 (Input)
+
+    Input  go to state 98
+
+
+State 96
 
    23 BlocFonction: Type VAR PARENTHESE_OUVRANTE Liste_params PARENTHESE_FERMANTE ACCOLADE_OUVRANTE $@2 . Input ACCOLADE_FERMANTE
 
-    $défaut  réduction par utilisation de la règle 1 (Input)
+    $default  reduce using rule 1 (Input)
 
-    Input  aller à l'état 96
-
-
-État 93
-
-   37 BlocElse: ELSEIF . Expr ACCOLADE_OUVRANTE $@5 Input ACCOLADE_FERMANTE $@6 BlocElse
-
-    NOMBRE               décalage et aller à l'état 23
-    FLOTTANT             décalage et aller à l'état 24
-    TEXT                 décalage et aller à l'état 25
-    SUB                  décalage et aller à l'état 26
-    PARENTHESE_OUVRANTE  décalage et aller à l'état 27
-    VAR                  décalage et aller à l'état 28
-
-    Expr  aller à l'état 97
+    Input  go to state 99
 
 
-État 94
+State 97
 
-   39 BlocElse: ELSE . ACCOLADE_OUVRANTE $@7 Input ACCOLADE_FERMANTE
+   44 BlocWhile: WHILE PARENTHESE_OUVRANTE $@7 Expr $@8 PARENTHESE_FERMANTE ACCOLADE_OUVRANTE $@9 . Input ACCOLADE_FERMANTE
 
-    ACCOLADE_OUVRANTE  décalage et aller à l'état 98
+    $default  reduce using rule 1 (Input)
 
-
-État 95
-
-   32 BlocIf: IF Expr ACCOLADE_OUVRANTE $@3 Input ACCOLADE_FERMANTE $@4 BlocElse .
-
-    $défaut  réduction par utilisation de la règle 32 (BlocIf)
+    Input  go to state 100
 
 
-État 96
+State 98
+
+    2 Input: Input . Line
+   36 BlocIf: IF PARENTHESE_OUVRANTE Expr $@3 PARENTHESE_FERMANTE ACCOLADE_OUVRANTE $@4 Input . ACCOLADE_FERMANTE $@5 BlocElse
+
+    ACCOLADE_FERMANTE  shift, and go to state 101
+    SEMICOLON          shift, and go to state 3
+    INT                shift, and go to state 4
+    FLOAT              shift, and go to state 5
+    STRING             shift, and go to state 6
+    CONST              shift, and go to state 7
+    VAR                shift, and go to state 8
+    WHILE              shift, and go to state 9
+    IF                 shift, and go to state 10
+
+    Line           go to state 11
+    Type           go to state 12
+    Declaration    go to state 13
+    Affectation    go to state 14
+    BlocFonction   go to state 15
+    AppelFonction  go to state 16
+    BlocIf         go to state 17
+    BlocWhile      go to state 18
+
+
+State 99
 
     2 Input: Input . Line
    23 BlocFonction: Type VAR PARENTHESE_OUVRANTE Liste_params PARENTHESE_FERMANTE ACCOLADE_OUVRANTE $@2 Input . ACCOLADE_FERMANTE
 
-    ACCOLADE_FERMANTE  décalage et aller à l'état 99
-    SEMICOLON          décalage et aller à l'état 3
-    INT                décalage et aller à l'état 4
-    FLOAT              décalage et aller à l'état 5
-    STRING             décalage et aller à l'état 6
-    CONST              décalage et aller à l'état 7
-    VAR                décalage et aller à l'état 8
-    WHILE              décalage et aller à l'état 9
-    IF                 décalage et aller à l'état 10
+    ACCOLADE_FERMANTE  shift, and go to state 102
+    SEMICOLON          shift, and go to state 3
+    INT                shift, and go to state 4
+    FLOAT              shift, and go to state 5
+    STRING             shift, and go to state 6
+    CONST              shift, and go to state 7
+    VAR                shift, and go to state 8
+    WHILE              shift, and go to state 9
+    IF                 shift, and go to state 10
 
-    Line           aller à l'état 11
-    Type           aller à l'état 12
-    Declaration    aller à l'état 13
-    Affectation    aller à l'état 14
-    BlocFonction   aller à l'état 15
-    AppelFonction  aller à l'état 16
-    BlocIf         aller à l'état 17
-    BlocWhile      aller à l'état 18
-
-
-État 97
-
-   37 BlocElse: ELSEIF Expr . ACCOLADE_OUVRANTE $@5 Input ACCOLADE_FERMANTE $@6 BlocElse
-   47 Expr: Expr . PLUS Expr
-   48     | Expr . SUB Expr
-   49     | Expr . MULT Expr
-   50     | Expr . DIV Expr
-   51     | Expr . POW Expr
-   52     | Expr . GREATER_EQUALS Expr
-   53     | Expr . LESS_EQUALS Expr
-   54     | Expr . LESS Expr
-   55     | Expr . GREATER Expr
-   56     | Expr . EQUALS Expr
-
-    PLUS               décalage et aller à l'état 42
-    SUB                décalage et aller à l'état 43
-    MULT               décalage et aller à l'état 44
-    DIV                décalage et aller à l'état 45
-    POW                décalage et aller à l'état 46
-    ACCOLADE_OUVRANTE  décalage et aller à l'état 100
-    EQUALS             décalage et aller à l'état 48
-    LESS_EQUALS        décalage et aller à l'état 49
-    GREATER_EQUALS     décalage et aller à l'état 50
-    GREATER            décalage et aller à l'état 51
-    LESS               décalage et aller à l'état 52
+    Line           go to state 11
+    Type           go to state 12
+    Declaration    go to state 13
+    Affectation    go to state 14
+    BlocFonction   go to state 15
+    AppelFonction  go to state 16
+    BlocIf         go to state 17
+    BlocWhile      go to state 18
 
 
-État 98
+State 100
 
-   39 BlocElse: ELSE ACCOLADE_OUVRANTE . $@7 Input ACCOLADE_FERMANTE
+    2 Input: Input . Line
+   44 BlocWhile: WHILE PARENTHESE_OUVRANTE $@7 Expr $@8 PARENTHESE_FERMANTE ACCOLADE_OUVRANTE $@9 Input . ACCOLADE_FERMANTE
 
-    $défaut  réduction par utilisation de la règle 38 ($@7)
+    ACCOLADE_FERMANTE  shift, and go to state 103
+    SEMICOLON          shift, and go to state 3
+    INT                shift, and go to state 4
+    FLOAT              shift, and go to state 5
+    STRING             shift, and go to state 6
+    CONST              shift, and go to state 7
+    VAR                shift, and go to state 8
+    WHILE              shift, and go to state 9
+    IF                 shift, and go to state 10
 
-    $@7  aller à l'état 101
+    Line           go to state 11
+    Type           go to state 12
+    Declaration    go to state 13
+    Affectation    go to state 14
+    BlocFonction   go to state 15
+    AppelFonction  go to state 16
+    BlocIf         go to state 17
+    BlocWhile      go to state 18
 
 
-État 99
+State 101
+
+   36 BlocIf: IF PARENTHESE_OUVRANTE Expr $@3 PARENTHESE_FERMANTE ACCOLADE_OUVRANTE $@4 Input ACCOLADE_FERMANTE . $@5 BlocElse
+
+    $default  reduce using rule 35 ($@5)
+
+    $@5  go to state 104
+
+
+State 102
 
    23 BlocFonction: Type VAR PARENTHESE_OUVRANTE Liste_params PARENTHESE_FERMANTE ACCOLADE_OUVRANTE $@2 Input ACCOLADE_FERMANTE .
 
-    $défaut  réduction par utilisation de la règle 23 (BlocFonction)
+    $default  reduce using rule 23 (BlocFonction)
 
 
-État 100
+State 103
 
-   37 BlocElse: ELSEIF Expr ACCOLADE_OUVRANTE . $@5 Input ACCOLADE_FERMANTE $@6 BlocElse
+   44 BlocWhile: WHILE PARENTHESE_OUVRANTE $@7 Expr $@8 PARENTHESE_FERMANTE ACCOLADE_OUVRANTE $@9 Input ACCOLADE_FERMANTE .
 
-    $défaut  réduction par utilisation de la règle 35 ($@5)
-
-    $@5  aller à l'état 102
+    $default  reduce using rule 44 (BlocWhile)
 
 
-État 101
+State 104
 
-   39 BlocElse: ELSE ACCOLADE_OUVRANTE $@7 . Input ACCOLADE_FERMANTE
+   36 BlocIf: IF PARENTHESE_OUVRANTE Expr $@3 PARENTHESE_FERMANTE ACCOLADE_OUVRANTE $@4 Input ACCOLADE_FERMANTE $@5 . BlocElse
 
-    $défaut  réduction par utilisation de la règle 1 (Input)
+    ELSE  shift, and go to state 105
 
-    Input  aller à l'état 103
+    $default  reduce using rule 38 (BlocElse)
 
-
-État 102
-
-   37 BlocElse: ELSEIF Expr ACCOLADE_OUVRANTE $@5 . Input ACCOLADE_FERMANTE $@6 BlocElse
-
-    $défaut  réduction par utilisation de la règle 1 (Input)
-
-    Input  aller à l'état 104
+    BlocElse  go to state 106
 
 
-État 103
+State 105
 
-    2 Input: Input . Line
-   39 BlocElse: ELSE ACCOLADE_OUVRANTE $@7 Input . ACCOLADE_FERMANTE
+   40 BlocElse: ELSE . ACCOLADE_OUVRANTE $@6 Input ACCOLADE_FERMANTE
 
-    ACCOLADE_FERMANTE  décalage et aller à l'état 105
-    SEMICOLON          décalage et aller à l'état 3
-    INT                décalage et aller à l'état 4
-    FLOAT              décalage et aller à l'état 5
-    STRING             décalage et aller à l'état 6
-    CONST              décalage et aller à l'état 7
-    VAR                décalage et aller à l'état 8
-    WHILE              décalage et aller à l'état 9
-    IF                 décalage et aller à l'état 10
-
-    Line           aller à l'état 11
-    Type           aller à l'état 12
-    Declaration    aller à l'état 13
-    Affectation    aller à l'état 14
-    BlocFonction   aller à l'état 15
-    AppelFonction  aller à l'état 16
-    BlocIf         aller à l'état 17
-    BlocWhile      aller à l'état 18
+    ACCOLADE_OUVRANTE  shift, and go to state 107
 
 
-État 104
+State 106
+
+   36 BlocIf: IF PARENTHESE_OUVRANTE Expr $@3 PARENTHESE_FERMANTE ACCOLADE_OUVRANTE $@4 Input ACCOLADE_FERMANTE $@5 BlocElse .
+
+    $default  reduce using rule 36 (BlocIf)
+
+
+State 107
+
+   40 BlocElse: ELSE ACCOLADE_OUVRANTE . $@6 Input ACCOLADE_FERMANTE
+
+    $default  reduce using rule 39 ($@6)
+
+    $@6  go to state 108
+
+
+State 108
+
+   40 BlocElse: ELSE ACCOLADE_OUVRANTE $@6 . Input ACCOLADE_FERMANTE
+
+    $default  reduce using rule 1 (Input)
+
+    Input  go to state 109
+
+
+State 109
 
     2 Input: Input . Line
-   37 BlocElse: ELSEIF Expr ACCOLADE_OUVRANTE $@5 Input . ACCOLADE_FERMANTE $@6 BlocElse
+   40 BlocElse: ELSE ACCOLADE_OUVRANTE $@6 Input . ACCOLADE_FERMANTE
 
-    ACCOLADE_FERMANTE  décalage et aller à l'état 106
-    SEMICOLON          décalage et aller à l'état 3
-    INT                décalage et aller à l'état 4
-    FLOAT              décalage et aller à l'état 5
-    STRING             décalage et aller à l'état 6
-    CONST              décalage et aller à l'état 7
-    VAR                décalage et aller à l'état 8
-    WHILE              décalage et aller à l'état 9
-    IF                 décalage et aller à l'état 10
+    ACCOLADE_FERMANTE  shift, and go to state 110
+    SEMICOLON          shift, and go to state 3
+    INT                shift, and go to state 4
+    FLOAT              shift, and go to state 5
+    STRING             shift, and go to state 6
+    CONST              shift, and go to state 7
+    VAR                shift, and go to state 8
+    WHILE              shift, and go to state 9
+    IF                 shift, and go to state 10
 
-    Line           aller à l'état 11
-    Type           aller à l'état 12
-    Declaration    aller à l'état 13
-    Affectation    aller à l'état 14
-    BlocFonction   aller à l'état 15
-    AppelFonction  aller à l'état 16
-    BlocIf         aller à l'état 17
-    BlocWhile      aller à l'état 18
-
-
-État 105
-
-   39 BlocElse: ELSE ACCOLADE_OUVRANTE $@7 Input ACCOLADE_FERMANTE .
-
-    $défaut  réduction par utilisation de la règle 39 (BlocElse)
+    Line           go to state 11
+    Type           go to state 12
+    Declaration    go to state 13
+    Affectation    go to state 14
+    BlocFonction   go to state 15
+    AppelFonction  go to state 16
+    BlocIf         go to state 17
+    BlocWhile      go to state 18
 
 
-État 106
+State 110
 
-   37 BlocElse: ELSEIF Expr ACCOLADE_OUVRANTE $@5 Input ACCOLADE_FERMANTE . $@6 BlocElse
+   40 BlocElse: ELSE ACCOLADE_OUVRANTE $@6 Input ACCOLADE_FERMANTE .
 
-    $défaut  réduction par utilisation de la règle 36 ($@6)
-
-    $@6  aller à l'état 107
-
-
-État 107
-
-   37 BlocElse: ELSEIF Expr ACCOLADE_OUVRANTE $@5 Input ACCOLADE_FERMANTE $@6 . BlocElse
-
-    ELSEIF  décalage et aller à l'état 93
-    ELSE    décalage et aller à l'état 94
-
-    $défaut  réduction par utilisation de la règle 34 (BlocElse)
-
-    BlocElse  aller à l'état 108
-
-
-État 108
-
-   37 BlocElse: ELSEIF Expr ACCOLADE_OUVRANTE $@5 Input ACCOLADE_FERMANTE $@6 BlocElse .
-
-    $défaut  réduction par utilisation de la règle 37 (BlocElse)
+    $default  reduce using rule 40 (BlocElse)

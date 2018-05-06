@@ -3,8 +3,13 @@ int main() {
 	i = 3;
 	j = 4;
 	k = 8;
-	printf (i);
-	r = (k+i)*(i+j);
-	//r = (i+j)*(i+k/j);
-	printf ( r );
+	printf(i);
+	r = (i+j)*(i+k/j);
+	printf(r);
+	if(2 == 2) {
+		i = 7;
+	} else {
+		i = 4;
+	}
+	print(i);
 }

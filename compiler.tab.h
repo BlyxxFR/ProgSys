@@ -73,10 +73,9 @@ extern int yydebug;
     WHILE = 283,
     FOR = 284,
     IF = 285,
-    ELSEIF = 286,
-    ELSE = 287,
-    QUESTION_MARK = 288,
-    COLON = 289
+    ELSE = 286,
+    QUESTION_MARK = 287,
+    COLON = 288
   };
 #endif
 
@@ -85,13 +84,15 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 24 "compilateur/compiler.y" /* yacc.c:1909  */
+#line 25 "compilateur/compiler.y" /* yacc.c:1909  */
 
 	int intValue;
 	float floatValue;
 	char *stringValue;
+#line 61 "compilateur/compiler.y" /* yacc.c:1909  */
+int expr;
 
-#line 95 "compiler.tab.h" /* yacc.c:1909  */
+#line 96 "compiler.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

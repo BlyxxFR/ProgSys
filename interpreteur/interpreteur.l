@@ -12,14 +12,18 @@ entier    								{chiffre}+
 [\ \t\n]+
 
 LOAD									return (LOAD);
-STORE                                   return (STORE);
+STORE                                  return (STORE);
 
-AFC                                     return (AFC);
+AFC                                    return (AFC);
 
-ADD                                     return (ADD);
+ADD                                    return (ADD);
 SUB									    return (SUB);
+NEG										return (NEG);
 MUL									    return (MUL);
 DIV								    	return (DIV);
+JMP										return (JMP);
+JMPC									return (JMPC);
+CMP										return (CMP);
 
 {entier}								{
 											yylval.intValue = atoi(yytext);

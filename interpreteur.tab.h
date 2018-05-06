@@ -50,9 +50,13 @@ extern int yydebug;
     STORE = 260,
     ADD = 261,
     SUB = 262,
-    MUL = 263,
-    DIV = 264,
-    AFC = 265
+    NEG = 263,
+    MUL = 264,
+    DIV = 265,
+    JMP = 266,
+    JMPC = 267,
+    AFC = 268,
+    CMP = 269
   };
 #endif
 
@@ -65,7 +69,7 @@ union YYSTYPE
 
 	int intValue;
 
-#line 69 "interpreteur.tab.h" /* yacc.c:1909  */
+#line 73 "interpreteur.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

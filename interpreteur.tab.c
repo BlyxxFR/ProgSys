@@ -73,7 +73,7 @@
 #define YYDEBUG 1
 int yylex();
 void yyerror(char *s) {
-	printf("%s\n",s);
+	log_error("Erreur de syntaxe");
 }
 extern int yylineno;
 
@@ -118,9 +118,13 @@ extern int yydebug;
     STORE = 260,
     ADD = 261,
     SUB = 262,
-    MUL = 263,
-    DIV = 264,
-    AFC = 265
+    NEG = 263,
+    MUL = 264,
+    DIV = 265,
+    JMP = 266,
+    JMPC = 267,
+    AFC = 268,
+    CMP = 269
   };
 #endif
 
@@ -133,7 +137,7 @@ union YYSTYPE
 
 	int intValue;
 
-#line 137 "interpreteur.tab.c" /* yacc.c:355  */
+#line 141 "interpreteur.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -150,7 +154,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 154 "interpreteur.tab.c" /* yacc.c:358  */
+#line 158 "interpreteur.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -392,21 +396,21 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  2
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   22
+#define YYLAST   32
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  11
+#define YYNTOKENS  15
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  10
+#define YYNNTS  14
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  17
+#define YYNRULES  25
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  32
+#define YYNSTATES  46
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   265
+#define YYMAXUTOK   269
 
 #define YYTRANSLATE(YYX)                                                \
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -441,15 +445,16 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8,     9,    10
+       5,     6,     7,     8,     9,    10,    11,    12,    13,    14
 };
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    37,    37,    39,    43,    44,    45,    46,    47,    48,
-      49,    53,    61,    69,    77,    85,    93,   101
+       0,    43,    43,    45,    49,    50,    51,    52,    53,    54,
+      55,    56,    57,    58,    59,    63,    71,    79,    87,    95,
+     103,   111,   119,   127,   135,   143
 };
 #endif
 
@@ -459,9 +464,10 @@ static const yytype_uint8 yyrline[] =
 static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "NOMBRE", "LOAD", "STORE", "ADD", "SUB",
-  "MUL", "DIV", "AFC", "$accept", "Input", "Line", "Addition",
-  "Soustraction", "Multiplication", "Division", "Affectation",
-  "Chargement", "Memorisation", YY_NULLPTR
+  "NEG", "MUL", "DIV", "JMP", "JMPC", "AFC", "CMP", "$accept", "Input",
+  "Line", "Addition", "Soustraction", "Multiplication", "Division",
+  "Affectation", "Chargement", "Memorisation", "Jump", "JumpC", "Negation",
+  "Compraison", YY_NULLPTR
 };
 #endif
 
@@ -471,7 +477,7 @@ static const char *const yytname[] =
 static const yytype_uint16 yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
-     265
+     265,   266,   267,   268,   269
 };
 # endif
 
@@ -489,10 +495,11 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -3,     0,    -3,    -2,    -1,     8,     9,    10,    11,    12,
-      -3,    -3,    -3,    -3,    -3,    -3,    -3,    -3,    13,    14,
-      15,    16,    17,    18,    19,    -3,    -3,    -3,    -3,    -3,
-      -3,    -3
+      -3,     0,    -3,    -2,    -1,    12,    13,    14,    15,    16,
+      17,    18,    19,    20,    -3,    -3,    -3,    -3,    -3,    -3,
+      -3,    -3,    -3,    -3,    -3,    -3,    21,    22,    23,    24,
+      -3,    25,    26,    -3,    27,    28,    29,    -3,    -3,    -3,
+      -3,    -3,    -3,    -3,    -3,    -3
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -501,21 +508,24 @@ static const yytype_int8 yypact[] =
 static const yytype_uint8 yydefact[] =
 {
        2,     0,     1,     0,     0,     0,     0,     0,     0,     0,
-       3,     4,     5,     6,     7,     8,     9,    10,     0,     0,
-       0,     0,     0,     0,     0,    16,    17,    11,    12,    13,
-      14,    15
+       0,     0,     0,     0,     3,     4,     5,     7,     8,     9,
+      10,    11,    12,    13,     6,    14,     0,     0,     0,     0,
+      24,     0,     0,    22,     0,     0,     0,    20,    21,    15,
+      16,    17,    18,    23,    19,    25
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -3,    -3,    -3,    -3,    -3,    -3,    -3,    -3,    -3,    -3
+      -3,    -3,    -3,    -3,    -3,    -3,    -3,    -3,    -3,    -3,
+      -3,    -3,    -3,    -3
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     1,    10,    11,    12,    13,    14,    15,    16,    17
+      -1,     1,    14,    15,    16,    17,    18,    19,    20,    21,
+      22,    23,    24,    25
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -523,15 +533,17 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-       2,    18,    19,     0,     3,     4,     5,     6,     7,     8,
-       9,    20,    21,    22,    23,    24,    25,    26,    27,    28,
-      29,    30,    31
+       2,    26,    27,     0,     3,     4,     5,     6,     7,     8,
+       9,    10,    11,    12,    13,    28,    29,    30,    31,    32,
+      33,    34,    35,    36,    37,    38,    39,    40,    41,    42,
+      43,    44,    45
 };
 
 static const yytype_int8 yycheck[] =
 {
        0,     3,     3,    -1,     4,     5,     6,     7,     8,     9,
-      10,     3,     3,     3,     3,     3,     3,     3,     3,     3,
+      10,    11,    12,    13,    14,     3,     3,     3,     3,     3,
+       3,     3,     3,     3,     3,     3,     3,     3,     3,     3,
        3,     3,     3
 };
 
@@ -539,24 +551,27 @@ static const yytype_int8 yycheck[] =
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,    12,     0,     4,     5,     6,     7,     8,     9,    10,
-      13,    14,    15,    16,    17,    18,    19,    20,     3,     3,
+       0,    16,     0,     4,     5,     6,     7,     8,     9,    10,
+      11,    12,    13,    14,    17,    18,    19,    20,    21,    22,
+      23,    24,    25,    26,    27,    28,     3,     3,     3,     3,
        3,     3,     3,     3,     3,     3,     3,     3,     3,     3,
-       3,     3
+       3,     3,     3,     3,     3,     3
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    11,    12,    12,    13,    13,    13,    13,    13,    13,
-      13,    14,    15,    16,    17,    18,    19,    20
+       0,    15,    16,    16,    17,    17,    17,    17,    17,    17,
+      17,    17,    17,    17,    17,    18,    19,    20,    21,    22,
+      23,    24,    25,    26,    27,    28
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
        0,     2,     0,     2,     1,     1,     1,     1,     1,     1,
-       1,     3,     3,     3,     3,     3,     3,     3
+       1,     1,     1,     1,     1,     3,     3,     3,     3,     3,
+       3,     3,     2,     3,     2,     3
 };
 
 
@@ -1232,71 +1247,107 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-        case 11:
-#line 54 "interpreteur/interpreteur.y" /* yacc.c:1646  */
+        case 15:
+#line 64 "interpreteur/interpreteur.y" /* yacc.c:1646  */
     {
       		log_info("Instruction ADD détectée entre les registres %d et %d", (yyvsp[-1].intValue), (yyvsp[0].intValue));
 			tab_asm_add("ADD", (yyvsp[-1].intValue), (yyvsp[0].intValue));
       }
-#line 1242 "interpreteur.tab.c" /* yacc.c:1646  */
+#line 1257 "interpreteur.tab.c" /* yacc.c:1646  */
     break;
 
-  case 12:
-#line 62 "interpreteur/interpreteur.y" /* yacc.c:1646  */
+  case 16:
+#line 72 "interpreteur/interpreteur.y" /* yacc.c:1646  */
     {
       		log_info("Instruction SUB détectée entre les registres %d et %d", (yyvsp[-1].intValue), (yyvsp[0].intValue));
 			tab_asm_add("SUB", (yyvsp[-1].intValue), (yyvsp[0].intValue));
       }
-#line 1251 "interpreteur.tab.c" /* yacc.c:1646  */
+#line 1266 "interpreteur.tab.c" /* yacc.c:1646  */
     break;
 
-  case 13:
-#line 70 "interpreteur/interpreteur.y" /* yacc.c:1646  */
+  case 17:
+#line 80 "interpreteur/interpreteur.y" /* yacc.c:1646  */
     {
       		log_info("Instruction MUL détectée entre les registres %d et %d", (yyvsp[-1].intValue), (yyvsp[0].intValue));
 			tab_asm_add("MUL", (yyvsp[-1].intValue), (yyvsp[0].intValue));
       }
-#line 1260 "interpreteur.tab.c" /* yacc.c:1646  */
+#line 1275 "interpreteur.tab.c" /* yacc.c:1646  */
     break;
 
-  case 14:
-#line 78 "interpreteur/interpreteur.y" /* yacc.c:1646  */
+  case 18:
+#line 88 "interpreteur/interpreteur.y" /* yacc.c:1646  */
     {
       		log_info("Instruction DIV détectée entre les registres %d et %d", (yyvsp[-1].intValue), (yyvsp[0].intValue));
 			tab_asm_add("DIV", (yyvsp[-1].intValue), (yyvsp[0].intValue));
       }
-#line 1269 "interpreteur.tab.c" /* yacc.c:1646  */
+#line 1284 "interpreteur.tab.c" /* yacc.c:1646  */
     break;
 
-  case 15:
-#line 86 "interpreteur/interpreteur.y" /* yacc.c:1646  */
+  case 19:
+#line 96 "interpreteur/interpreteur.y" /* yacc.c:1646  */
     {
       		log_info("Instruction AFC détectée entre les registres %d et %d", (yyvsp[-1].intValue), (yyvsp[0].intValue));
 			tab_asm_add("AFC", (yyvsp[-1].intValue), (yyvsp[0].intValue));
       }
-#line 1278 "interpreteur.tab.c" /* yacc.c:1646  */
+#line 1293 "interpreteur.tab.c" /* yacc.c:1646  */
     break;
 
-  case 16:
-#line 94 "interpreteur/interpreteur.y" /* yacc.c:1646  */
+  case 20:
+#line 104 "interpreteur/interpreteur.y" /* yacc.c:1646  */
     {
       		log_info("Instruction LOAD détectée entre les registres %d et %d", (yyvsp[-1].intValue), (yyvsp[0].intValue));
 			tab_asm_add("LOAD", (yyvsp[-1].intValue), (yyvsp[0].intValue));
       }
-#line 1287 "interpreteur.tab.c" /* yacc.c:1646  */
+#line 1302 "interpreteur.tab.c" /* yacc.c:1646  */
     break;
 
-  case 17:
-#line 102 "interpreteur/interpreteur.y" /* yacc.c:1646  */
+  case 21:
+#line 112 "interpreteur/interpreteur.y" /* yacc.c:1646  */
     {
       		log_info("Instruction STORE détectée entre les registres %d et %d", (yyvsp[-1].intValue), (yyvsp[0].intValue));
 			tab_asm_add("STORE", (yyvsp[-1].intValue), (yyvsp[0].intValue));
       }
-#line 1296 "interpreteur.tab.c" /* yacc.c:1646  */
+#line 1311 "interpreteur.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 22:
+#line 120 "interpreteur/interpreteur.y" /* yacc.c:1646  */
+    {
+	  	   	log_info("Instruction JMP détectée à l'adresse %d", (yyvsp[0].intValue));
+	  	   	tab_asm_add("JMP", (yyvsp[0].intValue), -1);
+	  }
+#line 1320 "interpreteur.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 23:
+#line 128 "interpreteur/interpreteur.y" /* yacc.c:1646  */
+    {
+	  	   	log_info("Instruction JMPC détectée aux adresse %d et %d", (yyvsp[-1].intValue), (yyvsp[0].intValue));
+	  	   	tab_asm_add("JMPC", (yyvsp[-1].intValue), (yyvsp[0].intValue));
+	  }
+#line 1329 "interpreteur.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 24:
+#line 136 "interpreteur/interpreteur.y" /* yacc.c:1646  */
+    {
+	  		log_info("Négation de l'adresse %d", (yyvsp[0].intValue));
+	  		tab_asm_add("NEG", (yyvsp[0].intValue), -1);
+	  }
+#line 1338 "interpreteur.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 25:
+#line 144 "interpreteur/interpreteur.y" /* yacc.c:1646  */
+    {
+	  		log_info("Comparaison de %d selon la méthode %d", (yyvsp[-1].intValue), (yyvsp[0].intValue));
+	  		tab_asm_add("CMP", (yyvsp[-1].intValue), (yyvsp[0].intValue));
+	  }
+#line 1347 "interpreteur.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1300 "interpreteur.tab.c" /* yacc.c:1646  */
+#line 1351 "interpreteur.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1524,7 +1575,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 108 "interpreteur/interpreteur.y" /* yacc.c:1906  */
+#line 150 "interpreteur/interpreteur.y" /* yacc.c:1906  */
 
 
 int main(void) {
@@ -1548,25 +1599,28 @@ int main(void) {
 	while(current_index <= max_index) {
 		current_instruction = tab_asm_get_instruction(current_index);
 
-		log_info("Instruction évaluée : %s %d %d", current_instruction.id, current_instruction.registers[0], current_instruction.registers[1]);
+		if(strcmp(current_instruction.id, "JMP") ==  0 || strcmp(current_instruction.id, "NEG") == 0)
+			log_info("Instruction évaluée : %s %d", current_instruction.id, current_instruction.registers[0]);
+		else
+			log_info("Instruction évaluée : %s %d %d", current_instruction.id, current_instruction.registers[0], current_instruction.registers[1]);
 
 		if(strcmp(current_instruction.id, "ADD") == 0) {
-			set_register(current_instruction.registers[0] , access_register(current_instruction.registers[0]) + access_register(current_instruction.registers[1]));
+			set_memory(current_instruction.registers[0], access_memory(current_instruction.registers[0]) + access_memory(current_instruction.registers[1]));
 		}
 
 		else if(strcmp(current_instruction.id, "SUB") == 0) {
-				set_register(current_instruction.registers[0] , access_register(current_instruction.registers[0]) - access_register(current_instruction.registers[1]));
+			set_memory(current_instruction.registers[0], access_memory(current_instruction.registers[0]) - access_memory(current_instruction.registers[1]));
 		}
 
 		else if(strcmp(current_instruction.id, "MUL") == 0) {
-            set_register(current_instruction.registers[0] , access_register(current_instruction.registers[0]) * access_register(current_instruction.registers[1]));
+            set_memory(current_instruction.registers[0], access_memory(current_instruction.registers[0]) * access_memory(current_instruction.registers[1]));
         }
 
         else if(strcmp(current_instruction.id, "DIV") == 0) {
-           	if(access_register(current_instruction.registers[1]) == 0)
+           	if(access_memory(current_instruction.registers[1]) == 0)
            		log_error("Division par zéro");
            	else
-           		set_register(current_instruction.registers[0] , access_register(current_instruction.registers[0]) / access_register(current_instruction.registers[1]));
+           		set_memory(current_instruction.registers[0] , access_memory(current_instruction.registers[0]) / access_memory(current_instruction.registers[1]));
 		}
 
 		else if(strcmp(current_instruction.id, "AFC") == 0) {
@@ -1580,6 +1634,67 @@ int main(void) {
 		else if(strcmp(current_instruction.id, "STORE") == 0) {
 			set_memory(current_instruction.registers[0], access_register(current_instruction.registers[1]));
 		}
+
+		else if(strcmp(current_instruction.id, "NEG") == 0) {
+        	set_memory(current_instruction.registers[0], - access_memory(current_instruction.registers[0]));
+       	}
+
+       	else if(strcmp(current_instruction.id, "JMP") == 0) {
+       	    log_info("Saut à la ligne %d du fichier assembleur", current_instruction.registers[0]+1);
+           	current_index = current_instruction.registers[0];
+           	continue;
+       	}
+
+       	else if(strcmp(current_instruction.id, "JMPC") == 0) {
+			if(access_memory(current_instruction.registers[0]) == 0) {
+				log_info("Saut à la ligne %d du fichier assembleur", current_instruction.registers[1]+1);
+				current_index = current_instruction.registers[1];
+				continue;
+			}
+        }
+
+        else if(strcmp(current_instruction.id, "CMP") == 0) {
+			switch(current_instruction.registers[1]) {
+				case -2: 	// LESS
+					if(access_memory(current_instruction.registers[0]) < 0) {
+						set_memory(current_instruction.registers[0], 1);
+					} else {
+						set_memory(current_instruction.registers[0], 0);
+					}
+					break;
+				case -1: 	// LESS OR EQUAL
+					if(access_memory(current_instruction.registers[0]) <= 0) {
+                    	set_memory(current_instruction.registers[0], 1);
+                    } else {
+                    	set_memory(current_instruction.registers[0], 0);
+                    }
+					break;
+				case 0: 	// EQUAL
+					if(access_memory(current_instruction.registers[0]) == 0) {
+                    	set_memory(current_instruction.registers[0], 1);
+                    } else {
+                    	set_memory(current_instruction.registers[0], 0);
+                    }
+					break;
+				case 1:		// GREATER OR EQUAL
+					if(access_memory(current_instruction.registers[0]) >= 0) {
+						set_memory(current_instruction.registers[0], 1);
+					} else {
+						set_memory(current_instruction.registers[0], 0);
+					}
+					break;
+				case 2:		// GREATER
+					if(access_memory(current_instruction.registers[0]) > 0) {
+						set_memory(current_instruction.registers[0], 1);
+					} else {
+						set_memory(current_instruction.registers[0], 0);
+					}
+					break;
+				default:
+					log_error("Méthode de comparaison inconnue");
+					break;
+			}
+        }
 
 		else {
 			log_error("Instruction %s non supportée", current_instruction.id);

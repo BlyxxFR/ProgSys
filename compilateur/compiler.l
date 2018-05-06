@@ -40,7 +40,6 @@ string									return (STRING);
 "}"										return (ACCOLADE_FERMANTE);
 const									return (CONST);
 "if"									return (IF);
-"elseif"								return (ELSEIF);
 "else"									return (ELSE);
 "while"									return (WHILE);
 "for"									return (FOR);

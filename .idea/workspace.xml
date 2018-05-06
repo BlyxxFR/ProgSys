@@ -10,14 +10,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cb7509a2-17dc-4ccf-9f09-98ebd82de5f2" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/code_test.c" beforeDir="false" afterPath="$PROJECT_DIR$/code_test.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compilateur/a faire" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/compilateur/compiler.l" beforeDir="false" afterPath="$PROJECT_DIR$/compilateur/compiler.l" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/compilateur/compiler.y" beforeDir="false" afterPath="$PROJECT_DIR$/compilateur/compiler.y" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/compilateur/table_asm.c" beforeDir="false" afterPath="$PROJECT_DIR$/compilateur/table_asm.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/compilateur/table_asm.h" beforeDir="false" afterPath="$PROJECT_DIR$/compilateur/table_asm.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compilateur/table_blocs_conditionnels.c" beforeDir="false" afterPath="$PROJECT_DIR$/compilateur/table_blocs_conditionnels.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compilateur/table_blocs_conditionnels.h" beforeDir="false" afterPath="$PROJECT_DIR$/compilateur/table_blocs_conditionnels.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/compilateur/table_symboles.c" beforeDir="false" afterPath="$PROJECT_DIR$/compilateur/table_symboles.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compiler" beforeDir="false" afterPath="$PROJECT_DIR$/compiler" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compiler.lex.yy.c" beforeDir="false" afterPath="$PROJECT_DIR$/compiler.lex.yy.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compiler.output" beforeDir="false" afterPath="$PROJECT_DIR$/compiler.output" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compiler.tab.c" beforeDir="false" afterPath="$PROJECT_DIR$/compiler.tab.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compiler.tab.h" beforeDir="false" afterPath="$PROJECT_DIR$/compiler.tab.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interpreter" beforeDir="false" afterPath="$PROJECT_DIR$/interpreter" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interpreteur.lex.yy.c" beforeDir="false" afterPath="$PROJECT_DIR$/interpreteur.lex.yy.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interpreteur.output" beforeDir="false" afterPath="$PROJECT_DIR$/interpreteur.output" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interpreteur.tab.c" beforeDir="false" afterPath="$PROJECT_DIR$/interpreteur.tab.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interpreteur.tab.h" beforeDir="false" afterPath="$PROJECT_DIR$/interpreteur.tab.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/interpreteur/interpreteur.l" beforeDir="false" afterPath="$PROJECT_DIR$/interpreteur/interpreteur.l" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/interpreteur/interpreteur.y" beforeDir="false" afterPath="$PROJECT_DIR$/interpreteur/interpreteur.y" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/output/asm.s" beforeDir="false" afterPath="$PROJECT_DIR$/output/asm.s" afterDir="false" />
@@ -30,30 +43,21 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="compiler.y" pinned="false" current-in-tab="true">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="compiler.y" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/compilateur/compiler.y">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="519">
-              <caret line="120" selection-start-line="120" selection-end-line="120" selection-end-column="49" />
+            <state relative-caret-position="513">
+              <caret line="345" column="16" selection-start-line="345" selection-start-column="16" selection-end-line="345" selection-end-column="16" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="interpreteur.y" pinned="false" current-in-tab="false">
+      <file leaf-file-name="interpreteur.y" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/interpreteur/interpreteur.y">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2550">
-              <caret line="170" column="4" lean-forward="true" selection-start-line="170" selection-start-column="4" selection-end-line="171" selection-end-column="18" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="memory.c" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/interpreteur/memory.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="17" lean-forward="true" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
+            <state relative-caret-position="375">
+              <caret line="144" column="47" selection-start-line="144" selection-start-column="47" selection-end-line="144" selection-end-column="47" />
             </state>
           </provider>
         </entry>
@@ -61,8 +65,8 @@
       <file leaf-file-name="asm.s" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/output/asm.s">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="495">
-              <caret line="33" column="9" lean-forward="true" selection-start-line="32" selection-start-column="8" selection-end-line="33" selection-end-column="9" />
+            <state relative-caret-position="445">
+              <caret line="37" column="6" lean-forward="true" selection-start-line="37" selection-start-column="6" selection-end-line="37" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -70,17 +74,17 @@
       <file leaf-file-name="code_test.c" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/code_test.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="12" selection-start-line="6" selection-start-column="11" selection-end-line="6" selection-end-column="12" />
+            <state relative-caret-position="153">
+              <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="memory.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/interpreteur/memory.h">
+      <file leaf-file-name="interpreteur.l" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/interpreteur/interpreteur.l">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="13" selection-start-line="13" selection-end-line="13" />
+            <state relative-caret-position="425">
+              <caret line="25" column="53" selection-start-line="25" selection-start-column="53" selection-end-line="25" selection-end-column="53" />
             </state>
           </provider>
         </entry>
@@ -88,26 +92,8 @@
       <file leaf-file-name="Makefile" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Makefile">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="26" column="36" lean-forward="true" selection-start-line="26" selection-start-column="36" selection-end-line="26" selection-end-column="36" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="table_symboles.c" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/compilateur/table_symboles.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="437">
-              <caret line="112" column="33" selection-start-line="112" selection-start-column="4" selection-end-line="112" selection-end-column="33" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="table_instructions.c" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/interpreteur/table_instructions.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="525">
-              <caret line="35" selection-start-line="35" selection-end-line="35" selection-end-column="29" />
+            <state relative-caret-position="51">
+              <caret line="3" column="175" lean-forward="true" selection-start-line="3" selection-start-column="175" selection-end-line="3" selection-end-column="175" />
             </state>
           </provider>
         </entry>
@@ -119,11 +105,18 @@
       <find />
       <find>, -1);</find>
       <find>memoire</find>
+      <find>JMF</find>
+      <find>unstack</find>
+      <find>#Z</find>
+      <find>JMP</find>
+      <find>tab_asm_get_last_address</find>
     </findStrings>
     <replaceStrings>
       <replace>\t</replace>
       <replace>);</replace>
       <replace>memory</replace>
+      <replace>JMPC</replace>
+      <replace>tab_asm_get_last_line</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -134,21 +127,24 @@
       <list>
         <option value="$PROJECT_DIR$/logger/logger.c" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/compilateur/compiler.l" />
-        <option value="$PROJECT_DIR$/interpreteur/interpreteur.l" />
-        <option value="$PROJECT_DIR$/compilateur/table_asm.h" />
-        <option value="$PROJECT_DIR$/compilateur/table_asm.c" />
         <option value="$PROJECT_DIR$/interpreteur/memoire.h" />
         <option value="$PROJECT_DIR$/interpreteur/memoire.c" />
         <option value="$PROJECT_DIR$/interpreteur/table_instructions.c" />
         <option value="$PROJECT_DIR$/interpreteur/table_instructions.h" />
         <option value="$PROJECT_DIR$/interpreteur/memory.h" />
-        <option value="$PROJECT_DIR$/interpreteur/interpreteur.y" />
         <option value="$PROJECT_DIR$/interpreteur/memory.c" />
-        <option value="$PROJECT_DIR$/Makefile" />
-        <option value="$PROJECT_DIR$/code_test.c" />
+        <option value="$PROJECT_DIR$/compilateur/table_blocs_conditionnels.h" />
+        <option value="$PROJECT_DIR$/compilateur/compiler.l" />
         <option value="$PROJECT_DIR$/compilateur/table_symboles.c" />
+        <option value="$PROJECT_DIR$/compilateur/table_symboles.h" />
+        <option value="$PROJECT_DIR$/compilateur/table_asm.h" />
+        <option value="$PROJECT_DIR$/compilateur/table_blocs_conditionnels.c" />
+        <option value="$PROJECT_DIR$/compilateur/table_asm.c" />
+        <option value="$PROJECT_DIR$/Makefile" />
+        <option value="$PROJECT_DIR$/interpreteur/interpreteur.l" />
+        <option value="$PROJECT_DIR$/code_test.c" />
         <option value="$PROJECT_DIR$/compilateur/compiler.y" />
+        <option value="$PROJECT_DIR$/interpreteur/interpreteur.y" />
       </list>
     </option>
   </component>
@@ -165,14 +161,13 @@
     <option name="x" value="520" />
     <option name="y" value="45" />
     <option name="width" value="1400" />
-    <option name="height" value="992" />
+    <option name="height" value="995" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -193,17 +188,23 @@
             <path>
               <item name="ProgSys" type="b2602c69:ProjectViewProjectNode" />
               <item name="ProgSys" type="462c0819:PsiDirectoryNode" />
+              <item name="logger" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ProgSys" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ProgSys" type="462c0819:PsiDirectoryNode" />
               <item name="output" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../PSMT" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Other File Types" />
@@ -232,20 +233,23 @@
       <updated>1523858852686</updated>
       <workItem from="1523858853973" duration="277000" />
       <workItem from="1523859133310" duration="9281000" />
+      <workItem from="1525030004190" duration="58000" />
+      <workItem from="1525339471495" duration="115000" />
+      <workItem from="1525627685763" duration="13471000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9558000" />
+    <option name="totallyTimeSpent" value="23202000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="24" width="1922" height="1033" extended-state="6" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18177083" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18164062" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="7" />
@@ -267,130 +271,248 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/logger/logger.c">
+    <entry file="file://$PROJECT_DIR$/compilateur/compiler.y">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-148">
-          <caret line="6" column="39" selection-start-line="6" selection-start-column="33" selection-end-line="6" selection-end-column="39" />
+        <state relative-caret-position="1870">
+          <caret line="110" selection-start-line="110" selection-end-line="110" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="18" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lex.yy.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1755" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/compilateur/compiler.l">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="492">
-          <caret line="47" selection-start-line="47" selection-end-line="47" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/interpreteur/interpreteur.l">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="9" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/compilateur/table_symboles.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" selection-start-line="12" selection-end-line="19" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/compilateur/table_asm.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="27" lean-forward="true" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/compilateur/table_asm.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="19" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/interpreteur/table_instructions.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/interpreteur/table_instructions.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="35" selection-start-line="35" selection-end-line="35" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/interpreteur/memory.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" selection-start-line="13" selection-end-line="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Makefile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="36" lean-forward="true" selection-start-line="26" selection-start-column="36" selection-end-line="26" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/interpreteur/memory.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="17" lean-forward="true" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
+        <state relative-caret-position="170">
+          <caret line="10" column="8" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/output/asm.s">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="33" column="9" lean-forward="true" selection-start-line="32" selection-start-column="8" selection-end-line="33" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/interpreteur/interpreteur.y">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2550">
-          <caret line="170" column="4" lean-forward="true" selection-start-line="170" selection-start-column="4" selection-end-line="171" selection-end-column="18" />
+        <state relative-caret-position="561">
+          <caret line="33" column="9" selection-start-line="32" selection-start-column="8" selection-end-line="33" selection-end-column="9" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/code_test.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="12" selection-start-line="6" selection-start-column="11" selection-end-line="6" selection-end-column="12" />
+        <state relative-caret-position="102">
+          <caret line="6" column="12" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/compilateur/table_blocs_conditionnels.c">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/Makefile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="26" column="37" selection-start-line="26" selection-start-column="37" selection-end-line="26" selection-end-column="37" />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/compilateur/table_symboles.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
+        <state relative-caret-position="1904">
           <caret line="112" column="33" selection-start-line="112" selection-start-column="4" selection-end-line="112" selection-end-column="33" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/compilateur/compiler.y">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="519">
-          <caret line="120" selection-start-line="120" selection-end-line="120" selection-end-column="49" />
+        <state relative-caret-position="1870">
+          <caret line="110" selection-start-line="110" selection-end-line="110" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output/asm.s">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="33" column="9" selection-start-line="32" selection-start-column="8" selection-end-line="33" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code_test.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="12" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Makefile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="26" column="37" selection-start-line="26" selection-start-column="37" selection-end-line="26" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compilateur/table_symboles.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1904">
+          <caret line="112" column="33" selection-start-line="112" selection-start-column="4" selection-end-line="112" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="8" lean-forward="true" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compilateur/compiler.y">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2040">
+          <caret line="120" selection-start-line="120" selection-end-line="120" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output/asm.s">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="33" column="9" lean-forward="true" selection-start-line="32" selection-start-column="8" selection-end-line="33" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code_test.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="12" selection-start-line="6" selection-start-column="11" selection-end-line="6" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Makefile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compilateur/table_symboles.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1904">
+          <caret line="112" column="33" selection-start-line="112" selection-start-column="4" selection-end-line="112" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/interpreteur/memory.h" />
+    <entry file="file://$PROJECT_DIR$/interpreteur/memory.c" />
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="8" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compiler.lex.yy.c">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compiler.output">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-13821" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lex.yy.c">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/interpreteur/table_instructions.h">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/interpreteur/table_instructions.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-81" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logger/logger.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="6" column="39" selection-start-line="6" selection-start-column="33" selection-end-line="6" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compilateur/compiler.l">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-218">
+          <caret line="19" column="51" lean-forward="true" selection-start-line="19" selection-start-column="51" selection-end-line="19" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compilateur/table_symboles.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-81">
+          <caret line="137" column="4" selection-start-line="137" selection-start-column="4" selection-end-line="137" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compilateur/table_symboles.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="40" column="3" lean-forward="true" selection-start-line="40" selection-start-column="3" selection-end-line="40" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compilateur/table_asm.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="25" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compilateur/table_blocs_conditionnels.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="38" column="59" selection-start-line="38" selection-start-column="59" selection-end-line="38" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compilateur/table_asm.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="47" column="53" selection-start-line="47" selection-start-column="53" selection-end-line="47" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compilateur/table_blocs_conditionnels.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="24" column="58" selection-start-line="24" selection-start-column="58" selection-end-line="24" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Makefile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="175" lean-forward="true" selection-start-line="3" selection-start-column="175" selection-end-line="3" selection-end-column="175" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/interpreteur/interpreteur.l">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="25" column="53" selection-start-line="25" selection-start-column="53" selection-end-line="25" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/code_test.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output/asm.s">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="445">
+          <caret line="37" column="6" lean-forward="true" selection-start-line="37" selection-start-column="6" selection-end-line="37" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compilateur/compiler.y">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="513">
+          <caret line="345" column="16" selection-start-line="345" selection-start-column="16" selection-end-line="345" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/interpreteur/interpreteur.y">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="144" column="47" selection-start-line="144" selection-start-column="47" selection-end-line="144" selection-end-column="47" />
         </state>
       </provider>
     </entry>

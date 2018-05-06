@@ -6,12 +6,13 @@
 #include <unistd.h>
 #include "compilateur/table_symboles.h"
 #include "compilateur/table_asm.h"
+#include "compilateur/table_blocs_conditionnels.h"
 #include "logger/logger.h"
 
 #define YYDEBUG 1
 int yylex();
 void yyerror(char *s) {
-	printf("%s\n",s);
+	log_error(s);
 }
 extern int yylineno;
 
@@ -45,7 +46,6 @@ enum enumType decl_type; // Type de la variable considérée par le parseur
 %token WHILE
 %token FOR
 %token IF
-%token ELSEIF
 %token ELSE
 %token QUESTION_MARK
 %token COLON
@@ -56,6 +56,9 @@ enum enumType decl_type; // Type de la variable considérée par le parseur
 %right POW 
 %right ASSIGN
 %right EQUALS LESS_EQUALS GREATER_EQUALS GREATER LESS
+
+%type <expr> Expr
+%union {int expr;}
 
 %start Input
 
@@ -150,8 +153,14 @@ AppelFonction:
 
 Liste_params:
 	  /* empty */
-	| VAR
-	| Liste_params SEPARATEUR VAR
+	| Params
+	| Liste_params SEPARATEUR Params
+	;
+
+Params:
+	  VAR
+	| TEXT
+	| NOMBRE
 	;
 
 Operation:
@@ -160,7 +169,20 @@ Operation:
 	;
 
 BlocIf:
-	  IF Expr ACCOLADE_OUVRANTE { tab_symboles_increase_depth(); } Input ACCOLADE_FERMANTE { tab_symboles_decrease_depth(); } BlocElse
+	  IF PARENTHESE_OUVRANTE Expr
+	   	{
+			tab_symboles_add(strdup("###"), INT_TYPE, 1, 1);
+			tab_asm_add("JMPC", tab_symboles_get_last_index(), -1);
+			symbole tmp = tab_symboles_unstack();
+			tab_blocs_conditionnels_add_source_address(tab_asm_get_last_line());
+	   	}
+	  PARENTHESE_FERMANTE ACCOLADE_OUVRANTE { tab_symboles_increase_depth(); } Input ACCOLADE_FERMANTE
+	  	{
+	  		tab_symboles_decrease_depth();
+			tab_blocs_conditionnels_set_destination_address(tab_asm_get_last_line() + 1);
+			tab_blocs_conditionnels_add_source_address(tab_asm_get_last_line());
+			tab_asm_add("JMP", -1, -1);
+	  	} BlocElse
 	;
 
 BlocIfTernaire:
@@ -169,13 +191,40 @@ BlocIfTernaire:
 
 BlocElse:
 	  /* empty */
-	| ELSEIF Expr ACCOLADE_OUVRANTE { tab_symboles_increase_depth(); } Input ACCOLADE_FERMANTE { tab_symboles_decrease_depth(); } BlocElse 
-	| ELSE ACCOLADE_OUVRANTE { tab_symboles_increase_depth(); } Input ACCOLADE_FERMANTE { tab_symboles_decrease_depth(); }
+	  	{
+	  		tab_blocs_conditionnels_set_destination_address(tab_asm_get_last_line());
+	  	}
+	| ELSE ACCOLADE_OUVRANTE { tab_symboles_increase_depth(); } Input ACCOLADE_FERMANTE
+		{
+			tab_symboles_decrease_depth();
+			tab_blocs_conditionnels_set_destination_address(tab_asm_get_last_line());
+		}
 	;
 
 
 BlocWhile:
-	  WHILE Expr ACCOLADE_OUVRANTE { tab_symboles_increase_depth(); } Input ACCOLADE_FERMANTE { tab_symboles_decrease_depth(); }
+	  WHILE PARENTHESE_OUVRANTE
+	  	{
+	  		tab_blocs_conditionnels_add_destination_address(tab_asm_get_last_line());
+	  	}
+	  Expr
+	  	{
+	  		tab_blocs_conditionnels_add_source_address(tab_asm_get_last_line());
+	  		tab_symboles_add(strdup("###"), INT_TYPE, 1, 1);
+			tab_asm_add("JMPC", tab_symboles_get_last_index(), -1);
+			symbole tmp = tab_symboles_unstack();
+	  	}
+	  PARENTHESE_FERMANTE ACCOLADE_OUVRANTE
+	  	{
+      		tab_symboles_increase_depth();
+      	}
+	  Input ACCOLADE_FERMANTE
+	  	{
+	  		tab_symboles_decrease_depth();
+	  		tab_blocs_conditionnels_set_source_address(tab_asm_get_last_line());
+	  		tab_asm_add("JMP", -1, -1);
+	  		tab_blocs_conditionnels_set_destination_address(tab_asm_get_last_line());
+	  	}
 	;
 
 Expr:
@@ -184,64 +233,100 @@ Expr:
 		tab_symboles_add(strdup("###"),	INT_TYPE, 1, 1);
 		tab_asm_add("AFC", 0, $1);
 		tab_asm_add("STORE", tab_symboles_get_last_address(), 0);
+		$$=tab_symboles_get_last_address();
 	}	
 	| FLOTTANT
 	{
 		tab_symboles_add(strdup("###"), FLOAT_TYPE, 1, 1);
 		tab_asm_add("AFC", 0, $1);
 		tab_asm_add("STORE", tab_symboles_get_last_address(), 0);
+		$$=tab_symboles_get_last_address();
 	}
 	| TEXT
+	{
+		$$=tab_symboles_get_last_address();
+	}
 	| VAR	
 	{
 		tab_symboles_add(strdup("###"), INT_TYPE, 1, 1);
 		tab_asm_add("LOAD", 0, tab_symboles_get_address($1));
 		tab_asm_add("STORE", tab_symboles_get_last_address(), 0);
+		$$=tab_symboles_get_last_address();
 	}	
-	| SUB Expr %prec MULT
+	| SUB Expr
+	{
+		tab_asm_add("NEG", $2, -1);
+		$$ = $2;
+	} %prec MULT
 	| Expr PLUS Expr	
 	{
-		symbole tmp = tab_symboles_unstack();
-		tab_asm_add("LOAD", 1, tmp.address);
-		tmp = tab_symboles_unstack();
-		tab_asm_add("LOAD", 0, tmp.address);
-		tab_asm_add("ADD", 0, 1);
-		tab_asm_add("STORE", tab_symboles_get_last_address(), 0);
+		tab_asm_add("ADD", $1, $3);
+		tab_symboles_unstack();
+		$$=$1;
 	}			
 	| Expr SUB Expr	
 	{
-		symbole tmp = tab_symboles_unstack();
-		tab_asm_add("LOAD", 1, tmp.address);
-		tmp = tab_symboles_unstack();
-		tab_asm_add("LOAD", 0, tmp.address);
-		tab_asm_add("SUB", 0, 1);
-		tab_asm_add("STORE", tab_symboles_get_last_address(), 0);
+		tab_asm_add("SUB", $1, $3);
+		tab_symboles_unstack();
+		$$=$1;
 	}									
 	| Expr MULT Expr	
 	{
-		symbole tmp = tab_symboles_unstack();
-		tab_asm_add("LOAD", 1, tmp.address);
-		tmp = tab_symboles_unstack();
-		tab_asm_add("LOAD", 0, tmp.address);
-		tab_asm_add("MUL", 0, 1);
-		tab_asm_add("STORE", tab_symboles_get_last_address(), 0);
+		tab_asm_add("MUL", $1, $3);
+		tab_symboles_unstack();
+		$$=$1;
 	}				
 	| Expr DIV Expr	
 	{
-		symbole tmp = tab_symboles_unstack();
-		tab_asm_add("LOAD", 1, tmp.address);
-		tmp = tab_symboles_unstack();
-		tab_asm_add("LOAD", 0, tmp.address);
-		tab_asm_add("DIV", 0, 1);
-		tab_asm_add("STORE", tab_symboles_get_last_address(), 0);
+		tab_asm_add("DIV", $1, $3);
+		tab_symboles_unstack();
+		$$=$1;
 	}				
 	| Expr POW Expr				
-	| Expr GREATER_EQUALS Expr 		
-	| Expr LESS_EQUALS Expr 		
-	| Expr LESS Expr 		
-	| Expr GREATER Expr 		
-	| Expr EQUALS Expr	
-	| PARENTHESE_OUVRANTE Expr PARENTHESE_FERMANTE	
+	| Expr GREATER_EQUALS Expr
+	{
+        tab_asm_add("LOAD", 0, $1);
+        tab_asm_add("STORE", tab_symboles_get_last_address()+1, 0);
+        tab_asm_add("SUB", tab_symboles_get_last_address()+1, $3);
+        tab_asm_add("CMP", tab_symboles_get_last_address()+1, 1);
+    	$$=tab_symboles_get_last_address()+1;
+    }
+	| Expr LESS_EQUALS Expr
+	{
+        tab_asm_add("LOAD", 0, $1);
+        tab_asm_add("STORE", tab_symboles_get_last_address()+1, 0);
+      	tab_asm_add("SUB", tab_symboles_get_last_address()+1, $3);
+       	tab_asm_add("CMP", tab_symboles_get_last_address()+1, -1);
+       	$$=tab_symboles_get_last_address()+1;
+    }
+	| Expr LESS Expr
+	{
+       	tab_asm_add("LOAD", 0, $1);
+    	tab_asm_add("STORE", tab_symboles_get_last_address()+1, 0);
+       	tab_asm_add("SUB", tab_symboles_get_last_address()+1, $3);
+       	tab_asm_add("CMP", tab_symboles_get_last_address()+1, -2);
+       	$$=tab_symboles_get_last_address()+1;
+    }
+	| Expr GREATER Expr
+	{
+    	tab_asm_add("LOAD", 0, $1);
+    	tab_asm_add("STORE", tab_symboles_get_last_address()+1, 0);
+    	tab_asm_add("SUB", tab_symboles_get_last_address()+1, $3);
+    	tab_asm_add("CMP", tab_symboles_get_last_address()+1, 2);
+    	$$=tab_symboles_get_last_address()+1;
+    }
+	| Expr EQUALS Expr
+	{
+		tab_asm_add("LOAD", 0, $1);
+    	tab_asm_add("STORE", tab_symboles_get_last_address()+1, 0);
+		tab_asm_add("SUB", tab_symboles_get_last_address()+1, $3);
+		tab_asm_add("CMP", tab_symboles_get_last_address()+1, 0);
+		$$=tab_symboles_get_last_address()+1;
+	}
+	| PARENTHESE_OUVRANTE Expr PARENTHESE_FERMANTE
+	{
+		$$=$2;
+	}
 	;	
 
 %%
@@ -255,8 +340,10 @@ int main(void) {
 	tab_asm_init();
 	yyparse();
 
+	tab_asm_set_correct_addresses_blocs_conditionnels();
+
 	if(logger_get_nb_errors())
-		printf("Echec de la compilation : %d erreur(s) rencontrée(s)\n", logger_get_nb_errors());
+		log_info("Echec de la compilation : %d erreur(s) rencontrée(s)\n", logger_get_nb_errors());
 	else
 		tab_asm_write_file();
 }
