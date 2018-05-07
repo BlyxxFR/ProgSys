@@ -49,6 +49,7 @@ void yyerror(char *s) {
 %token PUSH
 %token POP
 %token RETURN
+%token LEAVE
 
 %start Input
 
@@ -79,6 +80,7 @@ Line:
     | Push
     | Pop
     | Return
+    | Leave
     ;
 
 Addition:
@@ -204,7 +206,7 @@ Equal:
 Print:
 	  PRINT NOMBRE
 	  {
-	  		log_info("On affiche le contenu de l'adresse", $2);
+	  		log_info("On affiche le contenu de l'adresse %d", $2);
 	  		tab_asm_add("PRINT", $2, -1);
 	  }
 	;
@@ -214,6 +216,14 @@ Push:
 	  {
 	  		log_info("On pousse l'adresse %d dans la pile", $2);
 	  		tab_asm_add("PUSH", $2, -1);
+	  }
+	;
+
+Leave:
+	  LEAVE
+	  {
+	  		log_info("Instruction pour quitter le programme principal détecté");
+	  		tab_asm_add("LEAVE", -1, -1);
 	  }
 	;
 
@@ -266,6 +276,8 @@ int main(void) {
 		   strcmp(current_instruction.id, "PRINT") ==  0 || strcmp(current_instruction.id, "RETURN") ==  0 ||
 		   strcmp(current_instruction.id, "JMPC") ==  0)
 			log_info("Instruction évaluée : %s %d", current_instruction.id, current_instruction.registers[0]);
+		else if(strcmp(current_instruction.id, "LEAVE") ==  0)
+			log_info("Instruction évaluée : %s", current_instruction.id);
 		else
 			log_info("Instruction évaluée : %s %d %d", current_instruction.id, current_instruction.registers[0], current_instruction.registers[1]);
 
@@ -358,6 +370,11 @@ int main(void) {
         else if(strcmp(current_instruction.id, "EQ") == 0) {
 			last_comparaison = access_memory(current_instruction.registers[0]) == access_memory(current_instruction.registers[1]);
 			log_info("Résultat de la comparaison : %d", last_comparaison);
+        }
+
+        else if(strcmp(current_instruction.id, "LEAVE") == 0) {
+        	log_info("Programme principal terminé");
+			break;
         }
 
 		else {

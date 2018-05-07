@@ -129,7 +129,6 @@ Affectation:
 		if(is_constant == 1) {
 			log_error_with_line_number(yylineno, "La variable %s est une constante et ne peut être modifiée", $1);
 		} else if(is_constant != -1 && initialisee) {
-			//tab_symboles_add($1, INT_TYPE, 1, 0);
 			tab_asm_add("LOAD", 0, $2);
 			tab_asm_add("STORE", tab_symboles_get_address($1), 0);
 		}
@@ -180,6 +179,8 @@ BlocFonction:
 	  		if(strcmp($2, "main") != 0) {
 		  		tab_asm_add("POP", 0, -1);
 	  			tab_asm_add("RETURN", 0, -1);
+	  		} else {
+	  			tab_asm_add("LEAVE", -1, -1);
 	  		}
 	  	}
 	;

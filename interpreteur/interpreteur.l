@@ -29,6 +29,7 @@ PRINT									return (PRINT);
 POP										return (POP);
 PUSH									return (PUSH);
 RETURN									return (RETURN);
+LEAVE									return (LEAVE);
 
 GE										return (GE);
 GT										return (GT);

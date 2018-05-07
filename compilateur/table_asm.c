@@ -70,6 +70,8 @@ void tab_asm_write_file() {
 			strcmp(tab_asm[i].id, "RETURN") == 0 || strcmp(tab_asm[i].id, "PRINT") == 0 ||
 			strcmp(tab_asm[i].id, "JMPC") == 0) {
 			fprintf(f, "%s %d\n", tab_asm[i].id, tab_asm[i].registers[0]);
+		} else if(strcmp(tab_asm[i].id, "LEAVE") == 0) {
+			fprintf(f, "%s\n", tab_asm[i].id);
 		} else {
 			fprintf(f, "%s %d %d\n", tab_asm[i].id, tab_asm[i].registers[0], tab_asm[i].registers[1]);
 		}
