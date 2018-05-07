@@ -1,16 +1,20 @@
 %{
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "interpreteur/table_instructions.h"
 #include "interpreteur/memory.h"
+#include "interpreteur/stack.h"
 #include "logger/logger.h"
+
+#define ENTRIES_MEMORY_TO_DUMP 10
 
 #define YYDEBUG 1
 int yylex();
-void yyerror(char *s) {
-	log_error("Erreur de syntaxe");
-}
 extern int yylineno;
+void yyerror(char *s) {
+	log_error_with_line_number(yylineno, "Erreur de syntaxe");
+}
 
 %}
 
@@ -34,7 +38,17 @@ extern int yylineno;
 
 %token AFC
 
-%token CMP
+%token GE
+%token GT
+%token LE
+%token LT
+%token EQ
+
+%token PRINT
+
+%token PUSH
+%token POP
+%token RETURN
 
 %start Input
 
@@ -56,7 +70,15 @@ Line:
     | Memorisation
     | Jump
     | JumpC
-    | Compraison
+    | GreaterEqual
+    | GreaterThan
+    | LessEqual
+    | LessThan
+    | Equal
+    | Print
+    | Push
+    | Pop
+    | Return
     ;
 
 Addition:
@@ -118,16 +140,16 @@ Memorisation:
 Jump:
 	  JMP NOMBRE
 	  {
-	  	   	log_info("Instruction JMP détectée à l'adresse %d", $2);
+	  	   	log_info("Instruction JMP à l'adresse %d detectée", $2);
 	  	   	tab_asm_add("JMP", $2, -1);
 	  }
 	;
 
 JumpC:
-	  JMPC NOMBRE NOMBRE
+	  JMPC NOMBRE
 	  {
-	  	   	log_info("Instruction JMPC détectée aux adresses %d et %d", $2, $3);
-	  	   	tab_asm_add("JMPC", $2, $3);
+	  	   	log_info("Instruction JMPC à la ligne %d detectée", $2);
+	  	   	tab_asm_add("JMPC", $2, -1);
 	  }
 	;
 
@@ -139,11 +161,75 @@ Negation:
 	  }
 	;
 
-Compraison:
-	  CMP NOMBRE NOMBRE
+GreaterEqual:
+	  GE NOMBRE NOMBRE
 	  {
-	  		log_info("Comparaison de l'adresse %d selon la méthode %d", $2, $3);
-	  		tab_asm_add("CMP", $2, $3);
+	  		log_info("Test si le contenu de l'adresse %d est plus grand ou égal que celui de l'adresse %d", $2, $3);
+	  		tab_asm_add("GE", $2, $3);
+	  }
+	;
+
+GreaterThan:
+	  GT NOMBRE NOMBRE
+	  {
+	  		log_info("Test si le contenu de l'adresse %d est plus grand que celui de l'adresse %d", $2, $3);
+	  		tab_asm_add("GT", $2, $3);
+	  }
+	;
+
+LessEqual:
+	  LE NOMBRE NOMBRE
+	  {
+	  		log_info("Test si le contenu de l'adresse %d est plus petit ou égal que celui de l'adresse %d", $2, $3);
+	  		tab_asm_add("LE", $2, $3);
+	  }
+	;
+
+LessThan:
+	  LT NOMBRE NOMBRE
+	  {
+	  		log_info("Test si le contenu de l'adresse %d est plus petit que celui de l'adresse %d", $2, $3);
+	  		tab_asm_add("LT", $2, $3);
+	  }
+	;
+
+Equal:
+	  EQ NOMBRE NOMBRE
+	  {
+	  		log_info("Test si le contenu de l'adresse %d est égal à celui de l'adresse %d", $2, $3);
+	  		tab_asm_add("EQ", $2, $3);
+	  }
+	;
+
+Print:
+	  PRINT NOMBRE
+	  {
+	  		log_info("On affiche le contenu de l'adresse", $2);
+	  		tab_asm_add("PRINT", $2, -1);
+	  }
+	;
+
+Push:
+	  PUSH NOMBRE
+	  {
+	  		log_info("On pousse l'adresse %d dans la pile", $2);
+	  		tab_asm_add("PUSH", $2, -1);
+	  }
+	;
+
+Pop:
+	  POP NOMBRE
+	  {
+	  		log_info("On dépile dans le registre %d", $2);
+	  		tab_asm_add("POP", $2, -1);
+	  }
+	;
+
+Return:
+	  RETURN NOMBRE
+	  {
+	  		log_info("On saute à la ligne contenu dans le registre %d", $2);
+	  		tab_asm_add("RETURN", $2, -1);
 	  }
 	;
 
@@ -154,8 +240,11 @@ int main(void) {
 	yydebug = 0;
 	#endif
 
+	//logger_set_mode(LOGGER_SILENT);
+
 	tab_asm_init();
 	memory_init();
+	stack_init();
 
 	log_info("Début du parsing de l'assembleur");
 	yyparse();
@@ -165,13 +254,17 @@ int main(void) {
 	log_info("On considère que le fichier assembleur commence à la ligne 0");
 
 	int current_index = 0;
+	int last_comparaison = 0;
 	int max_index = tab_asm_get_last_index();
 	asm_instruction current_instruction;
 
 	while(current_index <= max_index) {
 		current_instruction = tab_asm_get_instruction(current_index);
 
-		if(strcmp(current_instruction.id, "JMP") ==  0 || strcmp(current_instruction.id, "NEG") == 0)
+		if(strcmp(current_instruction.id, "JMP") ==  0 || strcmp(current_instruction.id, "NEG") == 0 ||
+		   strcmp(current_instruction.id, "PUSH") ==  0 || strcmp(current_instruction.id, "POP") ==  0 ||
+		   strcmp(current_instruction.id, "PRINT") ==  0 || strcmp(current_instruction.id, "RETURN") ==  0 ||
+		   strcmp(current_instruction.id, "JMPC") ==  0)
 			log_info("Instruction évaluée : %s %d", current_instruction.id, current_instruction.registers[0]);
 		else
 			log_info("Instruction évaluée : %s %d %d", current_instruction.id, current_instruction.registers[0], current_instruction.registers[1]);
@@ -211,6 +304,23 @@ int main(void) {
         	set_memory(current_instruction.registers[0], - access_memory(current_instruction.registers[0]));
        	}
 
+		else if(strcmp(current_instruction.id, "PUSH") == 0) {
+        	stack_push(access_memory(current_instruction.registers[0]));
+       	}
+
+		else if(strcmp(current_instruction.id, "POP") == 0) {
+        	set_register(current_instruction.registers[0], stack_pop());
+       	}
+
+		else if(strcmp(current_instruction.id, "PRINT") == 0) {
+        	log_print("Affichage de la valeur %d", access_memory(current_instruction.registers[0]));
+       	}
+
+		else if(strcmp(current_instruction.id, "RETURN") == 0) {
+        	current_index = access_register(current_instruction.registers[0]);
+            continue;
+       	}
+
        	else if(strcmp(current_instruction.id, "JMP") == 0) {
        	    log_info("Saut à la ligne %d du fichier assembleur", current_instruction.registers[0]);
            	current_index = current_instruction.registers[0];
@@ -218,54 +328,36 @@ int main(void) {
        	}
 
        	else if(strcmp(current_instruction.id, "JMPC") == 0) {
-			if(access_memory(current_instruction.registers[0]) == 0) {
-				log_info("Saut à la ligne %d du fichier assembleur", current_instruction.registers[1]);
-				current_index = current_instruction.registers[1];
+			if(last_comparaison <= 0) {
+				log_info("Saut à la ligne %d du fichier assembleur", current_instruction.registers[0]);
+				current_index = current_instruction.registers[0];
 				continue;
 			}
         }
 
-        else if(strcmp(current_instruction.id, "CMP") == 0) {
-			switch(current_instruction.registers[1]) {
-				case -2: 	// LESS
-					if(access_memory(current_instruction.registers[0]) < 0) {
-						set_memory(current_instruction.registers[0], 1);
-					} else {
-						set_memory(current_instruction.registers[0], 0);
-					}
-					break;
-				case -1: 	// LESS OR EQUAL
-					if(access_memory(current_instruction.registers[0]) <= 0) {
-                    	set_memory(current_instruction.registers[0], 1);
-                    } else {
-                    	set_memory(current_instruction.registers[0], 0);
-                    }
-					break;
-				case 0: 	// EQUAL
-					if(access_memory(current_instruction.registers[0]) == 0) {
-                    	set_memory(current_instruction.registers[0], 1);
-                    } else {
-                    	set_memory(current_instruction.registers[0], 0);
-                    }
-					break;
-				case 1:		// GREATER OR EQUAL
-					if(access_memory(current_instruction.registers[0]) >= 0) {
-						set_memory(current_instruction.registers[0], 1);
-					} else {
-						set_memory(current_instruction.registers[0], 0);
-					}
-					break;
-				case 2:		// GREATER
-					if(access_memory(current_instruction.registers[0]) > 0) {
-						set_memory(current_instruction.registers[0], 1);
-					} else {
-						set_memory(current_instruction.registers[0], 0);
-					}
-					break;
-				default:
-					log_error("Méthode de comparaison inconnue");
-					break;
-			}
+        else if(strcmp(current_instruction.id, "GE") == 0) {
+			last_comparaison = access_memory(current_instruction.registers[0]) >= access_memory(current_instruction.registers[1]);
+			log_info("Résultat de la comparaison : %d", last_comparaison);
+        }
+
+        else if(strcmp(current_instruction.id, "GT") == 0) {
+			last_comparaison = access_memory(current_instruction.registers[0]) > access_memory(current_instruction.registers[1]);
+			log_info("Résultat de la comparaison : %d", last_comparaison);
+        }
+
+        else if(strcmp(current_instruction.id, "LE") == 0) {
+			last_comparaison = access_memory(current_instruction.registers[0]) <= access_memory(current_instruction.registers[1]);
+			log_info("Résultat de la comparaison : %d", last_comparaison);
+        }
+
+        else if(strcmp(current_instruction.id, "LT") == 0) {
+			last_comparaison = access_memory(current_instruction.registers[0]) < access_memory(current_instruction.registers[1]);
+			log_info("Résultat de la comparaison : %d", last_comparaison);
+        }
+
+        else if(strcmp(current_instruction.id, "EQ") == 0) {
+			last_comparaison = access_memory(current_instruction.registers[0]) == access_memory(current_instruction.registers[1]);
+			log_info("Résultat de la comparaison : %d", last_comparaison);
         }
 
 		else {
@@ -275,8 +367,9 @@ int main(void) {
 		current_index++;
 	}
 
-	log_info("Dump de la mémoire");
-	dump_memory();
+	log_info("Fin de l'évaluation");
+	log_info("Dump de la mémoire pour %d entrées", ENTRIES_MEMORY_TO_DUMP);
+	dump_memory(ENTRIES_MEMORY_TO_DUMP);
 
 	if(logger_get_nb_errors())
 		log_info("Echec de la traduction assembleur : %d erreur(s) rencontrée(s)\n", logger_get_nb_errors());

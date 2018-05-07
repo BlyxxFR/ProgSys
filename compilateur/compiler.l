@@ -4,6 +4,8 @@
 	#include <stdlib.h>
 %}
 
+%option yylineno
+
 lettre									[a-zA-Z]
 chiffre									[0-9]
 entier    								{chiffre}+
@@ -27,22 +29,20 @@ string 									\".*\"
 ";"           					        return (SEMICOLON); 
 "("										return (PARENTHESE_OUVRANTE);
 ")"										return (PARENTHESE_FERMANTE);
-"^"   									return (POW);
 "?"										return (QUESTION_MARK);		
 ":"										return (COLON);
 
-int					  					return (INT);
-%{
-//float									return (FLOAT);
-%}
-string									return (STRING);
+"int"					  				return (INT);
+"string"								return (STRING);
+"function"								return (FUNCTION);
 "{"										return (ACCOLADE_OUVRANTE);
 "}"										return (ACCOLADE_FERMANTE);
-const									return (CONST);
+"const"									return (CONST);
 "if"									return (IF);
 "else"									return (ELSE);
 "while"									return (WHILE);
-"for"									return (FOR);
+
+"print"									return (PRINT);
 
 [\ \t\n]+ 
 ","										return (SEPARATEUR);
@@ -50,10 +50,6 @@ const									return (CONST);
 {entier}								{
 											yylval.intValue = atoi(yytext);
 											return(NOMBRE);
-										}
-{reel}									{
-										  	//yylval.floatValue = atof(yytext);
-										  	//return(FLOTTANT);
 										}
 {lettre}({lettre}|{chiffre}|_)*  		{
 											yylval.stringValue = strdup(yytext);

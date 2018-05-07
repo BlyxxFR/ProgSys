@@ -56,10 +56,10 @@ int tab_symboles_get_index(char * name) {
 	}
 
 	if(index == -1) {
-		log_error("Aucun symbole ne porte le nom %s dans la table des symboles", name);
+		log_error_with_line_number(yylineno, "Aucun symbole ne porte le nom %s dans la table des symboles", name);
 	}
 
-	return index; 
+	return index;
 }
 
 int tab_symboles_get_address(char * name) {
@@ -134,8 +134,8 @@ void tab_symboles_affectation(char * name) {
 void tab_symboles_decrease_depth() {
 	int i = index_tab_symboles - 1;
 	while(tab_symboles[i].depth == current_depth) {
-		if(strcmp(tab_symboles[i].name, "###") != 0)
-			log_info("Suppresion de la variable %s en raison d'un changement de profondeur", tab_symboles[i].name);
+		if(strcmp(tab_symboles[i].name, "###"))
+		log_info("Suppresion de la variable %s en raison d'un changement de profondeur", tab_symboles[i].name);
 		free(tab_symboles[i].name);
 		i--;
 	}

@@ -42,7 +42,10 @@ int tab_blocs_conditionnels_get_index(int source_address) {
 		}
 	}
 	if (index == -1) {
-		log_error("Aucun élément ne correspond à cette adresse dans la table des blocs conditionnels");
+		for (int i = 0; i < index_tab_bc; i++) {
+			log_info("source %d dest %d", tab_blocs_conditionnels[i].source_address, tab_blocs_conditionnels[i].destination_address);
+		}
+		log_error("Aucun élément ne correspond à l'adresse %d dans la table des blocs conditionnels", source_address);
 	}
 	return index;
 }
@@ -53,7 +56,7 @@ int tab_blocs_conditionnels_get_index(int source_address) {
 
 int tab_blocs_conditionnels_get_destination_address(int source_address) {
 	int index = tab_blocs_conditionnels_get_index(source_address);
-	if(index >= 0)
+	if (index >= 0)
 		return tab_blocs_conditionnels[index].destination_address;
 	else
 		return -1;

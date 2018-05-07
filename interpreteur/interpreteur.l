@@ -4,6 +4,8 @@
 	#include <stdlib.h>
 %}
 
+%option yylineno
+
 chiffre									[0-9]
 entier    								{chiffre}+
 
@@ -23,7 +25,16 @@ MUL									    return (MUL);
 DIV								    	return (DIV);
 JMP										return (JMP);
 JMPC									return (JMPC);
-CMP										return (CMP);
+PRINT									return (PRINT);
+POP										return (POP);
+PUSH									return (PUSH);
+RETURN									return (RETURN);
+
+GE										return (GE);
+GT										return (GT);
+LE										return (LE);
+LT										return (LT);
+EQ										return (EQ);
 
 {entier}								{
 											yylval.intValue = atoi(yytext);
