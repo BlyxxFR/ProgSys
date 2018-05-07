@@ -6,7 +6,7 @@ compiler.tab.c
 compiler.tab.h
 compiler.lex.yy.c
 interpreteur.output
-interpreteur
+interpreter
 interpreteur.tab.c
 interpreteur.tab.h
 interpreteur.lex.yy.c
