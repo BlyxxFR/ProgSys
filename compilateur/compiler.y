@@ -36,7 +36,7 @@ int line_start_function; 	// Ligne à laquelle commence une fonction
 %token PLUS SUB MULT DIV
 %token PARENTHESE_OUVRANTE PARENTHESE_FERMANTE
 %token ACCOLADE_OUVRANTE ACCOLADE_FERMANTE
-%token EQUALS LESS_EQUALS GREATER_EQUALS GREATER LESS
+%token EQUALS LESS_EQUALS GREATER_EQUALS GREATER LESS NOTEQUALS
 %token SEMICOLON
 %token INT
 %token STRING
@@ -60,6 +60,8 @@ int line_start_function; 	// Ligne à laquelle commence une fonction
 
 %type<intValue> Assignation
 %type<intValue> Expr
+%type<intValue> ExpressionArithmetique
+%type<intValue> ExpressionLogique
 
 %start Input
 
@@ -265,12 +267,33 @@ Params:
 	;
 
 BlocIf:
-	  IF PARENTHESE_OUVRANTE Expr
+	  IF PARENTHESE_OUVRANTE SuiteBlocIf
+	  ;
+
+SuiteBlocIf:
+	  ExpressionArithmetique
+		{
+			tab_symboles_add(strdup("###"),	INT_TYPE, 1, 1);
+           	tab_asm_add("AFC", 0, 0);
+           	tab_asm_add("STORE", tab_symboles_get_last_address(), 0);
+           	int address_zero = tab_symboles_get_last_address();
+           	tab_asm_add("NEQ", $1, address_zero);
+			tab_symboles_add(strdup("###"),	INT_TYPE, 1, 1);
+    		tab_asm_add("JMPC", -1, -1);
+    		tab_symboles_unstack();
+    		tab_blocs_conditionnels_add_source_address(tab_asm_get_last_line());
+    	}
+      FinBlocIf
+	| ExpressionLogique
 	   	{
 			tab_asm_add("JMPC", -1, -1);
 			tab_symboles_unstack();
 			tab_blocs_conditionnels_add_source_address(tab_asm_get_last_line());
 	   	}
+	  FinBlocIf
+	;
+
+FinBlocIf:
 	  PARENTHESE_FERMANTE ACCOLADE_OUVRANTE { tab_symboles_increase_depth(); } Input ACCOLADE_FERMANTE
 	  	{
 	  		tab_symboles_decrease_depth();
@@ -279,7 +302,6 @@ BlocIf:
 			tab_asm_add("JMP", -1, -1);
 	  	} BlocElse
 	;
-
 
 BlocElse:
 	  /* empty */
@@ -299,12 +321,31 @@ BlocWhile:
 	  	{
 	  		tab_blocs_conditionnels_add_destination_address(tab_asm_get_last_line());
 	  	}
-	  Expr
+	  SuiteWhile
+	;
+
+SuiteWhile:
+	  ExpressionArithmetique
+	  	{
+	  		tab_symboles_add(strdup("###"),	INT_TYPE, 1, 1);
+            tab_asm_add("AFC", 0, 0);
+            tab_asm_add("STORE", tab_symboles_get_last_address(), 0);
+            symbole tmp = tab_symboles_unstack();
+            tab_asm_add("NEQ", $1, tmp.address);
+	  		tab_blocs_conditionnels_add_source_address(tab_asm_get_last_line() + 1);
+	  		tab_symboles_unstack();
+
+			tab_asm_add("JMPC", -1, -1);
+	  	} FinWhile
+	| ExpressionLogique
 	  	{
 	  		tab_blocs_conditionnels_add_source_address(tab_asm_get_last_line() + 1);
 	  		tab_symboles_unstack();
 			tab_asm_add("JMPC", -1, -1);
-	  	}
+	  	} FinWhile
+	;
+
+FinWhile:
 	  PARENTHESE_FERMANTE ACCOLADE_OUVRANTE
 	  	{
       		tab_symboles_increase_depth();
@@ -319,6 +360,11 @@ BlocWhile:
 	;
 
 Expr:
+	  ExpressionArithmetique 	{ $$ = $1; }
+	| ExpressionLogique			{ $$ = $1; }
+    ;
+
+ExpressionArithmetique:
 	  NOMBRE
 	{
 		tab_symboles_add(strdup("###"),	INT_TYPE, 1, 1);
@@ -333,66 +379,79 @@ Expr:
 		tab_asm_add("STORE", tab_symboles_get_last_address(), 0);
 		$$=tab_symboles_get_last_address();
 	}	
-	| SUB Expr
+	| SUB ExpressionArithmetique
 	{
 		tab_asm_add("NEG", $2, -1);
 		$$ = $2;
 	} %prec MULT
-	| Expr PLUS Expr	
+	| ExpressionArithmetique PLUS ExpressionArithmetique
 	{
 		tab_asm_add("ADD", $1, $3);
 		tab_symboles_unstack();
 		$$=$1;
 	}			
-	| Expr SUB Expr	
+	| ExpressionArithmetique SUB ExpressionArithmetique
 	{
 		tab_asm_add("SUB", $1, $3);
 		tab_symboles_unstack();
 		$$=$1;
 	}									
-	| Expr MULT Expr	
+	| ExpressionArithmetique MULT ExpressionArithmetique
 	{
 		tab_asm_add("MUL", $1, $3);
 		tab_symboles_unstack();
 		$$=$1;
 	}				
-	| Expr DIV Expr	
+	| ExpressionArithmetique DIV ExpressionArithmetique
 	{
 		tab_asm_add("DIV", $1, $3);
 		tab_symboles_unstack();
 		$$=$1;
 	}
-	| Expr GREATER_EQUALS Expr
+	| PARENTHESE_OUVRANTE ExpressionArithmetique PARENTHESE_FERMANTE
+	{
+		$$=$2;
+	}
+	;
+
+ExpressionLogique:
+	  ExpressionArithmetique GREATER_EQUALS ExpressionArithmetique
 	{
 		tab_asm_add("GE", $1, $3);
 		tab_symboles_add(strdup("###"),	INT_TYPE, 1, 1);
     	$$=tab_symboles_get_last_address();
     }
-	| Expr LESS_EQUALS Expr
+	| ExpressionArithmetique LESS_EQUALS ExpressionArithmetique
 	{
 		tab_asm_add("LE", $1, $3);
 		tab_symboles_add(strdup("###"),	INT_TYPE, 1, 1);
     	$$=tab_symboles_get_last_address();
     }
-	| Expr LESS Expr
+	| ExpressionArithmetique LESS ExpressionArithmetique
 	{
 		tab_asm_add("LT", $1, $3);
 		tab_symboles_add(strdup("###"),	INT_TYPE, 1, 1);
     	$$=tab_symboles_get_last_address();
     }
-	| Expr GREATER Expr
+	| ExpressionArithmetique GREATER ExpressionArithmetique
 	{
 		tab_asm_add("GT", $1, $3);
 		tab_symboles_add(strdup("###"),	INT_TYPE, 1, 1);
     	$$=tab_symboles_get_last_address();
     }
-	| Expr EQUALS Expr
+	| ExpressionArithmetique EQUALS ExpressionArithmetique
 	{
 		tab_asm_add("EQ", $1, $3);
 		tab_symboles_add(strdup("###"),	INT_TYPE, 1, 1);
     	$$=tab_symboles_get_last_address();
 	}
-	| PARENTHESE_OUVRANTE Expr PARENTHESE_FERMANTE
+	| ExpressionArithmetique NOTEQUALS ExpressionArithmetique
+	{
+		tab_asm_add("NEQ", $1, $3);
+		tab_symboles_add(strdup("###"),	INT_TYPE, 1, 1);
+    	$$=tab_symboles_get_last_address();
+	}
+	| PARENTHESE_OUVRANTE ExpressionLogique PARENTHESE_FERMANTE
 	{
 		$$=$2;
 	}

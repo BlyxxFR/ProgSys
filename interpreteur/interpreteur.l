@@ -36,6 +36,7 @@ GT										return (GT);
 LE										return (LE);
 LT										return (LT);
 EQ										return (EQ);
+NEQ										return (NEQ);
 
 {entier}								{
 											yylval.intValue = atoi(yytext);

@@ -22,7 +22,8 @@ string 									\".*\"
 "=="					        		return (EQUALS); 
 "<="					        		return (LESS_EQUALS); 
 ">="        					        return (GREATER_EQUALS); 
-"="         					        return (ASSIGN); 
+"!="        					        return (NOTEQUALS);
+"="         					        return (ASSIGN);
 ">"        					       		return (GREATER); 
 "<"        					        	return (LESS); 
 

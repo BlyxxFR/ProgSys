@@ -43,6 +43,7 @@ void yyerror(char *s) {
 %token LE
 %token LT
 %token EQ
+%token NEQ
 
 %token PRINT
 
@@ -76,6 +77,7 @@ Line:
     | LessEqual
     | LessThan
     | Equal
+    | NotEqual
     | Print
     | Push
     | Pop
@@ -200,6 +202,14 @@ Equal:
 	  {
 	  		log_info("Test si le contenu de l'adresse %d est égal à celui de l'adresse %d", $2, $3);
 	  		tab_asm_add("EQ", $2, $3);
+	  }
+	;
+
+NotEqual:
+	  NEQ NOMBRE NOMBRE
+	  {
+	  		log_info("Test si le contenu de l'adresse %d est différent de celui de l'adresse %d", $2, $3);
+	  		tab_asm_add("NEQ", $2, $3);
 	  }
 	;
 
@@ -369,6 +379,11 @@ int main(void) {
 
         else if(strcmp(current_instruction.id, "EQ") == 0) {
 			last_comparaison = access_memory(current_instruction.registers[0]) == access_memory(current_instruction.registers[1]);
+			log_info("Résultat de la comparaison : %d", last_comparaison);
+        }
+
+        else if(strcmp(current_instruction.id, "NEQ") == 0) {
+			last_comparaison = access_memory(current_instruction.registers[0]) != access_memory(current_instruction.registers[1]);
 			log_info("Résultat de la comparaison : %d", last_comparaison);
         }
 
