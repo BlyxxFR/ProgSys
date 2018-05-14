@@ -10,7 +10,7 @@ compiler.tab.c: compilateur/compiler.y
 	bison -d -v compilateur/compiler.y
 
 compiler: compiler.lex.yy.c compiler.tab.c compilateur/table_symboles.c compilateur/table_asm.c compilateur/table_blocs_conditionnels.c compilateur/table_fonctions.c logger/logger.c
-	gcc -o compiler compiler.tab.c logger/logger.c compilateur/table_symboles.c compilateur/table_asm.c compilateur/table_blocs_conditionnels.c compilateur/table_fonctions.c compiler.lex.yy.c lib/libfl.a
+	gcc -o compiler compiler.tab.c logger/logger.c compilateur/table_symboles.c compilateur/table_asm.c compilateur/table_blocs_conditionnels.c compilateur/table_fonctions.c compiler.lex.yy.c lib/libfl.a -std=c99 -w
 
 test_compiler: compiler
 	./compiler < code_test.c
@@ -22,7 +22,7 @@ interpreteur.tab.c: interpreteur/interpreteur.y
 	bison -d -v interpreteur/interpreteur.y
 
 interpreter: interpreteur.lex.yy.c interpreteur.tab.c logger/logger.c interpreteur/memory.c interpreteur/stack.c
-	gcc -o interpreter interpreteur.tab.c logger/logger.c interpreteur/table_instructions.c interpreteur/memory.c interpreteur/stack.c interpreteur.lex.yy.c lib/libfl.a
+	gcc -o interpreter interpreteur.tab.c logger/logger.c interpreteur/table_instructions.c interpreteur/memory.c interpreteur/stack.c interpreteur.lex.yy.c lib/libfl.a -std=c99 -w
 
 test_interpreteur: interpreter
 	./interpreter < output/asm.s
