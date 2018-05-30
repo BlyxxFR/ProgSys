@@ -11,3 +11,5 @@ interpreteur.tab.c
 interpreteur.tab.h
 interpreteur.lex.yy.c
 lex.yy.c
+processeur/*
+!processeur/*.vhd

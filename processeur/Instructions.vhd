@@ -2,9 +2,9 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date:    10:52:34 05/14/2018 
+-- Create Date:    12:15:04 05/30/2018 
 -- Design Name: 
--- Module Name:    Alu - Behavioral 
+-- Module Name:    Instructions - Behavioral 
 -- Project Name: 
 -- Target Devices: 
 -- Tool versions: 
@@ -18,8 +18,8 @@
 --
 ----------------------------------------------------------------------------------
 library IEEE;
-
 use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 -- Uncomment the following library declaration if using
@@ -31,28 +31,26 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity Alu is
-    Port ( 	A : in STD_LOGIC_VECTOR (15 downto 0);
-				B : in STD_LOGIC_VECTOR (15 downto 0);
-				S : out STD_LOGIC_VECTOR (15 downto 0);
-				OP: in STD_LOGIC_VECTOR (1 downto 0);
-				FZ : out STD_LOGIC;
-				FC : out STD_LOGIC);
-	
-end Alu;
+entity Instructions is
+	Port (
+		INSTRUCTION_POINTER : out STD_LOGIC_VECTOR(7 downto 0);
+		CLK : in STD_LOGIC;
+		ENABLE : in STD_LOGIC;
+	);
+end Instructions;
 
-architecture Behavioral of Alu is
-	SIGNAL Radd : STD_LOGIC_VECTOR(16 DOWNTO 0);
-	SIGNAL Rmul : STD_LOGIC_VECTOR(31 DOWNTO 0);
-	SIGNAL R : STD_LOGIC_VECTOR(15 DOWNTO 0);
+architecture Behavioral of Instructions is
+	signal TMP : STD_LOGIC_VECTOR(7 downto 0);
 begin
-	R <= Radd(15 downto 0) when op = x"00" 
-		else A - B when op = x"01" 
-		else Rmul(15 downto 0) when op = x"10";
-	Rmul <= A * B when op = x"10";
-	Radd <= ('0' & A) + ('0' & B) when op = x"00";
-	FZ <= '1' when R = x"0000" else '0';
-	FC <= Radd (16);
-	S <= R;
+	process
+	begin
+		wait until CLK'event and CLK = '1';
+		if ENABLE = '1' then
+			TMP <= TMP + CONV_STD_LOGIC_VECTOR(1,8);
+		else
+			TMP <= TMP;
+		end if;
+	end process;
+	INSTRUCTION_POINTER <= TMP;
 end Behavioral;
 
