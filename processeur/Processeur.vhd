@@ -139,16 +139,15 @@ begin
 	
 	comp_banc_registres : BancRegistres port map
 	(
-			CLK => CLK;
-         RST => RST;
-         ADDR_A : IN  std_logic_vector(3 downto 0);
-         ADDR_B : IN  std_logic_vector(3 downto 0);
-         ADDR_W : IN  std_logic_vector(3 downto 0);
-         W : IN  std_logic;
-         DATA : IN  std_logic_vector(7 downto 0);
-         QA => banc_registre_qa;
-         QB => banc_registre_qb
-        );
+		CLK => CLK;
+      RST => RST;
+      ADDR_A : IN  std_logic_vector(3 downto 0);
+      ADDR_B : IN  std_logic_vector(3 downto 0);
+      ADDR_W : IN  std_logic_vector(3 downto 0);
+      W : IN  std_logic;
+      DATA : IN  std_logic_vector(7 downto 0);
+      QA => banc_registre_qa;
+      QB => banc_registre_qb
 	);
 	
 	-- Alu
