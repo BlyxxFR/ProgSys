@@ -2,9 +2,9 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date:    11:48:37 05/14/2018 
+-- Create Date:    12:15:04 05/30/2018 
 -- Design Name: 
--- Module Name:    Pipeline - Behavioral 
+-- Module Name:    Instructions - Behavioral 
 -- Project Name: 
 -- Target Devices: 
 -- Tool versions: 
@@ -19,6 +19,8 @@
 ----------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -29,31 +31,26 @@ use IEEE.STD_LOGIC_1164.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity Pipeline is
-    Port ( 	CLK : in  STD_LOGIC;
-				OP_In: in STD_LOGIC_VECTOR (3 downto 0);
-				Reg1_In: in STD_LOGIC_VECTOR (15 downto 0);
-				Reg2_In: in STD_LOGIC_VECTOR (15 downto 0);
-				FZ_In: in STD_LOGIC;
-				FC_In: in STD_LOGIC;
-				OP_Out: out STD_LOGIC_VECTOR (3 downto 0);
-				Reg1_Out: out STD_LOGIC_VECTOR (15 downto 0);
-				Reg2_Out: out STD_LOGIC_VECTOR (15 downto 0);
-				FZ_Out: out STD_LOGIC;
-				FC_Out: out STD_LOGIC);
-end Pipeline;
+entity Instructions is
+	Port (
+		INSTRUCTION_POINTER : out STD_LOGIC_VECTOR(7 downto 0);
+		CLK : in STD_LOGIC;
+		ENABLE : in STD_LOGIC;
+	);
+end Instructions;
 
-architecture Behavioral of Pipeline is
+architecture Behavioral of Instructions is
+	signal TMP : STD_LOGIC_VECTOR(7 downto 0);
 begin
-	process (CLK)
-		begin
-			wait until CLK'event and CLK = '1'; 
-			OP_Out <= OP_In;
-			Reg1_Out <= Reg1_In;
-			Reg2_Out <= Reg2_In;
-			FZ_Out <= FZ_In;
-			FC_Out <= FC_In;
+	process
+	begin
+		wait until CLK'event and CLK = '1';
+		if ENABLE = '1' then
+			TMP <= TMP + CONV_STD_LOGIC_VECTOR(1,8);
+		else
+			TMP <= TMP;
+		end if;
 	end process;
-
+	INSTRUCTION_POINTER <= TMP;
 end Behavioral;
 

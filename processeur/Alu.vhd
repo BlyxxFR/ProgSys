@@ -35,7 +35,7 @@ entity Alu is
     Port ( 	A : in STD_LOGIC_VECTOR (15 downto 0);
 				B : in STD_LOGIC_VECTOR (15 downto 0);
 				S : out STD_LOGIC_VECTOR (15 downto 0);
-				OP: in STD_LOGIC_VECTOR (1 downto 0);
+				OP: in STD_LOGIC_VECTOR (3 downto 0);
 				FZ : out STD_LOGIC;
 				FC : out STD_LOGIC);
 	
@@ -45,12 +45,16 @@ architecture Behavioral of Alu is
 	SIGNAL Radd : STD_LOGIC_VECTOR(16 DOWNTO 0);
 	SIGNAL Rmul : STD_LOGIC_VECTOR(31 DOWNTO 0);
 	SIGNAL R : STD_LOGIC_VECTOR(15 DOWNTO 0);
+	
 begin
-	R <= Radd(15 downto 0) when op = x"00" 
-		else A - B when op = x"01" 
-		else Rmul(15 downto 0) when op = x"10";
-	Rmul <= A * B when op = x"10";
-	Radd <= ('0' & A) + ('0' & B) when op = x"00";
+	Rmul <= A * B when OP = "0810";
+	Radd <= ('0' & A) + ('0' & B) when OP = "0800";
+	
+	R <= Radd(15 downto 0) when OP = "0800" 
+		else A - B when OP = "0801" 
+		else Rmul(15 downto 0) when OP = "0810"
+		else (others => 'Z');
+		
 	FZ <= '1' when R = x"0000" else '0';
 	FC <= Radd (16);
 	S <= R;
