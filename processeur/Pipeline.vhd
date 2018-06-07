@@ -31,28 +31,40 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity Pipeline is
     Port ( 	CLK : in  STD_LOGIC;
-				OP_In: in STD_LOGIC_VECTOR (3 downto 0);
-				Reg1_In: in STD_LOGIC_VECTOR (15 downto 0);
-				Reg2_In: in STD_LOGIC_VECTOR (15 downto 0);
+				ENABLE : in STD_LOGIC;
+				NOP : in STD_LOGIC;
+				OP_In: in STD_LOGIC_VECTOR (7 downto 0);
+				A_In: in STD_LOGIC_VECTOR (15 downto 0);
+				B_In: in STD_LOGIC_VECTOR (15 downto 0);
+				C_In: in STD_LOGIC_VECTOR (15 downto 0);
 				FZ_In: in STD_LOGIC;
 				FC_In: in STD_LOGIC;
-				OP_Out: out STD_LOGIC_VECTOR (3 downto 0);
-				Reg1_Out: out STD_LOGIC_VECTOR (15 downto 0);
-				Reg2_Out: out STD_LOGIC_VECTOR (15 downto 0);
+				OP_Out: out STD_LOGIC_VECTOR (7 downto 0);
+				A_Out: out STD_LOGIC_VECTOR (15 downto 0);
+				B_Out: out STD_LOGIC_VECTOR (15 downto 0);
+				C_Out: out STD_LOGIC_VECTOR (15 downto 0);
 				FZ_Out: out STD_LOGIC;
 				FC_Out: out STD_LOGIC);
 end Pipeline;
 
 architecture Behavioral of Pipeline is
 begin
-	process (CLK)
+	process
 		begin
 			wait until CLK'event and CLK = '1'; 
-			OP_Out <= OP_In;
-			Reg1_Out <= Reg1_In;
-			Reg2_Out <= Reg2_In;
-			FZ_Out <= FZ_In;
-			FC_Out <= FC_In;
+			if NOP = '1' then
+				OP_Out <= x"00";
+				A_Out <= A_In;
+				B_Out <= B_In;
+				FZ_Out <= FZ_In;
+				FC_Out <= FC_In;
+			elsif ENABLE = '1' then				
+				OP_Out <= OP_In;
+				A_Out <= A_In;
+				B_Out <= B_In;
+				FZ_Out <= FZ_In;
+				FC_Out <= FC_In;
+			end if;
 	end process;
 
 end Behavioral;

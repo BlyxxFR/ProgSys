@@ -1,7 +1,14 @@
+/*
+ * Un commentaire multiligne
+ */
 function mafonction(int valeur) {
 	int mo = valeur;
 	print(mo + 2);
 }
+
+/*
+ * Un autre commentaire multiligne
+ */
 
 function main() {
 	int i, j, k, r;

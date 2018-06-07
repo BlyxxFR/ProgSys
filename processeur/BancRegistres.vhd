@@ -2,7 +2,7 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date:    09:48:30 05/29/2018 
+-- Create Date:    015:48:30 05/215/2018 
 -- Design Name: 
 -- Module Name:    BancRegistres - Behavioral 
 -- Project Name: 
@@ -34,19 +34,19 @@ entity BancRegistres is
 	Port ( 	
 				CLK : in STD_LOGIC;
 				RST : in STD_LOGIC;
-				ADDR_A : in STD_LOGIC_VECTOR (3 downto 0);
-				ADDR_B : in STD_LOGIC_VECTOR (3 downto 0);
-				ADDR_W : in STD_LOGIC_VECTOR (3 downto 0);
+				ADDR_A : in STD_LOGIC_VECTOR (15 downto 0);
+				ADDR_B : in STD_LOGIC_VECTOR (15 downto 0);
+				ADDR_W : in STD_LOGIC_VECTOR (15 downto 0);
 				W : in STD_LOGIC;
-				DATA : in STD_LOGIC_VECTOR (7 downto 0);
-				QA : out STD_LOGIC_VECTOR (7 downto 0);
-				QB : out STD_LOGIC_VECTOR (7 downto 0)
+				DATA : in STD_LOGIC_VECTOR (15 downto 0);
+				QA : out STD_LOGIC_VECTOR (15 downto 0);
+				QB : out STD_LOGIC_VECTOR (15 downto 0)
 		  );
 end BancRegistres;
 
 architecture Behavioral of BancRegistres is
-	type MEM_REG is array(15 downto 0) of STD_LOGIC_VECTOR(7 downto 0);
-	signal BANC_REGISTRES : MEM_REG := (others => x"00");
+	type MEM_REG is array(15 downto 0) of STD_LOGIC_VECTOR(15 downto 0);
+	signal BANC_REGISTRES : MEM_REG := (others => x"0000");
 begin	
 	
 	process
@@ -55,19 +55,19 @@ begin
 		-- Ecriture (synchrone)
 		wait until CLK'event and CLK = '1';
 		if RST = '1' then
-			BANC_REGISTRES <= (others => x"00");
+			BANC_REGISTRES <= (others => x"0000");
 		else
 			if W = '1' then
-				BANC_REGISTRES(CONV_INTEGER(ADDR_W)) <= DATA;
+				BANC_REGISTRES(CONV_INTEGER(ADDR_W(3 downto 0))) <= DATA;
 			end if;
 		end if;			
 	end process;
 	
 	-- Lecture (asynchrone)
-	QA <= DATA when (W = '1' and ADDR_A = ADDR_W) else 
-			BANC_REGISTRES(CONV_INTEGER(ADDR_A));
-	QB <= DATA when (W = '1' and ADDR_B = ADDR_W) else 
-			BANC_REGISTRES(CONV_INTEGER(ADDR_B));
+	QA <= DATA when W = '1' and ADDR_A = ADDR_W else 
+			BANC_REGISTRES(CONV_INTEGER(ADDR_A(3 downto 0)));
+	QB <= DATA when W = '1' and ADDR_B = ADDR_W else 
+			BANC_REGISTRES(CONV_INTEGER(ADDR_B(3 downto 0)));
 			
 end Behavioral;
 
